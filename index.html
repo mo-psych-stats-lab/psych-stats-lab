@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مختبر الإحصاء النفسي</title>
+<meta name="description" content="منصة تفاعلية لمادة الإحصاء: الجداول التكرارية، النزعة المركزية، التشتت، اختبارات ت، وبرنامج SPSS — دروس ومعامل حسابية واختبارات.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f5d8a'/%3E%3Cpath d='M7 24V15M13 24V8M19 24v-6M25 24V12' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --paper:#f5f5f1;--card:#fff;--ink:#1f2328;--muted:#59606a;--line:#dadcd5;
+  --teal:#2f5d8a;--teal-soft:#e6edf4;--gold:#a8730f;--gold-soft:#f6eedc;
+  --good:#2f7a51;--good-soft:#e3f0e7;--bad:#b0443a;--bad-soft:#f7e6e3;
+  --violet:#5e5592;--violet-soft:#ecebf4;--orange:#b4612a;--orange-soft:#f6e9df;--gray-soft:#eeefea;
+  --c1:#2f5d8a;--c2:#c07a2c;--c3:#2f7a51;
+  --f-display:"Readex Pro","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --r:14px;color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16181b;--card:#1f2226;--ink:#e8e8e5;--muted:#aeb3ba;--line:#363a40;
+  --teal:#8fb3d9;--teal-soft:#25303c;--gold:#d9b26a;--gold-soft:#332b1c;
+  --good:#7fc39a;--good-soft:#1f3227;--bad:#e08d84;--bad-soft:#3a2523;
+  --violet:#ada6d6;--violet-soft:#2a2838;--orange:#dba27c;--orange-soft:#35281f;--gray-soft:#2a2d32;
+  --c1:#8fb3d9;--c2:#e0a868;--c3:#7fc39a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#16181b;--card:#1f2226;--ink:#e8e8e5;--muted:#aeb3ba;--line:#363a40;
+  --teal:#8fb3d9;--teal-soft:#25303c;--gold:#d9b26a;--gold-soft:#332b1c;
+  --good:#7fc39a;--good-soft:#1f3227;--bad:#e08d84;--bad-soft:#3a2523;
+  --violet:#ada6d6;--violet-soft:#2a2838;--orange:#dba27c;--orange-soft:#35281f;--gray-soft:#2a2d32;
+  --c1:#8fb3d9;--c2:#e0a868;--c3:#7fc39a;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{direction:rtl;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:calc(17px * var(--fs,1));line-height:1.85;-webkit-text-size-adjust:100%}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+a{color:var(--teal)}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.4;margin:0;text-wrap:balance}
+.num,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:900px;margin:0 auto;padding:12px 16px 120px}
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+.bar .in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px 16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:600;font-size:19px;color:var(--teal);margin-inline-end:auto;text-decoration:none}
+.brand svg{width:28px;height:28px;flex:none}
+.stat{display:flex;align-items:center;gap:5px;font-weight:600;padding:4px 11px;border-radius:999px;background:var(--gray-soft);font-size:15px}
+.stat svg{width:17px;height:17px}
+.stat.xp{color:var(--gold)}.stat.fire{color:var(--orange)}
+.ibtn{border:1px solid var(--line);background:var(--card);border-radius:10px;min-width:38px;height:36px;padding:0 9px;font-weight:700;display:grid;place-items:center}
+.ibtn svg{width:18px;height:18px}
+/* tabs */
+.tabs{display:flex;gap:6px;margin:14px 0}
+.tab{flex:1;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 4px;font-weight:600;font-size:15px;display:flex;gap:6px;align-items:center;justify-content:center}
+.tab svg{width:19px;height:19px}
+.tab[aria-selected="true"]{background:var(--teal);border-color:var(--teal);color:var(--card)}
+@media (max-width:680px){
+  .tabs{position:fixed;inset:auto 0 0 0;margin:0;z-index:20;background:var(--card);border-top:1px solid var(--line);padding:5px 6px calc(5px + env(safe-area-inset-bottom,0px))}
+  .tab{flex-direction:column;gap:1px;border:none;font-size:12.5px;padding:6px 2px}
+  .tab svg{width:23px;height:23px}
+  .brand span{display:none}
+}
+/* generic */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.panel>h3{font-size:18px;margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.muted{color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:none;border-radius:12px;padding:11px 20px;min-height:46px;font-weight:600;background:var(--teal);color:var(--card);box-shadow:0 4px 0 color-mix(in srgb,var(--teal) 60%,#000);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--teal) 60%,#000)}
+.btn.ghost{background:var(--gray-soft);color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.btn.gold{background:var(--gold);box-shadow:0 4px 0 color-mix(in srgb,var(--gold) 60%,#000)}
+.btn.sm{min-height:36px;padding:6px 14px;font-size:15px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.chip{display:inline-flex;gap:5px;align-items:center;font-size:13.5px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--teal-soft);color:var(--teal)}
+.chip.gold{background:var(--gold-soft);color:var(--gold)}.chip.good{background:var(--good-soft);color:var(--good)}.chip.bad{background:var(--bad-soft);color:var(--bad)}
+/* hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.hero h1{font-size:clamp(23px,5vw,31px)}
+.hero p{margin:4px 0 12px;color:var(--muted)}
+.ring{width:104px;height:104px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
+.ring .c b{font-family:var(--f-display);font-size:24px}
+.ring .c small{color:var(--muted);font-size:12px}
+@media (max-width:480px){.hero{grid-template-columns:1fr;justify-items:center;text-align:center}.hero .row{justify-content:center}}
+/* path */
+.unit{margin:22px 0 10px;background:var(--teal-soft);border-radius:12px;padding:10px 14px;display:flex;gap:12px;align-items:center}
+.unit .n{font-family:var(--f-display);font-weight:600;background:var(--teal);color:var(--card);width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none}
+.unit b{font-family:var(--f-display);font-weight:600;color:var(--teal);font-size:18px;display:block}
+.unit small{color:var(--muted);font-size:14.5px}
+.node{display:flex;align-items:center;gap:14px;width:100%;background:none;border:none;text-align:start;padding:5px 2px}
+.disc{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:var(--card);box-shadow:0 5px 0 color-mix(in srgb,var(--teal) 55%,#000);font-family:var(--f-display);font-weight:600;font-size:20px;position:relative;transition:transform .12s}
+.node:hover .disc{transform:translateY(-2px)}
+.node.done .disc{background:var(--good);box-shadow:0 5px 0 color-mix(in srgb,var(--good) 55%,#000)}
+.node.current .disc::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:3px solid var(--gold)}
+.disc svg{width:26px;height:26px}
+.node .meta{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.node .meta b{display:block;font-family:var(--f-display);font-weight:500;font-size:17px;line-height:1.5}
+.node .meta small{color:var(--muted);font-size:14px}
+/* lesson */
+.back{background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--teal);font-weight:600;padding:6px 14px;margin-bottom:10px;display:inline-flex;gap:6px;align-items:center}
+.lhead{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.lhead h2{font-size:clamp(20px,4.4vw,26px);margin:4px 0}
+.en{direction:ltr;text-align:right;color:var(--muted);font-size:14px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.sec>button{width:100%;display:flex;align-items:center;gap:10px;padding:13px 16px;background:none;border:none;text-align:start;font-weight:600;font-size:17px}
+.sec>button .ck{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:var(--card)}
+.sec.read>button .ck{background:var(--good);border-color:var(--good)}
+.sec>button .ck svg{width:15px;height:15px}
+.sec>button .t{flex:1}
+.sec>button .arr{transition:transform .2s;color:var(--muted)}
+.sec.open>button .arr{transform:rotate(180deg)}
+.sec .body{padding:2px 16px 16px;border-top:1px solid var(--line)}
+.prose p{margin:.65em 0}
+.prose h4{color:var(--teal);font-size:17px;margin:1.1em 0 .3em;font-weight:500}
+.prose ul,.prose ol{padding-inline-start:1.3em;margin:.5em 0}
+.prose li{margin:.3em 0}
+.f{direction:ltr;text-align:center;font-family:var(--f-mono);background:var(--gray-soft);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:16.5px;overflow-x:auto;white-space:nowrap}
+.f small{display:block;font-family:var(--f-body);direction:rtl;color:var(--muted);font-size:13.5px;white-space:normal}
+.box{border-radius:12px;padding:10px 14px;margin:12px 0;border-inline-start:5px solid var(--c);background:var(--s)}
+.box>b:first-child{color:var(--c);display:block;margin-bottom:2px}
+.box.note{--c:var(--teal);--s:var(--teal-soft)}.box.tip{--c:var(--good);--s:var(--good-soft)}
+.box.warn{--c:var(--orange);--s:var(--orange-soft)}.box.ex{--c:var(--violet);--s:var(--violet-soft)}
+.tw{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:10px;max-width:100%;background:var(--card)}
+.tw table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.55}
+.tw th{background:var(--teal);color:var(--card);font-weight:600;padding:7px 9px;text-align:start;white-space:nowrap}
+.tw td{padding:6px 9px;border-top:1px solid var(--line);vertical-align:top}
+.tw tr:nth-child(even) td{background:var(--gray-soft)}
+.tw td.n,.tw th.n{font-family:var(--f-mono);direction:ltr;text-align:center}
+.tw tr.hl td{background:var(--gold-soft)!important;font-weight:700}
+.tw tfoot td{font-weight:700;background:var(--teal-soft)!important}
+.lfoot{position:sticky;bottom:0;padding:12px 0;display:flex;gap:10px;flex-wrap:wrap;background:linear-gradient(transparent,var(--paper) 35%)}
+@media (max-width:680px){.lfoot{bottom:calc(60px + env(safe-area-inset-bottom,0px))}}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
+.fig{background:var(--gray-soft);border-radius:10px;padding:8px;text-align:center;font-size:14.5px}
+.fig svg{width:100%;height:auto;display:block}
+/* grids */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.pcard{background:var(--card);border:1px solid var(--line);border-bottom-width:4px;border-radius:var(--r);padding:16px;text-align:start;display:flex;flex-direction:column;gap:6px;transition:transform .12s}
+.pcard:hover{transform:translateY(-2px)}
+.pcard .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--s,var(--teal-soft));color:var(--c,var(--teal))}
+.pcard .ic svg{width:24px;height:24px}
+.pcard b{font-family:var(--f-display);font-weight:500;font-size:17px}
+.pcard span{color:var(--muted);font-size:15px;line-height:1.6}
+/* lab */
+.seg{display:flex;gap:4px;background:var(--gray-soft);padding:4px;border-radius:12px;margin-bottom:12px;flex-wrap:wrap}
+.seg button{flex:1;border:none;background:none;border-radius:9px;padding:8px 10px;font-weight:600;font-size:15px;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--teal);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+label.fl{display:block;font-weight:600;font-size:15px;margin:8px 0 4px}
+textarea,input[type=number],input[type=text],select{width:100%;border:2px solid var(--line);background:var(--card);border-radius:10px;padding:9px 12px}
+textarea{min-height:76px;direction:ltr;text-align:left;font-family:var(--f-mono);resize:vertical}
+input[type=number]{direction:ltr;text-align:left;font-family:var(--f-mono)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:600px){.g2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.kpi small{color:var(--muted);font-size:13.5px;display:block;line-height:1.4}
+.kpi b{font-family:var(--f-mono);font-size:20px;direction:ltr;display:block;text-align:right}
+.kpi.hl{border-color:var(--gold);background:var(--gold-soft)}
+.verdict{border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:600}
+.verdict.ok{background:var(--good-soft);color:var(--good)}.verdict.no{background:var(--bad-soft);color:var(--bad)}.verdict.mid{background:var(--gold-soft);color:var(--gold)}
+.apa{background:var(--violet-soft);border-radius:12px;padding:12px 14px;margin:12px 0;position:relative}
+.apa b{color:var(--violet)}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+.sorted{display:flex;flex-wrap:wrap;gap:4px;direction:ltr;margin:8px 0}
+.sorted span{font-family:var(--f-mono);font-size:14px;padding:2px 8px;border-radius:7px;background:var(--gray-soft);position:relative}
+.sorted span i{display:block;font-style:normal;font-size:10px;color:var(--muted);text-align:center;line-height:1}
+.sorted span.q{background:var(--gold-soft);outline:2px solid var(--gold)}
+.sorted span.m{background:var(--teal-soft);outline:2px solid var(--teal)}
+details.steps{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0}
+details.steps summary{cursor:pointer;font-weight:600;color:var(--teal)}
+/* quiz overlay */
+.ov{position:fixed;inset:0;z-index:40;background:var(--paper);overflow-y:auto}
+.ov .in{max-width:720px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.qtop{display:flex;align-items:center;gap:12px}
+.qtop .x{background:none;border:none;color:var(--muted);padding:4px}
+.qtop .x svg{width:26px;height:26px}
+.qprog{flex:1;height:13px;border-radius:13px;background:var(--line);overflow:hidden}
+.qprog i{display:block;height:100%;background:var(--good);transition:width .35s}
+.timer{font-family:var(--f-mono);font-weight:700;color:var(--orange)}
+.qkind{color:var(--teal);font-weight:600;font-size:15px;margin-top:16px}
+.qtext{font-family:var(--f-display);font-weight:500;font-size:clamp(18px,4vw,22px);margin:6px 0 14px;line-height:1.65}
+.opts{display:grid;gap:10px}
+.opt{border:2px solid var(--line);border-bottom-width:4px;background:var(--card);border-radius:14px;padding:12px 14px;min-height:56px;text-align:start;line-height:1.65;display:flex;gap:10px;align-items:flex-start}
+.opt .k{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)}.opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.opt.sel{border-color:var(--teal);background:var(--teal-soft)}
+.sheet{margin-top:auto;padding-top:16px}
+.fb{border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.fb.ok{background:var(--good-soft)}.fb.no{background:var(--bad-soft)}
+.fb b{font-family:var(--f-display);display:block}
+.fb.ok b{color:var(--good)}.fb.no b{color:var(--bad)}
+.sheet .btn{width:100%}
+.result{text-align:center;margin:auto 0;display:flex;flex-direction:column;gap:14px;align-items:center;padding:20px 0}
+.result h2{font-size:30px;color:var(--teal)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:440px}
+.tile{border:2px solid var(--c,var(--line));border-radius:14px;overflow:hidden;background:var(--card)}
+.tile small{display:block;background:var(--c);color:var(--card);font-weight:700;font-size:12.5px;padding:3px}
+.tile b{display:block;padding:8px 4px;font-family:var(--f-display);font-size:24px}
+/* flashcards */
+.card3d{perspective:1200px;margin:10px 0}
+.flip{position:relative;width:100%;min-height:250px;transition:transform .5s;transform-style:preserve-3d;border:none;background:none;padding:0;display:block}
+.flip.on{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;border:2px solid var(--line);border-bottom-width:5px;background:var(--card);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center;gap:8px}
+.face.back{transform:rotateY(180deg);background:var(--teal-soft)}
+.face b{font-family:var(--f-display);font-size:23px;font-weight:500}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mgrid .opt{justify-content:center;text-align:center;align-items:center;font-size:15.5px}
+.mgrid .opt.gone{visibility:hidden}
+/* spss sim */
+.spss{border:1px solid #9aa4b1;border-radius:10px;overflow:hidden;background:#fff;color:#1b1b1b;direction:ltr;font-family:Segoe UI,Tahoma,sans-serif;font-size:13px}
+.spss .tb{background:linear-gradient(#e9eef5,#d8e0ea);padding:5px 10px;font-weight:600;display:flex;gap:8px;align-items:center}
+.spss .tb i{width:10px;height:10px;border-radius:50%;background:#c33;display:inline-block}
+.spss .menu{display:flex;gap:2px;background:#f3f5f8;border-bottom:1px solid #c9d0d9;flex-wrap:wrap;position:relative}
+.spss .menu button{background:none;border:none;padding:5px 9px;font-size:13px;color:#1b1b1b}
+.spss .menu button:hover,.spss .menu button.on{background:#cfe0f5}
+.spss .dd{position:absolute;top:100%;background:#fff;border:1px solid #9aa4b1;box-shadow:0 6px 18px rgba(0,0,0,.2);z-index:5;min-width:210px;padding:3px 0}
+.spss .dd button{display:flex;justify-content:space-between;width:100%;text-align:left;background:none;border:none;padding:5px 14px;font-size:13px;color:#1b1b1b}
+.spss .dd button:hover{background:#cfe0f5}
+.spss .grid{overflow:auto;max-height:300px}
+.spss table{border-collapse:collapse;width:100%;font-size:12.5px}
+.spss th{background:#eef1f5;border:1px solid #c9d0d9;padding:3px 7px;font-weight:600;white-space:nowrap}
+.spss td{border:1px solid #dde2e8;padding:3px 7px;white-space:nowrap}
+.spss td.r{text-align:right}
+.spss .bt{display:flex;gap:2px;background:#eef1f5;border-top:1px solid #c9d0d9;padding:3px}
+.spss .bt button{border:1px solid #c9d0d9;background:#fff;padding:3px 12px;font-size:12.5px;color:#1b1b1b}
+.spss .bt button.on{background:#cfe0f5;font-weight:700}
+.otbl{border-collapse:collapse;margin:8px auto;font-size:13.5px;direction:ltr;background:#fff;color:#1b1b1b}
+.otbl caption{font-weight:700;padding:4px;color:#1b1b1b}
+.otbl th,.otbl td{border-top:1px solid #9aa4b1;border-bottom:1px solid #9aa4b1;padding:4px 9px;text-align:right;white-space:nowrap}
+.otbl th{font-weight:600;background:#f3f5f8}
+.otbl th[data-k]{cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
+.otbl th[data-k]:hover,.otbl th.on{background:#ffe8b3}
+.otwrap{overflow-x:auto;background:#fff;border-radius:10px;border:1px solid var(--line);padding:6px}
+.expl{background:var(--gold-soft);border-radius:10px;padding:10px 14px;margin-top:10px;min-height:52px}
+/* glossary/search */
+.search{width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card)}
+.gl{border-bottom:1px dashed var(--line);padding:10px 2px}
+.gl b{font-family:var(--f-display);font-weight:500}
+.gl .en{display:inline;margin-inline-start:8px}
+.gl p{margin:2px 0 0;color:var(--muted);font-size:15.5px}
+mark{background:var(--gold-soft);color:var(--ink);border-radius:3px;padding:0 2px}
+/* profile */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.badge{border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;background:var(--card)}
+.badge .m{width:50px;height:50px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;background:var(--gold-soft);color:var(--gold);border:3px solid var(--gold);font-size:22px}
+.badge.off{opacity:.45}.badge.off .m{background:var(--gray-soft);color:var(--muted);border-color:var(--line)}
+.badge b{display:block;font-size:15px}.badge small{color:var(--muted);font-size:13px;line-height:1.5;display:block}
+.pbar{height:9px;border-radius:9px;background:var(--gray-soft);overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--gold);transition:width .4s}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
+.foot{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14.5px}
+.wiz .opt{width:100%}
+.path-crumb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;direction:ltr;justify-content:flex-end;margin:8px 0}
+.path-crumb span{background:var(--teal);color:var(--card);padding:3px 10px;border-radius:8px;font-family:var(--f-mono);font-size:13.5px}
+.path-crumb em{color:var(--muted);font-style:normal}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.bar,.tabs,.lfoot,.foot{display:none}.sec .body{display:block!important}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="in">
+  <a class="brand" href="#path"><svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M7 24V15M13 24V8M19 24v-6M25 24V12" stroke="var(--card)" stroke-width="3" stroke-linecap="round"/></svg><span>مختبر الإحصاء النفسي</span></a>
+  <div class="stat fire" id="sStreak" title="أيام متتالية"></div>
+  <div class="stat xp" id="sXp" title="نقاط الخبرة"></div>
+  <button class="ibtn" id="fsBtn" title="حجم الخط" aria-label="تغيير حجم الخط">أ±</button>
+  <button class="ibtn" id="thBtn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+</div></header>
+
+<div class="wrap">
+  <nav class="tabs" role="tablist">
+    <button class="tab" data-tab="path"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/></svg>الدروس</button>
+    <button class="tab" data-tab="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg>المعامل</button>
+    <button class="tab" data-tab="spss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M15 9v11"/></svg>SPSS</button>
+    <button class="tab" data-tab="practice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>التدريب</button>
+    <button class="tab" data-tab="stats" id="statsTab" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>الزوار</button>
+    <button class="tab" data-tab="me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>إنجازاتي</button>
+  </nav>
+  <main id="view"></main>
+  <footer class="foot">إعداد الطالب: محمد عثمان — الدبلوم الخاص في علم النفس<br>مادة الإحصاء — محاضرات الدكتورة إلهام جلال</footer>
+</div>
+<div id="ov" class="ov" hidden><div class="in" id="ovIn"></div></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+"use strict";
+/* ========== helpers ========== */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=(x,d=2)=>{if(x==null||!isFinite(x))return"—";let s=(Math.abs(x)<1e-12?0:x).toFixed(d);if(s.includes("."))s=s.replace(/0+$/,"").replace(/\.$/,"");return s==="-0"?"0":s};
+const f2=(x,d=2)=>(x==null||!isFinite(x))?"—":Number(x).toFixed(d);
+const ICON={
+ check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m5 12 5 5 9-10"/></svg>',
+ star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z"/></svg>',
+ fire:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 1-3.5S9 11 10.5 11C10.5 7 12 2 12 2z"/></svg>',
+ x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+ arr:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>',
+ back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>',
+ calc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11v6M8 15h2M12 15h2"/></svg>',
+ tt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20c3 0 4-13 7-13s4 13 7 13"/><path d="M14 20c2 0 3-8 4-8s2 8 3 8"/></svg>',
+ bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 20c4 0 5-15 10-15s6 15 10 15"/><path d="M12 5v15"/></svg>',
+ tree:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-5h14v5"/></svg>',
+ quiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.5"/></svg>',
+ cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="13" height="15" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v12"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>',
+ link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></svg>',
+ book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/></svg>'
+};
+let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2200)}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ========== state ========== */
+const KEY="statlab-v1";
+let S={xp:0,done:{},read:{},streak:0,last:"",quizzes:0,correct:0,answered:0,exams:[],labs:{},fs:1};
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function today(){const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function touchStreak(){const t=today();if(S.last===t)return;const y=new Date(Date.now()-864e5);const ys=y.getFullYear()+"-"+(y.getMonth()+1)+"-"+y.getDate();S.streak=S.last===ys?S.streak+1:1;S.last=t;save()}
+function addXp(n){S.xp+=n;touchStreak();save();renderBar();if(typeof syncProgress==="function")syncProgress()}
+function renderBar(){$("#sXp").innerHTML=ICON.star+'<span class="num">'+S.xp+'</span>';$("#sStreak").innerHTML=ICON.fire+'<span class="num">'+(S.streak||0)+'</span>'}
+function labUse(k){S.labs[k]=(S.labs[k]||0)+1;save()}
+
+/* ========== statistics engine ========== */
+const ST={
+ parse:s=>String(s).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[،؛]/g,",").replace(/٫/g,".").split(/[\s,;]+/).filter(Boolean).map(Number).filter(v=>isFinite(v)),
+ sum:a=>a.reduce((s,v)=>s+v,0),
+ mean:a=>ST.sum(a)/a.length,
+ sorted:a=>a.slice().sort((x,y)=>x-y),
+ median:a=>{const s=ST.sorted(a),n=s.length;return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2},
+ modes:a=>{const m=new Map;a.forEach(v=>m.set(v,(m.get(v)||0)+1));const mx=Math.max(...m.values());if(mx<2)return{vals:[],f:1};return{vals:[...m].filter(e=>e[1]===mx).map(e=>e[0]).sort((x,y)=>x-y),f:mx}},
+ pos:(a,p)=>{const s=ST.sorted(a),n=s.length,pos=(n+1)*p;if(pos<=1)return{v:s[0],pos};if(pos>=n)return{v:s[n-1],pos};const l=Math.floor(pos),fr=pos-l;return{v:s[l-1]+fr*(s[l]-s[l-1]),pos}},
+ ss:a=>{const m=ST.mean(a);return a.reduce((s,v)=>s+(v-m)**2,0)},
+ variance:a=>ST.ss(a)/(a.length-1),
+ sd:a=>Math.sqrt(ST.variance(a)),
+ skew:a=>{const n=a.length;if(n<3)return NaN;const m=ST.mean(a),s=ST.sd(a);if(!s)return NaN;return n/((n-1)*(n-2))*a.reduce((t,v)=>t+((v-m)/s)**3,0)},
+ kurt:a=>{const n=a.length;if(n<4)return NaN;const m=ST.mean(a),s=ST.sd(a);if(!s)return NaN;return n*(n+1)/((n-1)*(n-2)*(n-3))*a.reduce((t,v)=>t+((v-m)/s)**4,0)-3*(n-1)**2/((n-2)*(n-3))},
+ seSkew:n=>Math.sqrt(6*n*(n-1)/((n-2)*(n+1)*(n+3))),
+ seKurt:n=>2*ST.seSkew(n)*Math.sqrt((n*n-1)/((n-3)*(n+5))),
+ lgamma(z){const c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];if(z<0.5)return Math.log(Math.PI/Math.sin(Math.PI*z))-ST.lgamma(1-z);z-=1;let x=c[0];for(let i=1;i<9;i++)x+=c[i]/(z+i);const t=z+7.5;return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)},
+ betacf(a,b,x){const FP=1e-300;let qab=a+b,qap=a+1,qam=a-1,c=1,d=1-qab*x/qap;if(Math.abs(d)<FP)d=FP;d=1/d;let h=d;for(let m=1;m<=300;m++){const m2=2*m;let aa=m*(b-m)*x/((qam+m2)*(a+m2));d=1+aa*d;if(Math.abs(d)<FP)d=FP;c=1+aa/c;if(Math.abs(c)<FP)c=FP;d=1/d;h*=d*c;aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));d=1+aa*d;if(Math.abs(d)<FP)d=FP;c=1+aa/c;if(Math.abs(c)<FP)c=FP;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<3e-14)break}return h},
+ ibeta(x,a,b){if(x<=0)return 0;if(x>=1)return 1;const bt=Math.exp(ST.lgamma(a+b)-ST.lgamma(a)-ST.lgamma(b)+a*Math.log(x)+b*Math.log(1-x));return x<(a+1)/(a+b+2)?bt*ST.betacf(a,b,x)/a:1-bt*ST.betacf(b,a,1-x)/b},
+ tP2:(t,df)=>ST.ibeta(df/(df+t*t),df/2,0.5),
+ fP:(F,d1,d2)=>F<=0?1:ST.ibeta(d2/(d2+d1*F),d2/2,d1/2),
+ tcrit(df,alpha=0.05){let lo=0,hi=1000;for(let i=0;i<200;i++){const mid=(lo+hi)/2;ST.tP2(mid,df)>alpha?lo=mid:hi=mid}return(lo+hi)/2},
+ tpdf:(t,v)=>Math.exp(ST.lgamma((v+1)/2)-ST.lgamma(v/2))/Math.sqrt(v*Math.PI)*Math.pow(1+t*t/v,-(v+1)/2),
+ erf(x){const s=Math.sign(x);x=Math.abs(x);const t=1/(1+0.3275911*x);const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y},
+ ncdf:z=>0.5*(1+ST.erf(z/Math.SQRT2)),
+ npdf:z=>Math.exp(-z*z/2)/Math.sqrt(2*Math.PI),
+ levene(a,b){const ma=ST.mean(a),mb=ST.mean(b);const za=a.map(v=>Math.abs(v-ma)),zb=b.map(v=>Math.abs(v-mb));const all=za.concat(zb),N=all.length,gm=ST.mean(all);const mza=ST.mean(za),mzb=ST.mean(zb);const ssb=za.length*(mza-gm)**2+zb.length*(mzb-gm)**2;const ssw=za.reduce((s,v)=>s+(v-mza)**2,0)+zb.reduce((s,v)=>s+(v-mzb)**2,0);const F=ssw?(ssb/1)/(ssw/(N-2)):0;return{F,p:ST.fP(F,1,N-2),df1:1,df2:N-2}}
+};
+const pTxt=p=>p<0.001?"p < .001":"p = "+f2(p,3).replace(/^0/,"");
+const effLbl=d=>{d=Math.abs(d);return d<0.2?"ضئيل جدًا":d<0.5?"صغير":d<0.8?"متوسط":"كبير"};
+
+/* ========== SVG helpers ========== */
+function histSVG(arr,opts={}){
+ const W=560,H=210,P=28;const s=ST.sorted(arr),n=s.length;if(!n)return"";
+ const uniq=[...new Set(s)];let bins;
+ if(uniq.length<=15&&uniq.every(Number.isInteger)){bins=uniq.map(v=>({lab:v,lo:v,hi:v,c:s.filter(x=>x===v).length}))}
+ else{const k=Math.max(4,Math.ceil(1+3.322*Math.log10(n)));const mn=s[0],mx=s[n-1];const w=(mx-mn)/k||1;bins=Array.from({length:k},(_,i)=>({lo:mn+i*w,hi:mn+(i+1)*w,c:0}));s.forEach(v=>{let i=Math.min(k-1,Math.floor((v-mn)/w));bins[i].c++});bins.forEach(b=>b.lab=fmt(b.lo,1))}
+ const mc=Math.max(...bins.map(b=>b.c));const bw=(W-P*2)/bins.length;
+ let g='';bins.forEach((b,i)=>{const h=(H-P*2)*b.c/mc;const x=P+i*bw,y=H-P-h;g+=`<rect x="${x+2}" y="${y}" width="${bw-4}" height="${h}" rx="3" fill="var(--c1)" opacity=".85"><title>${b.lab}: ${b.c}</title></rect><text x="${x+bw/2}" y="${H-P+14}" text-anchor="middle">${b.lab}</text><text x="${x+bw/2}" y="${y-4}" text-anchor="middle" style="fill:var(--ink)">${b.c}</text>`});
+ if(opts.poly){const pts=bins.map((b,i)=>`${P+i*bw+bw/2},${H-P-(H-P*2)*b.c/mc}`).join(" ");g+=`<polyline points="${pts}" fill="none" stroke="var(--c2)" stroke-width="2.5"/>`+bins.map((b,i)=>`<circle cx="${P+i*bw+bw/2}" cy="${H-P-(H-P*2)*b.c/mc}" r="3.5" fill="var(--c2)"/>`).join("")}
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="مدرج تكراري"><line x1="${P}" y1="${H-P}" x2="${W-P}" y2="${H-P}" stroke="var(--line)"/>${g}</svg>`;
+}
+function boxSVG(arr){
+ const W=560,H=96,P=30;const s=ST.sorted(arr);const q1=ST.pos(s,.25).v,q2=ST.median(s),q3=ST.pos(s,.75).v,iqr=q3-q1;
+ const lo=s.find(v=>v>=q1-1.5*iqr),hi=[...s].reverse().find(v=>v<=q3+1.5*iqr);const out=s.filter(v=>v<q1-1.5*iqr||v>q3+1.5*iqr);
+ const mn=s[0],mx=s[s.length-1],rg=(mx-mn)||1;const X=v=>P+(W-2*P)*(v-mn)/rg;const y=40;
+ let g=`<line x1="${X(lo)}" y1="${y}" x2="${X(q1)}" y2="${y}" stroke="var(--muted)" stroke-width="2"/><line x1="${X(q3)}" y1="${y}" x2="${X(hi)}" y2="${y}" stroke="var(--muted)" stroke-width="2"/>
+ <line x1="${X(lo)}" y1="${y-10}" x2="${X(lo)}" y2="${y+10}" stroke="var(--muted)" stroke-width="2"/><line x1="${X(hi)}" y1="${y-10}" x2="${X(hi)}" y2="${y+10}" stroke="var(--muted)" stroke-width="2"/>
+ <rect x="${X(q1)}" y="${y-18}" width="${Math.max(2,X(q3)-X(q1))}" height="36" rx="4" fill="var(--teal-soft)" stroke="var(--c1)" stroke-width="2"/><line x1="${X(q2)}" y1="${y-18}" x2="${X(q2)}" y2="${y+18}" stroke="var(--c2)" stroke-width="3"/>`;
+ out.forEach(v=>g+=`<circle cx="${X(v)}" cy="${y}" r="5" fill="none" stroke="var(--bad)" stroke-width="2"><title>قيمة متطرفة: ${v}</title></circle>`);
+ [["Q1",q1],["Med",q2],["Q3",q3]].forEach(([l,v],i)=>g+=`<text x="${X(v)}" y="${y+34+(i===1?12:0)}" text-anchor="middle">${l}=${fmt(v)}</text>`);
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="مخطط الصندوق">${g}</svg>`;
+}
+function curveSVG(kind){
+ const W=200,H=110;let pts=[];for(let i=0;i<=80;i++){const x=i/80;let y;
+  if(kind==="sym")y=Math.exp(-((x-.5)**2)/(2*.12**2));
+  else if(kind==="pos")y=Math.pow(x,1.3)*Math.exp(-x*7)*30;
+  else if(kind==="neg")y=Math.pow(1-x,1.3)*Math.exp(-(1-x)*7)*30;
+  else if(kind==="lepto")y=Math.exp(-((x-.5)**2)/(2*.06**2));
+  else if(kind==="platy")y=Math.exp(-(((x-.5)/.25)**4));
+  else y=Math.exp(-((x-.5)**2)/(2*.12**2));pts.push([x,y])}
+ const my=Math.max(...pts.map(p=>p[1]));const d=pts.map((p,i)=>(i?"L":"M")+(10+p[0]*180).toFixed(1)+","+(H-12-(p[1]/my)*(H-26)).toFixed(1)).join("");
+ let extra="";
+ if(kind==="pos")extra=`<text x="62" y="20" style="font-size:10px">منوال&lt;وسيط&lt;متوسط</text>`;
+ if(kind==="neg")extra=`<text x="20" y="20" style="font-size:10px">متوسط&lt;وسيط&lt;منوال</text>`;
+ return `<svg viewBox="0 0 ${W} ${H}"><path d="${d} L190,${H-12} L10,${H-12}Z" fill="var(--teal-soft)" stroke="var(--c1)" stroke-width="2.5"/><line x1="10" y1="${H-12}" x2="190" y2="${H-12}" stroke="var(--muted)"/>${extra}</svg>`;
+}
+function tCurveSVG(t,df,tc,tails=2){
+ const W=560,H=200,P=24,R=Math.max(4.5,Math.min(Math.abs(t)+1,9));const X=v=>P+(W-2*P)*(v+R)/(2*R);const mx=ST.tpdf(0,df);const Y=v=>H-P-(H-2*P-10)*ST.tpdf(v,df)/mx;
+ let d="";for(let i=0;i<=200;i++){const v=-R+2*R*i/200;d+=(i?"L":"M")+X(v).toFixed(1)+","+Y(v).toFixed(1)}
+ const area=(a,b)=>{let s=`M${X(a)},${H-P}`;for(let i=0;i<=60;i++){const v=a+(b-a)*i/60;s+=`L${X(v).toFixed(1)},${Y(v).toFixed(1)}`}return s+`L${X(b)},${H-P}Z`};
+ const ta=Math.min(Math.max(t,-R),R);
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="توزيع ت"><path d="${area(-R,-tc)}" fill="var(--bad)" opacity=".25"/><path d="${area(tc,R)}" fill="var(--bad)" opacity=".25"/><path d="${d}" fill="none" stroke="var(--c1)" stroke-width="2.5"/><line x1="${P}" y1="${H-P}" x2="${W-P}" y2="${H-P}" stroke="var(--muted)"/>
+ <line x1="${X(-tc)}" y1="${H-P}" x2="${X(-tc)}" y2="${P}" stroke="var(--bad)" stroke-dasharray="4 3"/><line x1="${X(tc)}" y1="${H-P}" x2="${X(tc)}" y2="${P}" stroke="var(--bad)" stroke-dasharray="4 3"/>
+ <text x="${X(-tc)}" y="${H-6}" text-anchor="middle">-${f2(tc)}</text><text x="${X(tc)}" y="${H-6}" text-anchor="middle">${f2(tc)}</text><text x="${X(0)}" y="${H-6}" text-anchor="middle">0</text>
+ <text x="${X(-tc)-40}" y="${P+10}" text-anchor="middle" style="fill:var(--bad)">رفض H0</text><text x="${X(tc)+40}" y="${P+10}" text-anchor="middle" style="fill:var(--bad)">رفض H0</text><text x="${X(0)}" y="${P+4}" text-anchor="middle">قبول H0</text>
+ <line x1="${X(ta)}" y1="${H-P+2}" x2="${X(ta)}" y2="${P+14}" stroke="var(--c2)" stroke-width="3"/><circle cx="${X(ta)}" cy="${P+14}" r="5" fill="var(--c2)"/><text x="${X(ta)}" y="${P+34}" text-anchor="middle" style="fill:var(--c2);font-weight:700;font-size:12px">t = ${f2(t)}</text></svg>`;
+}
+function normSVG(z1,z2,lab){
+ const W=560,H=190,P=24,R=4;const X=v=>P+(W-2*P)*(v+R)/(2*R);const Y=v=>H-P-(H-2*P)*ST.npdf(v)/ST.npdf(0);
+ let d="";for(let i=0;i<=200;i++){const v=-R+2*R*i/200;d+=(i?"L":"M")+X(v).toFixed(1)+","+Y(v).toFixed(1)}
+ const a=Math.max(-R,z1),b=Math.min(R,z2);let s=`M${X(a)},${H-P}`;for(let i=0;i<=80;i++){const v=a+(b-a)*i/80;s+=`L${X(v).toFixed(1)},${Y(v).toFixed(1)}`}s+=`L${X(b)},${H-P}Z`;
+ let ticks="";for(let k=-3;k<=3;k++)ticks+=`<line x1="${X(k)}" y1="${H-P}" x2="${X(k)}" y2="${H-P+4}" stroke="var(--muted)"/><text x="${X(k)}" y="${H-6}" text-anchor="middle">${k}</text>`;
+ return `<svg viewBox="0 0 ${W} ${H}"><path d="${s}" fill="var(--c1)" opacity=".28"/><path d="${d}" fill="none" stroke="var(--c1)" stroke-width="2.5"/><line x1="${P}" y1="${H-P}" x2="${W-P}" y2="${H-P}" stroke="var(--muted)"/>${ticks}${lab?`<text x="${X(0)}" y="${P+40}" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">${lab}</text>`:""}</svg>`;
+}
+
+/* ========== CONTENT ========== */
+const T=(head,rows,foot)=>`<div class="tw"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>${foot?`<tfoot><tr>${foot.map(c=>`<td>${c}</td>`).join("")}</tr></tfoot>`:""}</table></div>`;
+const labLink=(h,t)=>`<p><a class="btn sm ghost" href="#lab/${h}" style="text-decoration:none;display:inline-flex;gap:6px;align-items:center">${t} ←</a></p>`;
+
+const UNITS=[
+ {n:1,t:"المدخل إلى الإحصاء والقياس",s:"المحاضرة الثانية — الأساسيات والصدق والثبات"},
+ {n:2,t:"تنظيم البيانات وعرضها",s:"الجداول التكرارية، الرسوم البيانية، شكل التوزيع"},
+ {n:3,t:"مقاييس النزعة المركزية",s:"المتوسط، الوسيط، المنوال"},
+ {n:4,t:"مقاييس الموقع والتشتت",s:"المحاضرة الثالثة — الربيعيات، المدى، التباين، الانحراف المعياري"},
+ {n:5,t:"الإحصاء الاستدلالي واختبارات ت",s:"المحاضرة الخامسة — الاعتدالية، ت لعينة واحدة، مستقلتين، مترابطتين"},
+ {n:6,t:"التطبيق على برنامج SPSS",s:"الدورة المختصرة + قراءة المخرجات"}
+];
+
+const LESSONS=[
+/* ---------- UNIT 1 ---------- */
+{id:"intro",u:1,t:"ما هو علم الإحصاء؟",en:"What is Statistics?",sec:[
+ ["التعريف ومراحل العمل الإحصائي",`<p><b>علم الإحصاء</b> هو العلم الذي يبحث في الطرق والأساليب المختلفة <b>لجمع البيانات وعرضها وتبويبها وتحليلها</b>، ثم استخدام هذه البيانات في التنبؤ أو التحقق من بعض الظواهر، وبالتالي <b>قبول أو رفض فرضيات البحث</b> أو الإجابة عن أسئلته الأساسية.</p>
+ <h4>المراحل الأربع الأساسية</h4>
+ <div class="tw"><table><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody><tr><td>جمع المعلومات</td><td>تنظيم وعرض المعلومات</td><td>وصف وتحليل المعلومات</td><td>اتخاذ القرارات</td></tr></tbody></table></div>`],
+ ["الإحصاء الوصفي والإحصاء الاستدلالي",`${T(["","الإحصاء الوصفي","الإحصاء الاستدلالي"],[["الإنجليزية",'<span class="ltr">Descriptive Statistics</span>','<span class="ltr">Inferential Statistics</span>'],["يهتم بـ","جمع البيانات وتنظيمها وعرضها في جداول ورسوم، وحساب المقاييس التي تبرز خصائص الظاهرة","الكشف عن النتائج في <b>المجتمع</b> والاستدلال عليها من خلال وجودها في <b>العينة</b> المأخوذة منه"],["أمثلة","مقاييس النزعة المركزية، مقاييس التشتت، الجداول التكرارية","اختبارات الفروض، مستويات الدلالة، اختبار ت، تحليل التباين"]])}
+ <div class="box note"><b>فكرة للتذكر</b>الوصفي <b>يصف ما هو موجود</b> في البيانات التي بين يديك، والاستدلالي <b>يعمّم</b> من العينة على المجتمع.</div>`],
+ ["المجتمع والعينة: المَعلمة والإحصاءة",`${T(["","معالم المجتمع Parameters","إحصاءات العينة Statistics"],[["كيف نحسبها؟","بدراسة جميع أفراد المجتمع (الحصر الشامل)","بدراسة عينة ممثلة لأفراد المجتمع (المعاينة)"],["المتوسط",'<span class="ltr">µ (ميو)</span>','<span class="ltr">x̄ (إكس بار)</span>'],["الانحراف المعياري",'<span class="ltr">σ (سيجما)</span>','<span class="ltr">s</span>'],["العدد",'<span class="ltr">N</span>','<span class="ltr">n</span>']])}
+ <div class="box tip"><b>قاعدة سريعة</b>الحروف <b>اليونانية</b> للمجتمع (µ، σ)، والحروف <b>اللاتينية</b> للعينة (x̄، s).</div>`]
+],quiz:[
+ ["المرحلة الأخيرة في العمل الإحصائي هي:",["جمع المعلومات","تنظيم المعلومات","وصف المعلومات","اتخاذ القرارات"],3,"المراحل بالترتيب: جمع ← تنظيم وعرض ← وصف وتحليل ← اتخاذ القرارات."],
+ ["حساب المتوسط والانحراف المعياري لدرجات فصل دراسي هو مثال على:",["الإحصاء الاستدلالي","الإحصاء الوصفي","اختبار الفروض","المعاينة"],1,"وصف خصائص البيانات بمقاييس النزعة والتشتت إحصاء وصفي."],
+ ["الرمز µ يشير إلى:",["متوسط العينة","متوسط المجتمع","الانحراف المعياري للعينة","حجم العينة"],1,"µ (ميو) معلمة: متوسط المجتمع. أما x̄ فهو متوسط العينة."],
+ ["اختبار الفروض ومستويات الدلالة من موضوعات:",["الإحصاء الاستدلالي","الإحصاء الوصفي","الجداول التكرارية","العرض البياني"],0,"الاستدلالي يعمم من العينة إلى المجتمع ويشمل اختبارات الفروض."]
+]},
+{id:"levels",u:1,t:"القياس ومستوياته الأربعة",en:"Levels of Measurement",sec:[
+ ["ما هو القياس؟",`<p><b>القياس</b> يعني تمثيل الصفة بطريقة كمية عن ظاهرة معينة، أو تمثيل الصفات أو الخصائص <b>بالأرقام</b>. فهو عملية تُحدَّد بواسطتها <b>كمية</b> ما يوجد في الشيء من الخاصية أو الصفة المراد قياسها.</p>`],
+ ["المستويات الأربعة",`${T(["المستوى","الوصف","أمثلة","العمليات المسموحة"],[["<b>الاسمي (التصنيفي)</b><br><span class='en'>Nominal</span>","أرقام للتصنيف فقط، لا ترتيب ولا معنى حسابي","النوع (1 ذكر، 2 أنثى)، التخصص، الحالة الاجتماعية","التكرارات، النسب، المنوال"],["<b>الرتبي (الترتيبي)</b><br><span class='en'>Ordinal</span>","ترتيب الفئات، لكن المسافات بينها غير متساوية","التقدير (ممتاز، جيد جدًا، جيد)، المستوى الاقتصادي، ترتيب الطالب","+ الوسيط والمئينيات"],["<b>الفئوي (المسافات)</b><br><span class='en'>Interval</span>","مسافات متساوية، لكن الصفر <b>اعتباري</b> (لا يعني انعدام الصفة)","درجة الحرارة المئوية، درجات الذكاء، درجات الاختبارات","+ المتوسط والانحراف المعياري"],["<b>النسبي</b><br><span class='en'>Ratio</span>","مسافات متساوية + صفر <b>حقيقي</b> (يعني انعدام الصفة)","الطول، الوزن، العمر، الدخل، زمن الرجع","كل العمليات بما فيها النِّسب (ضعف، نصف)"]])}
+ <div class="box note"><b>في SPSS</b>يُعرَّف المستوى من عمود <span class="ltr">Measure</span>: <span class="ltr">Nominal</span> للاسمي، <span class="ltr">Ordinal</span> للرتبي، و<span class="ltr">Scale</span> للفئوي والنسبي معًا.</div>
+ <div class="box tip"><b>حيلة للحفظ</b>كل مستوى يرث خصائص ما قبله ويضيف خاصية: تصنيف ← + ترتيب ← + مسافات متساوية ← + صفر حقيقي.</div>`]
+],quiz:[
+ ["متغير «التقدير الدراسي» (ممتاز، جيد جدًا، جيد، مقبول) مستواه:",["اسمي","رتبي","فئوي","نسبي"],1,"فئات مرتبة لكن المسافات بينها غير متساوية = رتبي."],
+ ["ما الذي يميز المستوى النسبي عن الفئوي؟",["وجود ترتيب","تساوي المسافات","وجود صفر حقيقي","إمكانية حساب المنوال"],2,"الصفر الحقيقي يعني انعدام الصفة (مثل الوزن صفر)، فتصبح النسب ذات معنى."],
+ ["درجة الحرارة بالمئوي مثال على المستوى:",["الاسمي","الرتبي","الفئوي","النسبي"],2,"صفر الحرارة المئوية لا يعني انعدام الحرارة؛ فهو صفر اعتباري = فئوي."],
+ ["في SPSS، الطول والوزن يُعرَّفان في عمود Measure على أنهما:",["Nominal","Ordinal","Scale","String"],2,"Scale تشمل المستويين الفئوي والنسبي."],
+ ["ترميز الذكور بـ 1 والإناث بـ 2 يعني أن المتغير:",["نسبي لأن فيه أرقامًا","اسمي، والأرقام للتصنيف فقط","رتبي لأن 2 أكبر من 1","فئوي"],1,"الأرقام هنا مجرد رموز للتصنيف، فلا معنى لقول إن الأنثى «أكبر» من الذكر."]
+]},
+{id:"data",u:1,t:"جمع البيانات وأنواع المتغيرات",en:"Data Collection & Variables",sec:[
+ ["مصادر البيانات",`${T(["","المصادر الأولية (المباشرة)","المصادر الثانوية (غير المباشرة / التاريخية)"],[["المقصود","يجمع الباحث البيانات بنفسه من الميدان","المصادر التاريخية والإحصاءات والنشرات التي تصدرها الوزارات والمؤسسات الحكومية والخاصة"],["أمثلة","الاستبيان، المقابلة، الملاحظة، الاختبارات والمقاييس","تقارير الجهاز المركزي للتعبئة العامة والإحصاء، سجلات المدارس"],["المزايا","دقيقة ومناسبة لهدف البحث","توفر الجهد والوقت والمال"],["العيوب","تحتاج جهدًا ووقتًا وتكلفة","قد تكون غير دقيقة في بعض الأحيان"]])}`],
+ ["أنواع المتغيرات",`${T(["النوع","الفرع","مثال"],[["<b>نوعي (وصفي)</b> <span class='en'>Qualitative</span>","اسمي <span class='en'>Nominal</span>","النوع، فصيلة الدم، التخصص"],["","رتبي <span class='en'>Ordinal</span>","المستوى التعليمي، التقدير"],["<b>كمي</b> <span class='en'>Quantitative</span>","منفصل (متقطع) <span class='en'>Discrete</span>","عدد الأبناء، عدد الأخطاء (أعداد صحيحة)"],["","متصل <span class='en'>Continuous</span>","الطول، الوزن، الزمن (تقبل الكسور)"]])}
+ <h4>المتغير المستقل والتابع</h4><p><b>المستقل</b>: المتغير الذي نصنّف به المجموعات أو نتحكم فيه (مثل: النوع، طريقة التدريس، البرنامج الإرشادي). <b>التابع</b>: المتغير الذي نقيس أثره (مثل: درجة التحصيل، مستوى القلق).</p>
+ <div class="box ex"><b>مثال</b>«أثر برنامج إرشادي على خفض القلق»: البرنامج (قبل/بعد) مستقل، ودرجة القلق تابع.</div>`]
+],quiz:[
+ ["ميزة المصادر الثانوية للبيانات أنها:",["أدق دائمًا","توفر الجهد والوقت والمال","يجمعها الباحث بنفسه","لا تحتاج تحققًا"],1,"من مزاياها توفير الجهد والوقت والمال، وعيبها أنها قد تكون غير دقيقة أحيانًا."],
+ ["«عدد الأبناء في الأسرة» متغير:",["نوعي اسمي","كمي متصل","كمي منفصل","نوعي رتبي"],2,"يأخذ أعدادًا صحيحة فقط، فهو كمي منفصل."],
+ ["في دراسة «الفرق بين الذكور والإناث في التحصيل»، المتغير التابع هو:",["النوع","التحصيل","الذكور","العينة"],1,"التحصيل هو ما نقيسه ونقارن متوسطاته، فهو التابع؛ والنوع مستقل."]
+]},
+{id:"valrel",u:1,t:"الصدق والثبات",en:"Validity & Reliability",sec:[
+ ["الصدق Validity",`<p><b>الصدق:</b> أن يقيس الاختبار <b>ما وُضع لقياسه</b>.</p>
+ ${T(["النوع","المعنى"],[["الصدق الظاهري <span class='en'>Face validity</span>","تكون الأداة صادقة إذا ظهر أنها تقيس ما وُضعت لأجله (بحكم المحكمين أو المفحوصين)."],["صدق المحتوى <span class='en'>Content validity</span>","أن محتوى الأداة يقيس أبعاد ومفاهيم موضوع الدراسة ويغطيها تمثيلًا جيدًا."],["صدق المحك (التلازمي) <span class='en'>Concurrent</span>","الارتباط بين الأداء على الاختبار الحالي والأداء على اختبار آخر ثبت صدقه، في الوقت نفسه أو خلال فترة قصيرة؛ ويُحسب بمعامل الارتباط (موجب من 0 إلى 1)."],["صدق المحك (التنبؤي) <span class='en'>Predictive</span>","مدى تنبؤ نتيجة المقياس بنتائج مقياس محك لاحق."],["صدق المفهوم (البناء) <span class='en'>Construct validity</span>","مدى قياس الأداة للمفهوم أو التكوين النظري المفترض (مثل التحليل العاملي، الاتساق الداخلي)."]])}`],
+ ["الثبات Reliability",`<p><b>الثبات:</b> أن يعطي الاختبار <b>النتائج ذاتها</b> إذا أُعيد تطبيقه على نفس المجموعة وفي نفس الظروف في وقت لاحق.</p>
+ ${T(["الطريقة","كيف تتم؟","ملاحظات"],[["إعادة الاختبار <span class='en'>Test-retest</span>","يُطبق الاختبار مرتين على المجموعة نفسها بفاصل زمني، ثم يُحسب معامل الارتباط بين التطبيقين","عيوبها: الزمن بين التطبيقين (أسبوعان – ستة أشهر) وما يصاحبه من ألفة وتذكر ونمو"],["الصور المتكافئة <span class='en'>Equivalent forms</span>","صيغتان متكافئتان تُطبقان على المجموعة نفسها ويُحسب الارتباط بينهما","يجب تساوي الصعوبة وعدد الأسئلة والمظاهر العامة؛ عيبها صعوبة تصميم نموذجين متماثلين"],["التجزئة النصفية <span class='en'>Split-half</span>","تطبيق واحد ثم تقسيم الاختبار إلى نصفين (فردي وزوجي) وحساب الارتباط","تحتاج عينة كبيرة، ويُصحَّح المعامل بمعادلة سبيرمان–براون"],["الاتساق الداخلي <span class='en'>Cronbach's alpha</span>","تطبيق واحد وحساب مدى ارتباط عناصر الأداة ببعضها كمجموعة","القيمة المقبولة غالبًا ≥ 0.70"]])}
+ <div class="f">r<sub>SB</sub> = 2r / (1 + r)<small>معادلة سبيرمان–براون لتصحيح معامل التجزئة النصفية</small></div>
+ <div class="box tip"><b>علاقة مهمة</b>كل اختبار صادق ثابت بالضرورة، وليس كل اختبار ثابت صادقًا (قد يقيس شيئًا آخر بثبات).</div>`]
+],quiz:[
+ ["«أن يقيس الاختبار ما وُضع لقياسه» تعريف:",["الثبات","الصدق","الموضوعية","التقنين"],1,"هذا تعريف الصدق؛ أما الثبات فهو اتساق النتائج عند الإعادة."],
+ ["من عيوب طريقة إعادة الاختبار:",["تحتاج صيغتين","الألفة والتذكر والنمو بين التطبيقين","لا تحتاج معامل ارتباط","تُطبق مرة واحدة"],1,"الفاصل الزمني (أسبوعان – ستة أشهر) قد يُحدث ألفة وتذكرًا ونموًا يؤثر على النتائج."],
+ ["حساب الارتباط بين الاختبار الجديد واختبار آخر ثابت الصدق في الوقت نفسه هو:",["الصدق التنبؤي","الصدق التلازمي","صدق المحتوى","الصدق الظاهري"],1,"التلازمي = في الوقت نفسه أو خلال فترة قصيرة."],
+ ["معامل التجزئة النصفية 0.60، فمعامل الثبات بعد تصحيح سبيرمان–براون =",["0.60","0.75","0.80","0.36"],1,"2×0.60 ÷ (1+0.60) = 1.2 ÷ 1.6 = 0.75"],
+ ["ألفا كرونباخ تقيس:",["الصدق التنبؤي","الاتساق الداخلي","ثبات الإعادة","الصدق الظاهري"],1,"ألفا كرونباخ مؤشر الاتساق الداخلي بين عناصر الأداة."]
+]},
+/* ---------- UNIT 2 ---------- */
+{id:"freq",u:2,t:"الجداول التكرارية",en:"Frequency Distributions",sec:[
+ ["لماذا ننظم البيانات؟",`<p>بعد جمع البيانات يبدأ الباحث بتنظيمها وعرضها. وهناك <b>ثلاثة أنواع</b> من المؤشرات لتلخيص أي متغير:</p><ol><li>مؤشرات تتعلق <b>بشكل التوزيع</b> (الجداول، الرسوم، الالتواء والتفلطح).</li><li>مؤشرات تتعلق <b>بمراكز تجمع البيانات</b> (مقاييس النزعة المركزية).</li><li>مؤشرات تتعلق <b>بمدى انتشار البيانات</b> وتباعدها عن مراكز تجمعها (مقاييس التشتت).</li></ol>`],
+ ["أنواع الجداول التكرارية",`${T(["أساس التقسيم","الأنواع"],[["عدد المتغيرات","بسيط (متغير واحد) – مزدوج (متغيران) – مركب (أكثر من متغيرين)"],["نوع البيانات","نوعي/وصفي (اسمي أو رتبي) – كمي (منفصل أو متصل بفئات)"],["طريقة التعبير","تكراري – نسبي – مئوي"],["التجميع","متجمع صاعد – متجمع هابط"]])}
+ <p><b>استخداماتها:</b> التعرف على خصائص البيانات، وتحديد عدد مرات تكرار كل قيمة.</p>
+ <div class="f">النسبة المئوية = (تكرار الفئة ÷ مجموع التكرارات) × 100<small>وحجم العينة n = مجموع التكرارات Σf</small></div>`],
+ ["مثال محلول: جدول تكراري كامل",`<p>درجات 20 طالبًا في اختبار من 5: <span class="ltr num">3, 5, 1, 4, 2, 3, 5, 1, 4, 2, 3, 5, 1, 4, 2, 3, 5, 1, 4, 2</span></p>
+ ${T(["الدرجة","التكرار f","النسبة المئوية","المتجمع الصاعد","% المتجمع الصاعد"],[["1","4","20%","4","20%"],["2","4","20%","8","40%"],["3","4","20%","12","60%"],["4","4","20%","16","80%"],["5","4","20%","20","100%"]],["المجموع","20","100%","",""])}
+ <div class="box note"><b>المتجمع الصاعد</b>نجمع التكرارات من أعلى لأسفل (عدد من حصلوا على هذه الدرجة <b>فأقل</b>). والمتجمع الهابط العكس (هذه الدرجة <b>فأكثر</b>).</div>
+ <div class="box tip"><b>في SPSS</b>هذا الجدول نفسه يخرج من: <span class="ltr">Analyze → Descriptive Statistics → Frequencies</span> بأعمدة <span class="ltr">Frequency, Percent, Valid Percent, Cumulative Percent</span>.</div>${labLink("desc","جرّب الجدول التكراري على بياناتك")}`]
+],quiz:[
+ ["جدول يعرض توزيع الطلاب حسب النوع والتخصص معًا هو جدول:",["بسيط","مزدوج","مركب","متجمع"],1,"متغيران = مزدوج؛ متغير واحد = بسيط؛ أكثر من متغيرين = مركب."],
+ ["فئة تكرارها 15 من مجموع 60، نسبتها المئوية:",["15%","25%","40%","60%"],1,"(15 ÷ 60) × 100 = 25%"],
+ ["حجم العينة في الجدول التكراري يساوي:",["أكبر تكرار","عدد الفئات","مجموع التكرارات","متوسط التكرارات"],2,"n = Σf"],
+ ["المتجمع الصاعد للدرجة 3 في جدول ما = 12، معناه:",["12 طالبًا حصلوا على 3 بالضبط","12 طالبًا حصلوا على 3 فأقل","12 طالبًا حصلوا على 3 فأكثر","نسبة 12%"],1,"المتجمع الصاعد يعني عدد من حصلوا على القيمة فأقل."]
+]},
+{id:"graphs",u:2,t:"العرض البياني",en:"Graphical Presentation",sec:[
+ ["الرسوم المناسبة لكل نوع بيانات",`${T(["الرسم","الإنجليزية","يناسب"],[["الأعمدة البسيطة","Bar chart","البيانات النوعية (اسمية/رتبية) — الأعمدة منفصلة"],["الدائرة البيانية","Pie chart","البيانات النوعية — لإظهار نسبة كل جزء من الكل"],["المدرج التكراري","Frequency Histogram","البيانات الكمية — أعمدة متلاصقة"],["المضلع التكراري","Frequency Polygon","البيانات الكمية — نقاط عند منتصفات الفئات تُوصل بخطوط"],["المنحنى التكراري","Frequency Curve","البيانات الكمية — تمهيد المضلع؛ يكشف شكل التوزيع وللمقارنة بين متغيرين أو أكثر"]])}
+ <div class="box warn"><b>خطأ شائع</b>المدرج التكراري ليس هو الأعمدة البسيطة: أعمدة المدرج <b>متلاصقة</b> لأن المتغير الكمي متصل، وأعمدة Bar chart <b>منفصلة</b> لأن الفئات النوعية مستقلة.</div>`],
+ ["مدرج ومضلع تكراري تفاعلي",`<p>هذا مدرج تكراري لدرجات 20 طالبًا، ومضلعه التكراري بالبرتقالي:</p><div class="chart">${histSVG([3,5,1,4,2,3,5,1,4,2,3,5,1,4,2,3,5,1,4,2,3,3,4,2,3],{poly:true})}</div>${labLink("desc","ارسم مدرجًا تكراريًا لبياناتك")}`]
+],quiz:[
+ ["الرسم المناسب لعرض توزيع العينة حسب الحالة الاجتماعية:",["المدرج التكراري","الأعمدة البسيطة أو الدائرة","المضلع التكراري","مخطط Q-Q"],1,"الحالة الاجتماعية متغير نوعي، فيناسبه Bar chart أو Pie chart."],
+ ["الفرق الأساسي بين المدرج التكراري والأعمدة البسيطة:",["المدرج للبيانات النوعية","أعمدة المدرج متلاصقة لأن المتغير كمي","الأعمدة البسيطة لا تحتاج محاور","لا فرق"],1,"المدرج للكمي وأعمدته متلاصقة، والأعمدة البسيطة للنوعي ومنفصلة."],
+ ["المضلع التكراري يُرسم بتوصيل:",["حدود الفئات العليا","منتصفات قمم أعمدة المدرج","التكرارات المتجمعة","النسب المئوية فقط"],1,"نقاط المضلع عند منتصفات الفئات (قمم الأعمدة) ثم توصل بخطوط."]
+]},
+{id:"shape",u:2,t:"شكل التوزيع: الالتواء والتفلطح",en:"Skewness & Kurtosis",sec:[
+ ["الالتواء Skewness",`<p><b>الالتواء:</b> درجة البعد عن التماثل.</p>
+ <div class="figs"><div class="fig">${curveSVG("sym")}<b>متماثل</b><br>المتوسط = الوسيط = المنوال<br>الالتواء = 0</div><div class="fig">${curveSVG("pos")}<b>ملتوٍ موجبًا (لليمين)</b><br>الذيل جهة القيم الكبيرة<br>الالتواء &gt; 0</div><div class="fig">${curveSVG("neg")}<b>ملتوٍ سالبًا (لليسار)</b><br>الذيل جهة القيم الصغيرة<br>الالتواء &lt; 0</div></div>
+ <div class="box tip"><b>حيلة</b>الذيل يشير إلى اتجاه الالتواء، والمتوسط «ينسحب» دائمًا ناحية الذيل. مثال: الدخل ملتوٍ موجبًا (قلة من الأثرياء جدًا).</div>`],
+ ["التفلطح Kurtosis",`<p><b>التفلطح:</b> درجة تدبب أو انبساط قمة التوزيع مقارنة بالتوزيع الطبيعي.</p>
+ <div class="figs"><div class="fig">${curveSVG("lepto")}<b>مدبب</b> <span class="en">Leptokurtic</span><br>تفلطح موجب</div><div class="fig">${curveSVG("meso")}<b>معتدل</b> <span class="en">Mesokurtic</span><br>تفلطح ≈ 0</div><div class="fig">${curveSVG("platy")}<b>مفلطح</b> <span class="en">Platykurtic</span><br>تفلطح سالب</div></div>
+ <div class="box note"><b>في SPSS</b>قيمة Kurtosis التي يعطيها البرنامج هي «التفلطح الزائد» (الطبيعي = صفر)، لذا القيمة القريبة من الصفر تعني شكلًا قريبًا من الطبيعي.</div>`]
+],quiz:[
+ ["توزيع ذيله ممتد ناحية القيم الكبيرة يكون:",["متماثلًا","ملتويًا موجبًا","ملتويًا سالبًا","مفلطحًا"],1,"الذيل ناحية اليمين (القيم الكبيرة) = التواء موجب."],
+ ["في التوزيع الملتوي موجبًا يكون الترتيب غالبًا:",["المتوسط < الوسيط < المنوال","المنوال < الوسيط < المتوسط","الثلاثة متساوية","الوسيط أكبرها"],1,"المتوسط يتأثر بالقيم الكبيرة في الذيل فيصبح أكبرها."],
+ ["توزيع قمته حادة ومرتفعة يُسمى:",["مفلطح","مدبب","معتدل","متماثل"],1,"Leptokurtic = مدبب، وتفلطحه موجب."],
+ ["قيمة الالتواء = 0 تعني:",["توزيع متماثل","توزيع مدبب","لا يوجد منوال","تشتت صفري"],0,"الالتواء صفر = تماثل تام حول المتوسط."]
+]},
+/* ---------- UNIT 3 ---------- */
+{id:"mean",u:3,t:"المتوسط الحسابي",en:"Mean",sec:[
+ ["مفهوم النزعة المركزية",`<p><b>النزعة المركزية:</b> ميل البيانات للتجمع حول المركز. ومقاييسها: <b>المتوسط الحسابي، الوسيط، المنوال</b> (ومعها الربيعيات والمئينيات كمقاييس موقع).</p>`],
+ ["القانون والرموز",`${T(["الرمز","معناه","النطق","القانون"],[["<span class='ltr'>µ</span>","المتوسط الحسابي للمجتمع (معلمة)","ميو","<span class='ltr'>µ = Σx / N</span>"],["<span class='ltr'>x̄</span>","المتوسط الحسابي للعينة (إحصاءة)","إكس بار","<span class='ltr'>x̄ = Σx / n</span>"]])}
+ <p>وهو <b>أهم مقاييس النزعة المركزية وأكثرها انتشارًا</b>.</p>`],
+ ["مثال محلول",`<p>أوجد المتوسط للبيانات: <span class="ltr num">3, 5, 1, 4, 2, 3, 5, 1, 4, 2, 3, 5, 1, 4, 2, 3, 5, 1, 4, 2</span></p><div class="f">x̄ = (3+5+1+4+2+ … +4+2) / 20 = 60 / 20 = 3</div>`],
+ ["المزايا والعيوب + أثر القيم الشاذة",`<ul><li>✅ يعطي قيمة وحيدة لمجموعة من القيم.</li><li>✅ تدخل جميع القيم في حسابه.</li><li>✅ مجموع انحرافات القيم عن وسطها الحسابي يساوي <b>صفرًا</b>: <span class="ltr">Σ(x − x̄) = 0</span></li><li>❌ <b>يتأثر بالقيم الشاذة (المتطرفة).</b></li></ul>
+ ${T(["البيانات","المتوسط","الوسيط","التعليق"],[["<span class='ltr num'>15, 17, 19, 50</span>","25.25","18","القيمة 50 سحبت المتوسط لأعلى"],["<span class='ltr num'>70, 77, 65, 80, 25</span>","63.4","70","القيمة 25 سحبت المتوسط لأسفل"]])}
+ <div class="box tip"><b>متى نفضل الوسيط؟</b>عند وجود قيم متطرفة أو التواء شديد، يكون الوسيط أصدق في تمثيل مركز البيانات.</div>${labLink("desc","احسب المتوسط وجرّب إضافة قيمة شاذة")}`]
+],quiz:[
+ ["متوسط القيم 4، 6، 8، 10، 12 هو:",["6","8","10","40"],1,"المجموع 40 ÷ 5 = 8"],
+ ["مجموع انحرافات القيم عن متوسطها الحسابي يساوي دائمًا:",["المتوسط","واحدًا","صفرًا","الانحراف المعياري"],2,"خاصية أساسية: Σ(x − x̄) = 0"],
+ ["أكبر عيوب المتوسط الحسابي:",["لا تدخل كل القيم في حسابه","يتأثر بالقيم الشاذة","لا يُحسب للبيانات الكمية","قد يكون له أكثر من قيمة"],1,"مثال: 15، 17، 19، 50 متوسطها 25.25 رغم أن 3 قيم أقل من 20."],
+ ["الرمز x̄ يدل على:",["متوسط المجتمع","متوسط العينة","الوسيط","المنوال"],1,"x̄ (إكس بار) متوسط العينة، و µ متوسط المجتمع."]
+]},
+{id:"median",u:3,t:"الوسيط",en:"Median",sec:[
+ ["التعريف والخطوات",`<p><b>الوسيط:</b> القيمة التي تقسم البيانات <b>بعد ترتيبها</b> إلى جزأين متساويين: 50% قبلها و50% بعدها.</p>
+ <ol><li>رتّب البيانات تصاعديًا أو تنازليًا.</li><li>حدد رتبة الوسيط:<ul><li>إذا كان n <b>فرديًا</b>: رتبة الوسيط = <span class="ltr">(n + 1) / 2</span></li><li>إذا كان n <b>زوجيًا</b>: الرتبتان <span class="ltr">n/2</span> و <span class="ltr">n/2 + 1</span>، والوسيط = متوسط القيمتين المقابلتين لهما.</li></ul></li></ol>`],
+ ["مثال (عدد فردي)",`<p>أوجد الوسيط: <span class="ltr num">27, 12, 15, 300, 22, 18, 14, 24, 17</span></p>
+ <p>1) الترتيب:</p><div class="sorted">${[12,14,15,17,18,22,24,27,300].map((v,i)=>`<span class="${i===4?'m':''}">${v}<i>${i+1}</i></span>`).join("")}</div>
+ <p>2) n = 9 (فردي) ← رتبة الوسيط = (9 + 1) ÷ 2 = <b>5</b></p><p>3) القيمة الخامسة: <b>Med = 18</b></p>
+ <div class="box note"><b>لاحظ</b>القيمة 300 متطرفة جدًا، ومع ذلك لم تؤثر على الوسيط إطلاقًا.</div>`],
+ ["مثال (عدد زوجي)",`<p>أوجد الوسيط: <span class="ltr num">7, 3, 9, 5, 11, 4</span></p><div class="sorted">${[3,4,5,7,9,11].map((v,i)=>`<span class="${i===2||i===3?'m':''}">${v}<i>${i+1}</i></span>`).join("")}</div>
+ <p>n = 6 (زوجي) ← الرتبتان 3 و4 ← الوسيط = (5 + 7) ÷ 2 = <b>6</b></p>`],
+ ["المميزات والعيوب",`<ul><li>✅ لا يتأثر بالقيم المتطرفة والشاذة.</li><li>✅ يمكن حسابه للبيانات التي نعرف ترتيبها ولا نعرف قيمها (البيانات الرتبية).</li><li>❌ لا تدخل جميع القيم في حسابه.</li></ul>${labLink("desc","شاهد خطوات الوسيط على بياناتك")}`]
+],quiz:[
+ ["وسيط القيم 9، 2، 7، 4، 5 هو:",["4","5","7","5.4"],1,"الترتيب: 2، 4، 5، 7، 9 ← القيمة الثالثة = 5"],
+ ["وسيط القيم 2، 4، 6، 8 هو:",["4","5","6","20"],1,"n زوجي ← (4 + 6) ÷ 2 = 5"],
+ ["رتبة الوسيط لعدد 15 قيمة:",["7","7.5","8","15"],2,"(15 + 1) ÷ 2 = 8"],
+ ["الخطوة الأولى لحساب الوسيط:",["حساب المتوسط","ترتيب البيانات","إيجاد التكرارات","حذف القيم الشاذة"],1,"بدون ترتيب لا معنى لرتبة الوسيط."]
+]},
+{id:"mode",u:3,t:"المنوال والمقارنة بين المقاييس",en:"Mode",sec:[
+ ["التعريف والأمثلة",`<p><b>المنوال:</b> القيمة التي تتكرر أكثر من غيرها، أو القيمة <b>الأكثر شيوعًا</b>. وقد لا يكون للقيم منوال، وقد يوجد أكثر من منوال.</p>
+ ${T(["المثال","البيانات","المنوال"],[["1","<span class='ltr num'>22, 5, 7, 9, 9, 9, 10, 10, 11, 12, 18</span>","9 (منوال واحد)"],["2","<span class='ltr num'>3, 5, 8, 10, 15, 16</span>","لا يوجد منوال"],["3","<span class='ltr num'>2, 3, 4, 4, 4, 5, 5, 7, 7, 7, 9</span>","4 و 7 (ثنائية المنوال)"]])}`],
+ ["المميزات والعيوب",`<ul><li>✅ <b>المقياس الوحيد</b> الذي يُستخدم مع جميع أنواع المتغيرات بما فيها <b>الاسمية</b>.</li><li>✅ لا يتأثر بالقيم الشاذة.</li><li>❌ قد لا يعبر عن القيم التي في مركز التوزيع.</li></ul>`],
+ ["أي مقياس أستخدم؟",`${T(["مستوى القياس","المقياس المناسب"],[["اسمي","المنوال فقط"],["رتبي","الوسيط (والمنوال)"],["فئوي/نسبي – توزيع معتدل","المتوسط الحسابي (الأفضل)"],["فئوي/نسبي – قيم متطرفة أو التواء شديد","الوسيط"]])}
+ ${T(["","المتوسط","الوسيط","المنوال"],[["تدخل كل القيم في حسابه","✔","✘","✘"],["يتأثر بالقيم الشاذة","✔","✘","✘"],["يصلح للبيانات الاسمية","✘","✘","✔"],["قد يكون له أكثر من قيمة","✘","✘","✔"]])}`]
+],quiz:[
+ ["منوال القيم 3، 7، 7، 2، 9، 7، 3 هو:",["3","7","2","لا يوجد"],1,"7 تكررت 3 مرات، وهو أكثر من غيرها."],
+ ["المقياس الوحيد الذي يصلح لمتغير «فصيلة الدم»:",["المتوسط","الوسيط","المنوال","الانحراف المعياري"],2,"فصيلة الدم متغير اسمي، والمنوال وحده يصلح له."],
+ ["المجموعة 1، 2، 3، 4، 5:",["منوالها 3","لا منوال لها","لها 5 منوالات","منوالها 1"],1,"لا توجد قيمة تكررت أكثر من غيرها."],
+ ["في بيانات الدخل الشهري (فيها عدد قليل جدًا من الدخول المرتفعة جدًا)، أفضل مقياس للمركز:",["المتوسط","الوسيط","المدى","التباين"],1,"القيم المتطرفة تسحب المتوسط، والوسيط لا يتأثر بها."]
+]},
+/* ---------- UNIT 4 ---------- */
+{id:"quart",u:4,t:"الربيعيات والعشيريات والمئينيات",en:"Quartiles, Deciles & Percentiles",sec:[
+ ["لماذا نحتاجها؟",`<p>مقاييس النزعة تصف المجموعة ككل بقيمة واحدة. لكننا كثيرًا ما نريد معرفة <b>وضع قيمة معينة مقارنة بجميع البيانات</b>؛ فالطالب يريد معرفة نسبة زملائه الذين تقل درجاتهم عن درجته ونسبة من تزيد درجاتهم عنها.</p><p>الربيعيات والمئينيات <b>مقاييس عددية تصف وضع مشاهدة محددة</b> مقارنة بمجموعة المشاهدات الكلية.</p>`],
+ ["الربيعيات Quartiles",`<p>القيم التي تقسم المفردات (بعد الترتيب) إلى <b>أربعة أقسام متساوية</b> من حيث العدد:</p>
+ <ul><li><b>Q1 الربيع الأول:</b> ربع المفردات أصغر منه، وثلاثة أرباعها أكبر منه.</li><li><b>Q2 الربيع الثاني:</b> نصف المفردات أصغر منه ونصفها أكبر = <b>الوسيط</b>.</li><li><b>Q3 الربيع الثالث:</b> ثلاثة أرباع القيم أصغر منه والربع أكبر منه.</li></ul>
+ <div class="f">رتبة Q1 = (N+1) × 1/4 &nbsp;|&nbsp; رتبة Q2 = (N+1) × 2/4 &nbsp;|&nbsp; رتبة Q3 = (N+1) × 3/4</div>`],
+ ["مثال محلول",`<p>احسب الربيعيات للأعداد: <span class="ltr num">100, 150, 200, 50, 160, 300, 250</span></p>
+ <p>الترتيب (N = 7):</p><div class="sorted">${[50,100,150,160,200,250,300].map((v,i)=>`<span class="${i===1||i===5?'q':i===3?'m':''}">${v}<i>${i+1}</i></span>`).join("")}</div>
+ ${T(["الربيع","الرتبة","القيمة"],[["Q1","(7+1) × 1/4 = 2","<b>100</b>"],["Q2 (الوسيط)","(7+1) × 2/4 = 4","<b>160</b>"],["Q3","(7+1) × 3/4 = 6","<b>250</b>"]])}
+ <div class="box note"><b>إذا كانت الرتبة كسرًا</b>مثل 2.5 نأخذ القيمة الثانية + نصف المسافة بينها وبين الثالثة (الاستكمال الخطي)، وهي الطريقة نفسها التي يستخدمها SPSS.</div>`],
+ ["العشيريات والمئينيات",`<p><b>العشيريات D:</b> تقسم البيانات إلى 10 أجزاء متساوية: D1 القيمة التي يسبقها 10% من البيانات ورتبتها n/10، D2 يسبقها 20%… حتى D9.</p><p><b>المئينيات P:</b> تقسم البيانات إلى <b>100 قسم متساوٍ</b>، كل قسم 1% من البيانات.</p>
+ <div class="f">Q2 = D5 = P50 = Median &nbsp;&nbsp; Q1 = P25 &nbsp;&nbsp; Q3 = P75 &nbsp;&nbsp; D1 = P10 … D9 = P90</div>
+ <div class="box ex"><b>تفسير</b>«درجتك تقع عند المئين 85» تعني أن 85% من زملائك درجاتهم أقل من درجتك.</div>${labLink("desc","احسب الربيعيات ومخطط الصندوق لبياناتك")}`]
+],quiz:[
+ ["الربيع الثاني Q2 يساوي:",["المتوسط","الوسيط","المنوال","المدى"],1,"Q2 = D5 = P50 = الوسيط."],
+ ["لعدد 11 قيمة مرتبة، رتبة Q1 هي:",["2.75","3","4","2"],1,"(11 + 1) × 1/4 = 3"],
+ ["المئين P75 يساوي:",["Q1","Q3","D5","D7"],1,"Q3 = P75"],
+ ["طالب درجته عند المئين 90 يعني:",["حصل على 90 درجة","90% من الطلاب درجاتهم أقل منه","أجاب على 90 سؤالًا","ترتيبه التسعون"],1,"المئين يصف الموقع النسبي لا الدرجة الخام."],
+ ["القيم المرتبة 50، 100، 150، 160، 200، 250، 300، قيمة Q3 =",["200","250","300","225"],1,"رتبة Q3 = (7+1)×3/4 = 6 ← القيمة السادسة = 250"]
+]},
+{id:"range",u:4,t:"التشتت: المدى ونصف المدى الربيعي",en:"Range & Semi-IQR",sec:[
+ ["لماذا نحتاج مقاييس التشتت؟",`<p>انظر إلى هذه المجموعات الثلاث:</p>${T(["المجموعة","القيم","المتوسط"],[["الأولى","<span class='ltr num'>15, 15, 15, 15, 15</span>","15"],["الثانية","<span class='ltr num'>13, 15, 17, 13, 17</span>","15"],["الثالثة","<span class='ltr num'>11, 19, 17, 13, 15</span>","15"]])}
+ <p>المتوسط واحد، لكن القيم مختلفة: تشتت الثالثة &gt; الثانية &gt; الأولى (والأولى بلا تشتت). إذًا <b>مقاييس النزعة المركزية لا تكفي وحدها</b> لوصف البيانات أو مقارنة المجموعات.</p>
+ <p><b>التشتت:</b> مقدار تفرّق أو تباعد أو انتشار البيانات فيما بينها؛ يكون صغيرًا إذا كانت البيانات متقاربة.</p>
+ <p>أشهر مقاييسه: المدى، نصف المدى الربيعي، التباين، الانحراف المعياري، معامل الاختلاف.</p>`],
+ ["المدى Range",`<div class="f">المدى = أكبر قيمة − أصغر قيمة &nbsp;&nbsp; Range = X<sub>max</sub> − X<sub>min</sub></div>
+ <div class="box ex"><b>مثال 1</b>البيانات <span class="ltr num">3, 5, 8, 11, 13, 22, 41, 44, 46, 51</span>: المدى = 51 − 3 = <b>48</b></div>
+ <div class="box ex"><b>مثال 2</b>أوزان سبعة أشخاص <span class="ltr num">25, 30, 40, 45, 35, 55, 50</span> كجم: المدى = 55 − 25 = <b>30 كجم</b></div>
+ <ul><li>✅ سهل التعريف والحساب، ويعطي فكرة سريعة عن التفرّق، ويفيد في دراسات الجودة واكتشاف القيم المتطرفة.</li><li>❌ يتأثر بالقيم الشاذة، ولا يأخذ في الاعتبار جميع البيانات؛ لذا فهو مقياس <b>غير جيد</b> للتشتت.</li><li>وحدة المدى هي نفس وحدة البيانات الأصلية.</li></ul>`],
+ ["نصف المدى الربيعي",`<div class="f">نصف المدى الربيعي = (Q3 − Q1) / 2<small>ويسمى أيضًا الانحراف الربيعي — يتجاهل الربع الأدنى والربع الأعلى، فلا يتأثر بالقيم المتطرفة</small></div>
+ <div class="box ex"><b>مثال</b>من المثال السابق: Q1 = 100، Q3 = 250 ← نصف المدى الربيعي = (250 − 100) ÷ 2 = <b>75</b></div>`]
+],quiz:[
+ ["مدى القيم 12، 7، 30، 18، 4 هو:",["26","30","18","14"],0,"30 − 4 = 26"],
+ ["أكبر عيوب المدى:",["صعب الحساب","يتأثر بالقيم المتطرفة ويعتمد على قيمتين فقط","وحدته مربعة","لا يصلح للبيانات الكمية"],1,"يعتمد على أكبر وأصغر قيمة فقط ويتجاهل الباقي."],
+ ["إذا كان Q1 = 20 و Q3 = 36، فنصف المدى الربيعي =",["16","8","28","56"],1,"(36 − 20) ÷ 2 = 8"],
+ ["ثلاث مجموعات لها المتوسط نفسه؛ هذا يعني:",["لها نفس التشتت","قد تختلف في تشتتها","قيمها متطابقة","لها نفس المدى"],1,"المتوسط وحده لا يكفي، ولذلك نحتاج مقاييس التشتت."]
+]},
+{id:"var",u:4,t:"التباين والانحراف المعياري",en:"Variance & Standard Deviation",sec:[
+ ["التباين Variance",`<p>يعتبر التباين والانحراف المعياري <b>أهم وأفضل مقاييس التشتت</b> وأكثرها استخدامًا. وفكرة التباين تعتمد على تباعد البيانات عن متوسطها.</p>
+ <p><b>التباين:</b> متوسط مربعات انحرافات القيم عن الوسط الحسابي، ويرمز له للعينة بـ <span class="ltr">s²</span>.</p>
+ <div class="f">σ² = Σ(X − µ)² / N &nbsp;&nbsp;&nbsp; (المجتمع)<br>s² = Σ(x − x̄)² / (n − 1) &nbsp;&nbsp;&nbsp; (العينة)<small>نقسم على n − 1 في العينة «للتحرر من التحيز»</small></div>`],
+ ["الانحراف المعياري Standard Deviation",`<p>التباين يُقاس بوحدة البيانات <b>المربعة</b>، لذلك نأخذ جذره لنعود لوحدة البيانات الأصلية.</p>
+ <p><b>الانحراف المعياري:</b> الجذر التربيعي الموجب للتباين، ويرمز له بـ <span class="ltr">s</span>.</p><div class="f">s = √[ Σ(x − x̄)² / (n − 1) ]</div>`],
+ ["مثال محلول 1",`<p>البيانات: <span class="ltr num">9, 5, 5, 5, 1</span> — المتوسط = 25 ÷ 5 = 5</p>
+ ${T(["x","x̄","x − x̄","(x − x̄)²"],[["9","5","4","16"],["5","5","0","0"],["5","5","0","0"],["5","5","0","0"],["1","5","−4","16"]],["Σ","","0","32"])}
+ <div class="f">s² = 32 / (5 − 1) = 8 &nbsp;&nbsp;&nbsp; s = √8 = 2.83</div>`],
+ ["مثال محلول 2 (تدريب المحاضرة)",`<p>احسب التباين: <span class="ltr num">2, 4, 5, 8, 1</span> — المتوسط = 20 ÷ 5 = 4</p>
+ ${T(["x","x − x̄","(x − x̄)²"],[["2","−2","4"],["4","0","0"],["5","1","1"],["8","4","16"],["1","−3","9"]],["Σ","0","30"])}
+ <div class="f">s² = 30 / 4 = 7.5 &nbsp;&nbsp;&nbsp; s = √7.5 = 2.74</div>`],
+ ["معامل الاختلاف",`<div class="f">CV = (s / x̄) × 100%<small>مقياس نسبي بلا وحدة؛ يستخدم لمقارنة تشتت متغيرين بوحدات مختلفة أو متوسطات مختلفة</small></div>
+ <div class="box ex"><b>مثال</b>الأطوال: x̄ = 170، s = 8.5 ← CV = 5%. الأوزان: x̄ = 65، s = 9.75 ← CV = 15%. إذًا الأوزان أكثر تشتتًا نسبيًا.</div>${labLink("desc","احسب التباين خطوة بخطوة لبياناتك")}`]
+],quiz:[
+ ["الانحراف المعياري هو:",["مربع التباين","الجذر التربيعي للتباين","متوسط الانحرافات","المدى ÷ 2"],1,"s = √s²"],
+ ["إذا كان التباين = 25، فالانحراف المعياري =",["5","12.5","625","25"],0,"√25 = 5"],
+ ["لماذا نقسم على (n − 1) في تباين العينة؟",["لتسهيل الحساب","للتحرر من التحيز في تقدير تباين المجتمع","لأن n غير معروف","لجعل الناتج صحيحًا"],1,"القسمة على n − 1 تعطي تقديرًا غير متحيز لتباين المجتمع."],
+ ["مجموع مربعات الانحرافات 48 لعينة من 7 أفراد، فالتباين =",["6.86","8","48","7"],1,"48 ÷ (7 − 1) = 8"],
+ ["وحدة التباين هي:",["نفس وحدة البيانات","مربع وحدة البيانات","بلا وحدة","نسبة مئوية"],1,"لهذا نأخذ الجذر فنحصل على الانحراف المعياري بوحدة البيانات الأصلية."],
+ ["لمقارنة تشتت الأعمار (بالسنوات) والدخل (بالجنيه) نستخدم:",["التباين","المدى","معامل الاختلاف","الانحراف المعياري"],2,"معامل الاختلاف نسبي بلا وحدة، فيصلح للمقارنة بين وحدات مختلفة."]
+]},
+/* ---------- UNIT 5 ---------- */
+{id:"normal",u:5,t:"التوزيع الطبيعي وفحص الاعتدالية",en:"Normal Distribution & Normality",sec:[
+ ["خصائص التوزيع الاعتدالي (الطبيعي)",`<div class="chart">${normSVG(-1,1,"68% بين ±1 انحراف معياري")}</div>
+ <ul><li>متماثل حول الوسط الحسابي µ؛ النصف الأيسر صورة معكوسة للنصف الأيمن.</li><li>يتساوى فيه <b>المتوسط والوسيط والمنوال</b>.</li><li>المساحة الكلية تحت المنحنى = <b>1</b> صحيح.</li><li>يتحدد بالكامل بمعلمتين: <b>المتوسط µ والانحراف المعياري σ</b>.</li><li>الالتواء والتفلطح = <b>صفر</b>.</li></ul>
+ <div class="box note"><b>قاعدة 68 – 95 – 99.7</b>حوالي 68% من القيم تقع بين µ ± 1σ، و95% بين µ ± 2σ، و99.7% بين µ ± 3σ.</div>`],
+ ["الطريقة 1: الالتواء والتفلطح ÷ الخطأ المعياري",`<p>نقسم قيمة الالتواء على خطئها المعياري، وقيمة التفلطح على خطئها المعياري:</p>
+ <div class="f">Z<sub>skew</sub> = Skewness / SE<sub>skew</sub> &nbsp;&nbsp; Z<sub>kurt</sub> = Kurtosis / SE<sub>kurt</sub></div>
+ <p>إذا وقع الناتجان بين <b>±1.96</b> (عند مستوى .05) — أو بين <b>±2.58</b> (عند .01 كما في Hair et al., 2014) — فالتوزيع طبيعي.</p>
+ <div class="box ex"><b>مثال (متغير العمر، ن = 100)</b>الالتواء: 0.394 ÷ 0.241 ≈ <b>1.63</b> — التفلطح: −0.128 ÷ 0.478 ≈ <b>−0.27</b>. كلاهما أقل من ±1.96 ← العمر موزع تقريبًا توزيعًا طبيعيًا ويصلح للاختبارات المعلمية.</div>${labLink("normal","افحص الاعتدالية بآلة الحساب")}`],
+ ["الطريقة 2: الاختبارات الإحصائية",`<p>اختبار <b>Kolmogorov–Smirnov</b> واختبار <b>Shapiro–Wilk</b> (الأخير أدق للعينات الصغيرة). وفي SPSS من: <span class="ltr">Analyze → Descriptive Statistics → Explore → Plots → Normality plots with tests</span>.</p>
+ ${T(["قيمة الدلالة","القرار"],[["<span class='ltr'>p &gt; .05</span>","تحقق شرط الاعتدالية ✔ (نقبل الفرض الصفري: البيانات من مجتمع طبيعي)"],["<span class='ltr'>p &lt; .05</span>","لم يتحقق شرط الاعتدالية ✘"]])}
+ <div class="box ex"><b>مثال</b>Shapiro–Wilk: p = .070 وهي غير دالة لأنها أكبر من .05 ← نقبل الفرض الصفري القائل بأن البيانات مسحوبة من مجتمع يتبع التوزيع الاعتدالي.</div>
+ <div class="box warn"><b>انتبه للمنطق المعكوس</b>هنا نحن <b>نريد</b> أن تكون النتيجة غير دالة (p &gt; .05)، على عكس اختبار ت الذي نبحث فيه غالبًا عن الدلالة.</div>`],
+ ["الطريقة 3: الأشكال البيانية",`<p>المدرج التكراري، رسمة الساق والأوراق، رسمة الصندوق، ومخطط <b>Q-Q</b>.</p><p>إذا كانت البيانات موزعة طبيعيًا <b>تقع النقاط في مخطط Q-Q على الخط القطري المستقيم</b>؛ وإذا انحرفت النقاط بشكل كبير عن الخط فهذا مؤشر واضح على عدم الاعتدالية.</p>`]
+],quiz:[
+ ["في التوزيع الطبيعي:",["المتوسط > الوسيط","المتوسط = الوسيط = المنوال","المنوال أكبرها","لا يوجد منوال"],1,"التماثل التام يجعل المقاييس الثلاثة متساوية."],
+ ["نتيجة Shapiro–Wilk: p = .23 تعني:",["البيانات غير طبيعية","تحقق شرط الاعتدالية","نرفض الفرض الصفري","يجب استخدام اختبار لامعلمي"],1,"p > .05 ← غير دالة ← البيانات طبيعية."],
+ ["الالتواء = 0.80 وخطؤه المعياري = 0.25؛ فالنسبة:",["3.2 ← غير طبيعي","0.2 ← طبيعي","1.05 ← طبيعي","0.55 ← طبيعي"],0,"0.80 ÷ 0.25 = 3.2 وهي أكبر من 1.96 و2.58 ← التواء دال."],
+ ["في مخطط Q-Q تدل البيانات الطبيعية على:",["نقاط عشوائية","نقاط على الخط القطري المستقيم","منحنى على شكل U","نقاط أفقية"],1,"كلما اقتربت النقاط من الخط القطري، اقترب التوزيع من الطبيعي."],
+ ["المساحة الكلية تحت المنحنى الطبيعي تساوي:",["0.5","1","100","تعتمد على σ"],1,"المساحة = 1 (أي 100% من الاحتمالات)."]
+]},
+{id:"hyp",u:5,t:"منطق اختبار الفروض",en:"Hypothesis Testing Logic",sec:[
+ ["الفرض الصفري والبديل",`${T(["الفرض","الرمز","الصيغة"],[["الصفري (العدمي)","<span class='ltr'>H0</span>","لا يوجد فرق: <span class='ltr'>µ1 = µ2</span>"],["البديل","<span class='ltr'>H1 / Ha</span>","يوجد فرق: <span class='ltr'>µ1 ≠ µ2</span> (اتجاهين) أو <span class='ltr'>µ1 &gt; µ2</span> (اتجاه واحد)"]])}`],
+ ["مستوى الدلالة وقيمة p",`<p><b>مستوى الدلالة α = 0.05</b>: أعلى نسبة خطأ من النوع الأول يسمح بها الباحث.</p><p><b>قيمة p (Sig.)</b>: احتمال الحصول على هذه النتيجة (أو أكثر تطرفًا) لو كان الفرض الصفري صحيحًا.</p>
+ <div class="verdict ok">p ≤ .05 ← نرفض H0 ← توجد فروق ذات دلالة إحصائية</div><div class="verdict no">p &gt; .05 ← نقبل (لا نرفض) H0 ← لا توجد فروق دالة</div>
+ ${T(["","H0 صحيح فعلًا","H0 خاطئ فعلًا"],[["رفضنا H0","خطأ من النوع الأول (α)","قرار صحيح (قوة الاختبار)"],["قبلنا H0","قرار صحيح","خطأ من النوع الثاني (β)"]])}`],
+ ["درجات الحرية وحجم الأثر",`<p><b>درجات الحرية df</b>: في التقرير نكتب درجات الحرية <b>وليس عدد العينة</b>: لعينة واحدة أو مترابطتين df = n − 1، ولعينتين مستقلتين df = n1 + n2 − 2.</p>
+ <p><b>حجم الأثر (Cohen's d)</b>: الدلالة تخبرنا هل يوجد فرق، وحجم الأثر يخبرنا <b>ما حجم هذا الفرق عمليًا</b>.</p>
+ ${T(["قيمة |d|","التفسير"],[["0.2","صغير"],["0.5","متوسط"],["0.8 فأكثر","كبير"]])}`],
+ ["الاختبارات المعلمية وبدائلها",`${T(["الاختبار المعلمي","متى؟","البديل اللامعلمي"],[["ت لعينة واحدة","متوسط عينة مقابل قيمة للمجتمع","Wilcoxon Signed Rank"],["ت لعينتين مستقلتين","مجموعتان مختلفتان من الأفراد","Mann–Whitney U"],["ت لعينتين مترابطتين","نفس الأفراد مرتين (قبلي/بعدي) أو أزواج مرتبطة","Wilcoxon Signed-Rank"],["تحليل التباين الأحادي ANOVA","أكثر من مجموعتين مستقلتين","Kruskal–Wallis"],["ارتباط بيرسون","علاقة بين متغيرين كميين","ارتباط سبيرمان"]])}${labLink("chooser","استخدم مُرشد اختيار الاختبار")}`]
+],quiz:[
+ ["الفرض «لا توجد فروق بين متوسطي الذكور والإناث» هو:",["الفرض البديل","الفرض الصفري","فرض موجه","نتيجة البحث"],1,"الصفري ينفي وجود الفرق: µ1 = µ2"],
+ ["Sig. = .003 عند α = .05 يعني:",["نقبل H0","نرفض H0 ويوجد فرق دال","النتيجة غير دالة","يجب تكبير العينة"],1,"0.003 < 0.05 ← دالة."],
+ ["رفض الفرض الصفري وهو صحيح يسمى:",["خطأ من النوع الأول","خطأ من النوع الثاني","قوة الاختبار","حجم الأثر"],0,"احتماله هو α."],
+ ["d = 0.28 يعني حجم أثر:",["كبير","متوسط","صغير","لا يوجد أثر"],2,"بين 0.2 و0.5 = صغير."],
+ ["درجات الحرية لاختبار ت لعينتين مستقلتين (25 و27 فردًا):",["52","51","50","26"],2,"25 + 27 − 2 = 50"]
+]},
+{id:"t1",u:5,t:"اختبار ت لعينة واحدة",en:"One-Sample t Test",sec:[
+ ["متى نستخدمه؟",`<p>لمقارنة <b>متوسط عينة</b> بقيمة <b>مفترضة للمجتمع</b>.</p><div class="f">H0: µ = a &nbsp;&nbsp;&nbsp; H1: µ ≠ a</div>
+ <div class="box ex"><b>مثال المحاضرة</b>هل يختلف متوسط طول أفراد العينة البالغين عن متوسط طول البالغين في الولايات المتحدة (20 عامًا فأكثر) وهو 66.5 بوصة؟ ← <span class="ltr">H0: µ = 66.5</span>، <span class="ltr">Ha: µ ≠ 66.5</span>، α = 0.05</div>`],
+ ["القانون",`<div class="f">t = (x̄ − µ) / (s / √n) &nbsp;&nbsp;&nbsp; df = n − 1<small>والمقام s/√n هو الخطأ المعياري للمتوسط (Std. Error Mean)</small></div><div class="f">d = (x̄ − µ) / s<small>حجم الأثر (Cohen's d)</small></div>`],
+ ["الشروط",`<ol><li>مستوى قياس المتغير التابع كمي (نسبي أو فئوي).</li><li>المعاينة العشوائية.</li><li>استقلالية القياس أو المشاهدات.</li><li>التوزيع الاعتدالي للمتغير التابع.</li></ol><div class="box warn"><b>إذا لم يتحقق شرط أو أكثر</b>نستخدم الاختبار اللامعلمي <b>Wilcoxon Signed Rank test</b>.</div>`],
+ ["في SPSS وكتابة النتيجة",`<div class="path-crumb"><span>Analyze</span><em>›</em><span>Compare Means</span><em>›</em><span>One-Sample T Test</span></div><p>ننقل المتغير (height) إلى <span class="ltr">Test Variable(s)</span> ونكتب 66.5 في <span class="ltr">Test Value</span>.</p>
+ <div class="apa"><b>صياغة النتيجة:</b> توجد فروق ذات دلالة إحصائية <span class="ltr">(t(407) = 5.815, p &lt; .001, d = .28)</span> وبحجم تأثير صغير، لذلك تم رفض الفرضية الصفرية؛ بعبارة أخرى، متوسط طول أفراد العينة <span class="ltr">(M = 68.03, SD = 5.33)</span> لا يساوي متوسط طول البالغين في الولايات المتحدة (66.5) عند مستوى دلالة .05.</div>
+ <div class="box note"><b>تذكر</b>داخل القوسين نكتب درجات الحرية (407) وليس عدد العينة.</div>${labLink("ttest","جرّب اختبار ت لعينة واحدة")}`]
+],quiz:[
+ ["نستخدم ت لعينة واحدة عندما نقارن:",["متوسطي مجموعتين","متوسط عينة بقيمة معلومة للمجتمع","قياسين قبلي وبعدي","أكثر من مجموعتين"],1,"مثل مقارنة متوسط الطول بـ 66.5."],
+ ["البديل اللامعلمي لاختبار ت لعينة واحدة:",["Mann–Whitney U","Wilcoxon Signed Rank","Kruskal–Wallis","Chi-square"],1,"Wilcoxon Signed Rank."],
+ ["عينة n = 25، x̄ = 52، s = 10، µ = 50؛ قيمة t =",["0.2","1","2","5"],1,"الخطأ المعياري = 10 ÷ √25 = 2 ← t = (52 − 50) ÷ 2 = 1"],
+ ["في الكتابة t(407) = 5.815، الرقم 407 هو:",["حجم العينة","درجات الحرية","قيمة الدلالة","المتوسط"],1,"نكتب df = n − 1 وليس n."]
+]},
+{id:"tind",u:5,t:"اختبار ت لعينتين مستقلتين",en:"Independent Samples t Test",sec:[
+ ["متى نستخدمه؟",`<p>لمقارنة متوسطي <b>عينتين مستقلتين</b>، أي أن الأشخاص في المجموعة 1 ليسوا نفس الأشخاص في المجموعة 2.</p><div class="f">H0: µ1 = µ2 &nbsp;&nbsp;&nbsp; H1: µ1 ≠ µ2</div>
+ <div class="box ex"><b>أمثلة</b>تحصيل الطلاب مقابل الطالبات في مقرر علم النفس التربوي؛ الفصل المقلوب مقابل الطريقة التقليدية.</div>`],
+ ["القانون",`<div class="f">t = (x̄1 − x̄2) / √[ s²p (1/n1 + 1/n2) ]<br>s²p = [ (n1−1)s1² + (n2−1)s2² ] / (n1 + n2 − 2) &nbsp;&nbsp; df = n1 + n2 − 2</div>`],
+ ["الشروط السبعة",`<ol><li>حجم العينة أكبر من 30 لكل مجموعة (يُفضل).</li><li>المتغير المستقل يتكون من مجموعتين (فئتين) مستقلتين.</li><li>مستوى قياس المتغير التابع كمي.</li><li>المعاينة العشوائية.</li><li>استقلالية المشاهدات.</li><li>التوزيع الاعتدالي للمتغير التابع.</li><li><b>تجانس التباين</b>: تماثل تشتت درجات المجموعات، ويُفحص <b>باختبار ليفين</b> <span class="ltr">Levene's Test for Equality of Variances</span>.</li></ol><div class="box warn"><b>البديل اللامعلمي</b>Mann–Whitney U test</div>`],
+ ["قراءة اختبار ليفين في SPSS",`${T(["نتيجة ليفين","المعنى","الصف الذي نقرأ منه t"],[["<span class='ltr'>Sig. &gt; .05</span>","التباين متجانس ✔","الصف الأول <span class='ltr'>Equal variances assumed</span>"],["<span class='ltr'>Sig. &lt; .05</span>","التباين غير متجانس ✘","الصف الثاني <span class='ltr'>Equal variances not assumed</span> (تصحيح ويلش)"]])}
+ <div class="box ex"><b>مثال المحاضرة (ttest2.sav)</b>ليفين: <span class="ltr">F = 1.716, p = .196</span> ← غير دالة ← يوجد تجانس ← نعتمد الصف الأول.</div>
+ <div class="apa"><b>صياغة النتيجة:</b> يوضح اختبار ت لعينتين مستقلتين أنه توجد فروق ذات دلالة إحصائية <span class="ltr">(t(50) = −5.641, p &lt; .001, d = −1.56)</span> عند مستوى α = .05 بين الذكور <span class="ltr">(M = 11.92, SD = 1.25)</span> والإناث <span class="ltr">(M = 13.62, SD = .89)</span> لصالح الإناث، وبحجم تأثير كبير.</div>${labLink("ttest/ind","جرّب ت للمستقلتين مع ليفين")}`]
+],quiz:[
+ ["مقارنة تحصيل الذكور والإناث في اختبار واحد تتطلب:",["ت لعينة واحدة","ت لعينتين مستقلتين","ت لعينتين مترابطتين","ارتباط بيرسون"],1,"مجموعتان مختلفتان من الأفراد = مستقلتان."],
+ ["اختبار ليفين يفحص شرط:",["الاعتدالية","تجانس التباين","العشوائية","الاستقلالية"],1,"Levene's Test for Equality of Variances."],
+ ["ليفين Sig. = .012؛ نقرأ نتيجة t من:",["الصف الأول Equal variances assumed","الصف الثاني Equal variances not assumed","لا نقرأ أي صف","جدول Group Statistics"],1,"0.012 < 0.05 ← التباين غير متجانس ← الصف الثاني."],
+ ["البديل اللامعلمي لاختبار ت لعينتين مستقلتين:",["Wilcoxon","Mann–Whitney U","Shapiro–Wilk","Levene"],1,"Mann–Whitney U."],
+ ["d = −1.56 في مثال الذكور والإناث يعني:",["لا يوجد أثر","حجم أثر كبير","حجم أثر صغير","خطأ في الحساب لأنه سالب"],1,"العبرة بالقيمة المطلقة 1.56 > 0.8؛ والإشارة تعني فقط أن المجموعة الثانية أعلى."]
+]},
+{id:"tpaired",u:5,t:"اختبار ت لعينتين مترابطتين",en:"Paired Samples t Test",sec:[
+ ["متى نستخدمه؟",`<p>لمقارنة متوسطي <b>عينتين مترابطتين</b>، أي أن الأشخاص في المجموعة 1 مرتبط اختيارهم بالأشخاص في المجموعة 2.</p>
+ <ul><li><b>قياس قبلي وبعدي</b> على نفس المجموعة: مستوى القلق قبل وبعد برنامج إرشادي، ضغط الدم قبل وبعد فترة.</li><li><b>أزواج مرتبطة</b>: الذكاء بين التوائم، أو بين الأزواج.</li></ul>
+ <div class="f">H0: µD = 0 &nbsp;&nbsp;&nbsp; H1: µD ≠ 0 &nbsp;&nbsp;&nbsp; (µD = µ قبل − µ بعد)</div>`],
+ ["القانون والشروط",`<div class="f">t = D̄ / (s<sub>D</sub> / √n) &nbsp;&nbsp;&nbsp; df = n − 1<small>D = الفرق بين القياسين لكل فرد</small></div>
+ <ol><li>أن يتبع <b>توزيع الفروق بين الدرجات</b> التوزيع الاعتدالي.</li><li>أن يكون المتغير التابع مقاسًا على المستوى الكمي.</li><li>العينة مختارة عشوائيًا.</li></ol><div class="box warn"><b>البديل اللامعلمي</b>Wilcoxon Signed-Rank test</div>`],
+ ["مثال تطبيقي 1: ضغط الدم",`${T(["id","قبل النوم","بعد النوم","الفرق D"],[[1,135,120,15],[2,125,105,20],[3,130,110,20],[4,120,110,10],[5,120,100,20],[6,125,115,10],[7,140,115,25],[8,150,115,35],[9,140,120,20],[10,135,135,0],[11,145,140,5],[12,130,115,15]])}
+ <p>طبيعة البيانات: مجموعتان من المشاهدات <b>لنفس الأشخاص</b> ← اختبار ت لمجموعتين مترابطتين هو المناسب.</p>${labLink("ttest/paired","احسب هذا المثال كاملًا في المعمل")}`],
+ ["مثال تطبيقي 2 وكتابة النتيجة",`<div class="path-crumb"><span>Analyze</span><em>›</em><span>Compare Means</span><em>›</em><span>Paired-Samples T Test</span></div>
+ <div class="apa"><b>صياغة النتيجة:</b> يوضح اختبار ت للعينات المترابطة أنه توجد فروق ذات دلالة إحصائية بين متوسط درجات الطلاب في اللغة الإنجليزية والرياضيات <span class="ltr">(t(397) = 36.313, p &lt; .001, d = 1.82)</span> وبحجم تأثير كبير، حيث كانت درجات اللغة الإنجليزية أعلى بمقدار 17.3 نقطة من درجات الرياضيات.</div>`]
+],quiz:[
+ ["قياس القلق قبل وبعد برنامج إرشادي لنفس الطلاب يتطلب:",["ت لعينتين مستقلتين","ت لعينتين مترابطتين","ت لعينة واحدة","ANOVA"],1,"نفس الأفراد مرتين = مترابطتان."],
+ ["شرط الاعتدالية في ت المترابطتين يُطبق على:",["درجات القياس القبلي فقط","توزيع الفروق بين الدرجات","البعدي فقط","المتغير المستقل"],1,"الاختبار يعمل على الفروق D، فهي التي يجب أن تكون طبيعية."],
+ ["12 شخصًا قيسوا مرتين؛ درجات الحرية =",["24","22","11","12"],2,"df = n − 1 = 11 (عدد الأزواج − 1)."],
+ ["دراسة الذكاء بين التوائم تعتبر عينات:",["مستقلة","مترابطة","عشوائية مستقلة","لا تصلح لاختبار ت"],1,"اختيار الفرد في المجموعة الأولى مرتبط باختيار توأمه."]
+]},
+{id:"anova",u:5,t:"ما بعد ت: ANOVA والارتباط",en:"ANOVA & Correlation",sec:[
+ ["تحليل التباين الأحادي One-Way ANOVA",`<p>لدلالة الفروق بين المتوسطات لـ <b>أكثر من مجموعتين</b> (مثل: مقارنة التحصيل بين ثلاث كليات أو ثلاث طرق تدريس).</p><div class="path-crumb"><span>Analyze</span><em>›</em><span>Compare Means</span><em>›</em><span>One-Way ANOVA</span></div>
+ <div class="box warn"><b>لماذا لا نكرر اختبار ت؟</b>إجراء عدة اختبارات ت يضخّم احتمال الخطأ من النوع الأول؛ لذا نستخدم ANOVA ثم اختبارات المقارنات البعدية (Post Hoc) مثل Tukey أو Scheffe لمعرفة اتجاه الفروق.</div>`],
+ ["الارتباط Correlation",`<p>مقاييس الارتباط تقيس <b>مدى العلاقة التي تربط بين متغيرين</b>. وقيمة المعامل بين −1 و+1.</p>
+ ${T(["الطول","160","164","167","169","170","175"],[["الوزن","56","63","64","65","67","69"]])}
+ <p>كلما زاد الطول زاد الوزن ← علاقة <b>موجبة</b>.</p>
+ ${T(["المعامل","يُستخدم مع"],[["بيرسون Pearson","متغيرين كميين موزعين طبيعيًا"],["سبيرمان Spearman","بيانات رتبية أو غير طبيعية"]])}
+ <div class="path-crumb"><span>Analyze</span><em>›</em><span>Correlate</span><em>›</em><span>Bivariate</span></div><p>ننقل المتغيرين إلى <span class="ltr">Variables</span>، ونختار Pearson و/أو Spearman من صناديق الفحص.</p>
+ <div class="box tip"><b>تفسير تقريبي لقوة العلاقة</b>|r| أقل من 0.3 ضعيفة، 0.3–0.7 متوسطة، أكبر من 0.7 قوية.</div>`]
+],quiz:[
+ ["لمقارنة متوسطات ثلاث مجموعات مستقلة نستخدم:",["ت مستقلتين","One-Way ANOVA","ارتباط بيرسون","ت مترابطتين"],1,"أكثر من مجموعتين = تحليل التباين."],
+ ["معامل ارتباط r = −0.85 يدل على علاقة:",["موجبة قوية","سالبة قوية","ضعيفة","لا علاقة"],1,"الإشارة للاتجاه والقيمة المطلقة للقوة."],
+ ["لبيانات رتبية نستخدم معامل ارتباط:",["بيرسون","سبيرمان","ليفين","كرونباخ"],1,"سبيرمان للرتب."]
+]},
+/* ---------- UNIT 6 ---------- */
+{id:"spss1",u:6,t:"واجهة برنامج SPSS",en:"SPSS Interface",sec:[
+ ["ما هو SPSS؟",`<p><b>SPSS</b> اختصار <span class="ltr">Statistical Package for the Social Sciences</span>، أي <b>الحزمة الإحصائية للعلوم الاجتماعية</b>. ظهرت أول نسخة منه عام <b>1968</b>، ويعتبر من أكثر البرامج استخدامًا لتحليل البيانات في العلوم الاجتماعية والتربية والتسويق، ولتحليل الاستبيانات.</p>`],
+ ["نوافذ البرنامج",`${T(["النافذة","الوظيفة"],[["<span class='ltr'>Data View</span> شاشة البيانات","إدخال البيانات: الصفوف = أفراد العينة (Cases)، والأعمدة = المتغيرات (Variables)"],["<span class='ltr'>Variable View</span> شاشة تعريف المتغيرات","تحديد اسم المتغير ونوعه وحجمه وعنوانه وترميزه ومستوى قياسه"],["<span class='ltr'>Output Navigator</span> المخرجات","تظهر فيها الجداول والرسوم الناتجة عن التحليل"],["<span class='ltr'>Command / Syntax</span> لائحة الأوامر","كتابة الأوامر وحفظها"]])}
+ <p>بمجرد تشغيل البرنامج والضغط على <span class="ltr">Cancel</span> ندخل محرر البيانات. للتنقل نضغط <span class="ltr">Data View</span> و<span class="ltr">Variable View</span> أسفل الشاشة. والخانة المتروكة فارغة تظهر كنقطة وتعتبر قيمة مفقودة <span class="ltr">Missing</span>. ولا ننسى حفظ الملف بعد الإدخال (امتداده <span class="ltr">.sav</span>).</p>${labLink("spss","افتح محاكي SPSS")}`]
+],quiz:[
+ ["في Data View، الصفوف تمثل:",["المتغيرات","أفراد العينة (الحالات)","الرسوم","الأوامر"],1,"صف لكل فرد، وعمود لكل متغير."],
+ ["تعريف ترميز المتغير يتم في:",["Data View","Variable View","Output","Syntax"],1,"من عمود Values في Variable View."],
+ ["ظهرت أول نسخة من SPSS عام:",["1958","1968","1988","2000"],1,"عام 1968."]
+]},
+{id:"spss2",u:6,t:"تعريف المتغيرات (Variable View)",en:"Defining Variables",sec:[
+ ["أعمدة شاشة المتغيرات",`${T(["العمود","معناه"],[["Name","اسم المتغير (بدون مسافات ويبدأ بحرف)"],["Type","نوع المتغير: Numeric رقمي، String نصي…"],["Width","عدد أحرف/أرقام المتغير"],["Decimals","عدد الأرقام العشرية"],["Label","وصف المتغير (يظهر في المخرجات)"],["Values","قيم فئات المتغير — الترميز: نكتب القيمة والوصف ثم Add"],["Missing","قيم المتروك (المفقودة)"],["Columns","عرض العمود"],["Align","محاذاة النص"],["Measure","مستوى القياس: Scale / Ordinal / Nominal"]].map(r=>[`<span class="ltr"><b>${r[0]}</b></span>`,r[1]]))}`],
+ ["الترميز Values",`<p>نرمّز المتغيرات النوعية بأرقام ونعرّف معنى كل رقم:</p>${T(["Value","Label"],[["1","ذكر"],["2","أنثى"]])}<p>ثم نختار في Measure: <span class="ltr">Nominal</span>. ولعرض التسميات بدل الأرقام في شاشة البيانات نستخدم زر <span class="ltr">Value Labels</span>.</p>`],
+ ["التدريب الأول",`<p>كيف نضع هذه البيانات في SPSS ونحفظها باسم «تدريب رقم 1»؟</p>${T(["الاسم","النوع","التخصص","درجة الاختبار الأول","درجة الاختبار الثاني"],[["محمد القحطاني","ذكر","لغة عربية","13","14"],["علي الغامدي","ذكر","دراسات","8","12"],["طارق محمد","ذكر","لغة إنجليزية","14","13"],["لمياء القحطاني","أنثى","رياضيات","9","10"],["سارة الحربي","أنثى","لغة عربية","10","14"],["نورة القحطاني","أنثى","لغة عربية","13","11"]])}
+ <div class="box tip"><b>الحل</b>5 متغيرات: name (String)، gender (Numeric، ترميز 1/2، Nominal)، major (Numeric، ترميز 1–4، Nominal)، test1 و test2 (Numeric، Scale). جرّب الحل الجاهز في محاكي SPSS.</div>${labLink("spss","افتح التدريب في المحاكي")}`]
+],quiz:[
+ ["لتعريف أن 1 = ذكر و2 = أنثى نستخدم عمود:",["Label","Values","Type","Measure"],1,"Values ثم نكتب القيمة والوصف ونضغط Add."],
+ ["متغير «درجة الاختبار» في عمود Measure يكون:",["Nominal","Ordinal","Scale","String"],2,"درجات كمية ← Scale."],
+ ["لكتابة أسماء الطلاب نختار Type:",["Numeric","String","Date","Dollar"],1,"البيانات النصية = String."],
+ ["العمود الذي يكتب فيه وصف المتغير ليظهر في المخرجات:",["Name","Label","Values","Align"],1,"Label هو العنوان الوصفي."]
+]},
+{id:"spss3",u:6,t:"إدارة البيانات وقوائم التحليل",en:"Data Management & Analyze Menu",sec:[
+ ["قائمة Edit وإدارة الحالات والمتغيرات",`${T(["الأمر","الوظيفة"],[["Cut","قص البيانات ولصقها في مكان آخر أو التخلص منها"],["Copy / Paste","نسخ البيانات ولصقها مع بقاء الأصل"],["Clear","مسح البيانات كاملة أو جزء محدد"],["Undo","التراجع عن آخر عمل"],["Insert Variable / Insert Cases","إدراج متغير أو حالة جديدة"],["Find / Go to Case","البحث عن البيانات أو الانتقال لحالة معينة"]].map(r=>[`<span class="ltr">${r[0]}</span>`,r[1]]))}
+ <h4>قائمة Data</h4>${T(["الأمر","الوظيفة"],[["Transpose","تحويل الصفوف إلى أعمدة والعكس"],["Merge Files → Add Cases","دمج ملفين بنفس المتغيرات لكن حالات مختلفة"],["Merge Files → Add Variables","دمج ملفين بنفس الحالات لكن متغيرات مختلفة"]].map(r=>[`<span class="ltr">${r[0]}</span>`,r[1]]))}`],
+ ["أهم المؤشرات التي يحتاجها الباحث",`${T(["المؤشر","مساره في SPSS"],[["التكرارات والنسب المئوية","Analyze › Descriptive Statistics › Frequencies"],["المتوسط والانحراف المعياري","Analyze › Descriptive Statistics › Descriptives (ثم Options)"],["فحص البيانات والاعتدالية","Analyze › Descriptive Statistics › Explore"],["ت لعينة واحدة","Analyze › Compare Means › One-Sample T Test"],["ت لعينتين مستقلتين","Analyze › Compare Means › Independent-Samples T Test"],["ت لعينتين مترابطتين","Analyze › Compare Means › Paired-Samples T Test"],["تحليل التباين","Analyze › Compare Means › One-Way ANOVA"],["معامل الارتباط","Analyze › Correlate › Bivariate"]].map(r=>[r[0],`<span class="ltr">${r[1]}</span>`]))}`],
+ ["أمر Explore",`<p>يستخدم للتحقق من الخطوة الأساسية قبل إجراء التحليلات الإحصائية:</p><ol><li>فحص البيانات.</li><li>محاولة تصحيح الأخطاء إن وجدت.</li><li>اكتشاف إذا كانت هناك أرقام شاذة في البيانات.</li><li>عمل رسومات توضح شكل توزيع المتغيرات.</li><li>اختبار التوزيع الطبيعي (Shapiro–Wilk، Lilliefors).</li><li>التحقق من شرط تجانس التباين الضروري لتحليل التباين.</li></ol>`]
+],quiz:[
+ ["لدمج ملفين بهما نفس الطلاب ولكن متغيرات مختلفة:",["Add Cases","Add Variables","Transpose","Split File"],1,"Add Variables: نفس الحالات، متغيرات مختلفة."],
+ ["لفحص الاعتدالية واكتشاف القيم الشاذة نستخدم:",["Frequencies","Explore","Correlate","Transpose"],1,"Explore يعطي اختبارات الاعتدالية والرسوم والقيم المتطرفة."],
+ ["مسار اختبار ت للعينات المترابطة:",["Analyze › Correlate › Bivariate","Analyze › Compare Means › Paired-Samples T Test","Data › Transpose","Analyze › Descriptive › Explore"],1,"كل اختبارات ت وANOVA تحت Compare Means."]
+]},
+{id:"spss4",u:6,t:"قراءة جدول الإحصاء الوصفي",en:"Reading Descriptive Statistics Output",sec:[
+ ["الجدول",`<p>جدول <span class="ltr">Descriptive Statistics</span> من SPSS لمتغيرين: النوع والعمر، على عينة حجمها 100.</p><div class="otwrap">${descTable()}</div><p class="muted">اضغط أي عنوان عمود في المحاكي لترى معناه.</p>${labLink("spss/out","افتح الجدول التفاعلي")}`],
+ ["متغير النوع",`<ul><li>المتغير مرمّز: 1 = ذكر و2 = أنثى.</li><li>المجموع = 140 والمتوسط = 1.40، أي 60 شخصًا كودهم 1 و40 كودهم 2 (لأن 60×1 + 40×2 = 140) ← 60% و40%.</li><li>المتوسط والانحراف المعياري لمتغير فئوي <b>ليس لهما معنى تفسيري</b>؛ الأفضل استخدام التكرارات والنسب (Frequencies).</li><li>التفلطح السالب الكبير (−1.866) طبيعي في المتغيرات الثنائية.</li></ul>`],
+ ["متغير العمر",`<ul><li>أصغر عمر 36 وأكبر عمر 68، والمدى 32 سنة.</li><li>متوسط العمر ≈ 47.53 سنة.</li><li>الانحراف المعياري ≈ 7.61: معظم الأعمار تتراوح تقريبًا بين 40 و55 سنة (المتوسط ± انحراف معياري).</li><li>الخطأ المعياري 0.76: متوسط العينة قريب من متوسط المجتمع بهامش صغير.</li><li>الالتواء 0.394: التواء موجب خفيف في الحدود المقبولة.</li><li>التفلطح −0.128: قريب جدًا من الصفر ← شكل قريب من الطبيعي.</li></ul>
+ ${T(["الحساب","النتيجة","الحد المقبول"],[["الالتواء: 0.394 ÷ 0.241","≈ 1.63","أقل من ±1.96 ✔"],["التفلطح: −0.128 ÷ 0.478","≈ −0.27","أقل من ±1.96 ✔"]])}`],
+ ["كتابتها في البحث",`<div class="apa"><b>نموذج:</b> بلغ حجم العينة (ن = 100)، منهم 60% ذكور و40% إناث. تراوحت أعمار المشاركين بين 36 و68 عامًا بمتوسط حسابي 47.53 وانحراف معياري 7.61، وكان توزيع العمر قريبًا من الاعتدالي (الالتواء = 0.39، التفلطح = −0.13).</div>`]
+],quiz:[
+ ["Valid N (listwise) = 100 يعني:",["عدد المتغيرات","عدد الحالات ذات البيانات الكاملة في كل المتغيرات","عدد الذكور","مجموع القيم"],1,"لا توجد بيانات ناقصة."],
+ ["متوسط متغير النوع = 1.40 (1 ذكر، 2 أنثى)، فنسبة الإناث:",["14%","40%","60%","1.4%"],1,"المتوسط − 1 = 0.40 ← 40% كودهم 2."],
+ ["المتوسط 47.53 والانحراف المعياري 7.61؛ معظم الأعمار تقع تقريبًا بين:",["36 و68","40 و55","47 و48","30 و60"],1,"47.53 ± 7.61 ≈ 40 إلى 55."],
+ ["Std. Error في الجدول يعبر عن:",["تشتت القيم","دقة تقدير المتوسط","عدد الأخطاء","الالتواء"],1,"كلما قل الخطأ المعياري كان تقدير متوسط المجتمع أدق."]
+]}
+];
+function descTable(){return `<table class="otbl" id="dtbl"><caption>Descriptive Statistics</caption><thead><tr><th></th>${["N","Range","Minimum","Maximum","Sum","Mean","Std. Error","Std. Deviation","Skewness","Std. Error ","Kurtosis","Std. Error  "].map(h=>`<th data-k="${h.trim()}${h.endsWith("  ")?"K":h.endsWith(" ")?"S":""}">${h.trim()}</th>`).join("")}</tr></thead><tbody>
+<tr><th>النوع</th><td>100</td><td>1</td><td>1</td><td>2</td><td>140</td><td>1.40</td><td>.049</td><td>.492</td><td>.414</td><td>.241</td><td>-1.866</td><td>.478</td></tr>
+<tr><th>العمر</th><td>100</td><td>32</td><td>36</td><td>68</td><td>4753</td><td>47.53</td><td>.761</td><td>7.611</td><td>.394</td><td>.241</td><td>-.128</td><td>.478</td></tr>
+<tr><th data-k="Valid">Valid N (listwise)</th><td>100</td><td colspan="11"></td></tr></tbody></table>`}
+const DESC_EXPL={N:"عدد المشاركين (حجم العينة).",Range:"المدى = أكبر قيمة − أصغر قيمة. العمر: 68 − 36 = 32.",Minimum:"أقل قيمة.",Maximum:"أكبر قيمة.",Sum:"مجموع كل القيم. للنوع 140 = 60×1 + 40×2.",Mean:"المتوسط الحسابي = Sum ÷ N. العمر: 4753 ÷ 100 = 47.53.","Std. Error":"الخطأ المعياري للمتوسط = الانحراف المعياري ÷ √N (7.611 ÷ 10 = .761)؛ كلما قلّ كان تقدير متوسط المجتمع أدق.","Std. Deviation":"الانحراف المعياري: مدى تشتت القيم حول المتوسط.",Skewness:"الالتواء: هل التوزيع متماثل أم مائل؟ العمر .394 = التواء موجب خفيف.","Std. ErrorS":"الخطأ المعياري للالتواء. نقسم عليه: .394 ÷ .241 = 1.63 < 1.96 ← مقبول.",Kurtosis:"التفلطح: هل التوزيع مدبب أم مفلطح مقارنة بالطبيعي؟ العمر −.128 ≈ صفر.","Std. ErrorK":"الخطأ المعياري للتفلطح. نقسم عليه: −.128 ÷ .478 = −0.27 ← مقبول.",Valid:"عدد الحالات التي لها بيانات كاملة في كل المتغيرات (هنا 100، أي لا توجد بيانات ناقصة)."};
+
+const GLOSS=[
+["الإحصاء الوصفي","Descriptive Statistics","جمع البيانات وتنظيمها وعرضها وحساب مقاييس تبرز خصائصها."],
+["الإحصاء الاستدلالي","Inferential Statistics","تعميم النتائج من العينة إلى المجتمع باختبارات الفروض."],
+["المعلمة","Parameter","قيمة تصف المجتمع كله مثل µ و σ."],
+["الإحصاءة","Statistic","قيمة تُحسب من العينة مثل x̄ و s."],
+["المستوى الاسمي","Nominal","أرقام للتصنيف فقط بلا ترتيب، مثل النوع."],
+["المستوى الرتبي","Ordinal","فئات مرتبة بمسافات غير متساوية، مثل التقدير."],
+["المستوى الفئوي","Interval","مسافات متساوية وصفر اعتباري، مثل الحرارة المئوية."],
+["المستوى النسبي","Ratio","مسافات متساوية وصفر حقيقي، مثل الوزن."],
+["الصدق","Validity","أن يقيس الاختبار ما وُضع لقياسه."],
+["الثبات","Reliability","أن يعطي الاختبار النتائج نفسها عند إعادة تطبيقه في الظروف نفسها."],
+["ألفا كرونباخ","Cronbach's alpha","معامل الاتساق الداخلي بين عناصر الأداة؛ المقبول ≥ 0.70."],
+["الجدول التكراري","Frequency Distribution","جدول يبين عدد مرات تكرار كل قيمة أو فئة."],
+["المدرج التكراري","Histogram","أعمدة متلاصقة لعرض توزيع متغير كمي."],
+["الالتواء","Skewness","درجة البعد عن التماثل؛ موجب = ذيل لليمين."],
+["التفلطح","Kurtosis","درجة تدبب أو انبساط قمة التوزيع."],
+["المتوسط الحسابي","Mean","مجموع القيم ÷ عددها؛ يتأثر بالقيم الشاذة."],
+["الوسيط","Median","القيمة التي تقسم البيانات المرتبة إلى نصفين متساويين."],
+["المنوال","Mode","القيمة الأكثر تكرارًا؛ يصلح لكل المستويات."],
+["الربيعيات","Quartiles","Q1، Q2، Q3 تقسم البيانات المرتبة إلى أربعة أجزاء متساوية."],
+["المئينيات","Percentiles","قيم تقسم البيانات إلى 100 جزء متساوٍ."],
+["المدى","Range","أكبر قيمة − أصغر قيمة."],
+["نصف المدى الربيعي","Semi-Interquartile Range","(Q3 − Q1) ÷ 2."],
+["التباين","Variance","متوسط مربعات انحرافات القيم عن متوسطها؛ s²."],
+["الانحراف المعياري","Standard Deviation","الجذر التربيعي للتباين؛ بوحدة البيانات الأصلية."],
+["معامل الاختلاف","Coefficient of Variation","(s ÷ x̄) × 100؛ مقياس تشتت نسبي بلا وحدة."],
+["الخطأ المعياري","Standard Error","s ÷ √n؛ دقة تقدير متوسط المجتمع."],
+["التوزيع الطبيعي","Normal Distribution","توزيع متماثل جرسي يتساوى فيه المتوسط والوسيط والمنوال."],
+["الفرض الصفري","Null Hypothesis H0","فرض ينفي وجود فرق أو علاقة."],
+["مستوى الدلالة","Significance level α","أعلى نسبة خطأ من النوع الأول يقبلها الباحث، عادة 0.05."],
+["درجات الحرية","Degrees of freedom","df؛ تُكتب في التقرير بدل حجم العينة."],
+["حجم الأثر","Effect size (Cohen's d)","حجم الفرق عمليًا: 0.2 صغير، 0.5 متوسط، 0.8 كبير."],
+["اختبار ليفين","Levene's Test","يفحص تجانس التباين بين المجموعات؛ p > .05 = متجانس."],
+["شابيرو–ويلك","Shapiro–Wilk","اختبار للاعتدالية؛ p > .05 = البيانات طبيعية."],
+["مان–ويتني","Mann–Whitney U","البديل اللامعلمي لـ ت لعينتين مستقلتين."],
+["ويلكوكسون","Wilcoxon Signed-Rank","البديل اللامعلمي لـ ت لعينة واحدة أو مترابطتين."],
+["تحليل التباين الأحادي","One-Way ANOVA","مقارنة متوسطات أكثر من مجموعتين مستقلتين."],
+["معامل الارتباط","Correlation coefficient","قيمة بين −1 و+1 تصف قوة واتجاه العلاقة."],
+["Variable View","Variable View","شاشة تعريف المتغيرات في SPSS."],
+["Data View","Data View","شاشة إدخال البيانات: صفوف للحالات وأعمدة للمتغيرات."]
+];
+
+/* ========== ROUTER ========== */
+const view=$("#view");
+function go(h){location.hash=h}
+window.addEventListener("hashchange",route);
+function setTab(t){$$(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t))}
+$$(".tab").forEach(b=>b.onclick=()=>go(b.dataset.tab));
+function route(){
+ const h=(location.hash||"#path").slice(1).split("/");
+ window.scrollTo(0,0);
+ if(h[0]==="lesson"){setTab("path");return renderLesson(h[1])}
+ if(h[0]==="lab"){setTab("lab");return h[1]?renderLab(h[1],h[2]):renderLabs()}
+ if(h[0]==="spss"){setTab("spss");return renderSpss(h[1])}
+ if(h[0]==="practice"){setTab("practice");return renderPractice()}
+ if(h[0]==="me"){setTab("me");return renderMe()}
+ if(h[0]==="stats"){setTab("stats");return renderStats()}
+ if(h[0]==="all"){setTab("path");return renderAll()}
+ setTab("path");renderPath();
+}
+
+/* ========== PATH ========== */
+function ring(p){const r=44,c=2*Math.PI*r;return `<div class="ring"><svg viewBox="0 0 104 104"><circle cx="52" cy="52" r="${r}" fill="none" stroke="var(--gray-soft)" stroke-width="10"/><circle cx="52" cy="52" r="${r}" fill="none" stroke="var(--good)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}"/></svg><div class="c"><b>${Math.round(p*100)}%</b><small>مكتمل</small></div></div>`}
+function renderPath(){
+ const done=LESSONS.filter(l=>S.done[l.id]).length;const cur=LESSONS.find(l=>!S.done[l.id]);
+ let h=`<section class="hero">${ring(done/LESSONS.length)}<div><h1>مختبر الإحصاء النفسي</h1><p>${LESSONS.length} درسًا تفاعليًا من محاضرات المادة، مع معامل حسابية تشرح الحل خطوة بخطوة، ومحاكي لبرنامج SPSS، واختبارات تدريبية.</p><div class="row">${cur?`<button class="btn" onclick="go('lesson/${cur.id}')">${done?"أكمل":"ابدأ"}: ${cur.t}</button>`:`<button class="btn gold" onclick="go('practice')">راجع بالاختبار الشامل</button>`}<button class="btn ghost" onclick="go('all')">افتح كل الدروس مرة واحدة</button><button class="btn ghost" onclick="go('lab')">المعامل الحسابية</button></div></div></section>`;
+ UNITS.forEach(u=>{h+=`<div class="unit"><div class="n">${u.n}</div><div><b>${u.t}</b><small>${u.s}</small></div></div>`;
+  LESSONS.filter(l=>l.u===u.n).forEach(l=>{const i=LESSONS.indexOf(l)+1;const d=S.done[l.id];const best=S.done[l.id]?.score;
+   h+=`<button class="node ${d?"done":""} ${cur===l?"current":""}" onclick="go('lesson/${l.id}')"><div class="disc">${d?ICON.check:i}</div><div class="meta"><b>${l.t}</b><small>${l.sec.length} أقسام · ${l.quiz.length} أسئلة${d?` · أفضل نتيجة ${best}/${l.quiz.length}`:""}</small></div></button>`})});
+ view.innerHTML=h;
+}
+
+/* ========== LESSON ========== */
+function renderLesson(id){
+ const L=LESSONS.find(l=>l.id===id);if(!L)return go("path");const i=LESSONS.indexOf(L);const nx=LESSONS[i+1],pv=LESSONS[i-1];
+ S.read[id]=S.read[id]||[];
+ let h=`<div class="row" style="justify-content:space-between;margin-bottom:10px"><button class="back" style="margin:0" onclick="go('path')">${ICON.back} الدروس</button><button class="btn sm ghost" id="expAll">افتح كل الأقسام</button></div><div class="lhead"><span class="chip">الوحدة ${L.u} · الدرس ${i+1}</span><h2>${L.t}</h2><div class="en">${L.en}</div></div>`;
+ L.sec.forEach((s,k)=>{const r=S.read[id].includes(k);h+=`<div class="sec ${r?"read":""} ${k===0?"open":""}" data-k="${k}"><button aria-expanded="${k===0}"><span class="ck">${ICON.check}</span><span class="t">${s[0]}</span><span class="arr">${ICON.arr}</span></button><div class="body prose" ${k===0?"":"hidden"}>${s[1]}</div></div>`});
+ h+=`<div class="lfoot"><button class="btn gold" id="qBtn">اختبر نفسك (${L.quiz.length} أسئلة)</button>${nx?`<button class="btn ghost" onclick="go('lesson/${nx.id}')">التالي ←</button>`:""}${pv?`<button class="btn ghost" onclick="go('lesson/${pv.id}')">→ السابق</button>`:""}</div>`;
+ view.innerHTML=h;
+ const mark=k=>{if(!S.read[id].includes(k)){S.read[id].push(k);save()}$(`.sec[data-k="${k}"]`).classList.add("read")};
+ mark(0);
+ $$(".sec>button").forEach(b=>b.onclick=()=>{const s=b.parentElement,open=!s.classList.contains("open");s.classList.toggle("open",open);b.setAttribute("aria-expanded",open);s.querySelector(".body").hidden=!open;if(open)mark(+s.dataset.k)});
+ $("#expAll").onclick=()=>{const all=$$(".sec").every(s=>s.classList.contains("open"));$$(".sec").forEach(s=>{s.classList.toggle("open",!all);s.querySelector("button").setAttribute("aria-expanded",!all);s.querySelector(".body").hidden=all;if(!all)mark(+s.dataset.k)});$("#expAll").textContent=all?"افتح كل الأقسام":"اطوِ كل الأقسام"};
+ $("#qBtn").onclick=()=>startQuiz(L.quiz.map(q=>({...arr2q(q),src:L.t})),{title:L.t,onDone:(sc,n)=>{const prev=S.done[id]?.score||0;if(sc/n>=0.6){S.done[id]={score:Math.max(prev,sc)};save();renderBar();syncProgress()}}});
+}
+function renderAll(){
+ let h=`<div class="row" style="justify-content:space-between;margin-bottom:10px"><button class="back" style="margin:0" onclick="go('path')">${ICON.back} الدروس</button><button class="btn sm ghost" onclick="window.print()">طباعة / حفظ PDF</button></div><div class="lhead"><h2>كل الدروس في صفحة واحدة</h2><p class="muted" style="margin:0">${LESSONS.length} درسًا مفتوحة بالكامل للمراجعة السريعة.</p></div>`;
+ UNITS.forEach(u=>{h+=`<div class="unit"><div class="n">${u.n}</div><div><b>${u.t}</b><small>${u.s}</small></div></div>`;
+  LESSONS.filter(l=>l.u===u.n).forEach(l=>{h+=`<div class="panel"><h3>${l.t} <span class="en">${l.en}</span></h3>${l.sec.map(s=>`<h4 style="color:var(--teal);margin:14px 0 4px">${s[0]}</h4><div class="prose">${s[1]}</div>`).join("")}<div class="row" style="margin-top:10px"><button class="btn sm gold" onclick="go('lesson/${l.id}')">اختبر نفسك في هذا الدرس</button></div></div>`})});
+ view.innerHTML=h;
+}
+
+/* ========== OWNER-ONLY VISITOR ANALYTICS ========== */
+const AN={db:null,user:null,uid:null,owner:false,busy:false};
+async function initAnalytics(){
+ if(!window.claude||typeof window.claude.use!=="function")return;
+ try{
+  const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);AN.db=db;AN.user=user;if(!user)return;
+  AN.owner=await user.isOwner();if(AN.owner){$("#statsTab").hidden=false;if(location.hash==="#stats")route()}
+  if(!db)return;const uid=await user.id();if(!uid)return;AN.uid=uid;
+  const ref=db.doc("analytics/"+uid);let d={};try{const s=await ref.get();if(s.exists)d=s.data()||{}}catch(e){}
+  const now=Date.now();AN.busy=true;
+  try{await ref.set({visits:(d.visits||0)+1,first:d.first||now,last:now,done:LESSONS.filter(l=>S.done[l.id]).length,xp:S.xp,answered:S.answered,correct:S.correct})}catch(e){}
+  AN.busy=false;
+ }catch(e){}
+}
+async function syncProgress(){
+ if(!AN.db||!AN.uid||AN.busy)return;AN.busy=true;
+ try{await AN.db.doc("analytics/"+AN.uid).update({done:LESSONS.filter(l=>S.done[l.id]).length,xp:S.xp,answered:S.answered,correct:S.correct,last:Date.now()})}catch(e){}
+ AN.busy=false;
+}
+function ago(t){const m=Math.round((Date.now()-t)/60000);if(m<1)return"الآن";if(m<60)return"منذ "+m+" دقيقة";const h=Math.round(m/60);if(h<24)return"منذ "+h+" ساعة";const d=Math.round(h/24);return"منذ "+d+" يوم"}
+async function renderStats(){
+ if(!AN.owner){view.innerHTML=`<div class="panel muted">هذه الصفحة متاحة لصاحب الموقع فقط.</div>`;return}
+ view.innerHTML=`<div class="panel"><h3>زوار الموقع <span class="chip">تظهر لك أنت فقط</span></h3><p class="muted" style="margin:0">جارٍ التحميل…</p></div>`;
+ let docs=[];try{const s=await AN.db.collection("analytics").orderBy("last","desc").limit(500).get();docs=s.docs.map(x=>({id:x.id,...x.data()}))}catch(e){view.innerHTML=`<div class="panel verdict no">تعذر تحميل البيانات الآن. حاول مرة أخرى.</div>`;return}
+ if(!location.hash.startsWith("#stats"))return;
+ const ps=docs.length?await AN.user.profiles(docs.map(d=>d.id)):{};
+ const tot=docs.reduce((s,d)=>s+(d.visits||0),0),dayAgo=Date.now()-864e5,today=docs.filter(d=>d.last>dayAgo).length,others=docs.filter(d=>!ps[d.id]?.isMe);
+ const rows=docs.map(d=>{const p=ps[d.id]||{};const acc=d.answered?Math.round(d.correct/d.answered*100)+"%":"—";return `<tr><td><span class="row" style="gap:8px;flex-wrap:nowrap"><img src="${esc(p.avatarUrl||"")}" alt="" width="28" height="28" style="border-radius:50%;flex:none">${esc(p.name||"زائر")}${p.isMe?' <span class="chip">أنت</span>':""}</span></td><td class="n">${d.visits||0}</td><td>${ago(d.last)}</td><td>${new Date(d.first).toLocaleDateString("ar-EG")}</td><td class="n">${d.done||0}/${LESSONS.length}</td><td class="n">${d.xp||0}</td><td class="n">${acc}</td></tr>`}).join("");
+ view.innerHTML=`<div class="panel"><h3>زوار الموقع <span class="chip">تظهر لك أنت فقط</span></h3><div class="kpis"><div class="kpi hl"><small>عدد الزوار (غيرك)</small><b>${others.length}</b></div><div class="kpi hl"><small>إجمالي مرات الدخول</small><b>${tot}</b></div><div class="kpi"><small>دخلوا آخر 24 ساعة</small><b>${today}</b></div></div></div>
+ <div class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">مين دخل وكام مرة</h3><button class="btn sm ghost" onclick="renderStats()">تحديث</button></div>${docs.length?`<div class="tw"><table><thead><tr><th>الزائر</th><th>مرات الدخول</th><th>آخر دخول</th><th>أول دخول</th><th>الدروس</th><th>النقاط</th><th>دقة الإجابات</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<p class="muted">لم يدخل أحد بعد.</p>`}
+ <p class="muted" style="font-size:14px;margin-bottom:0">يُحسب الزائر عند فتح الموقع وهو مسجّل الدخول في Claude. كل فتح أو تحديث للصفحة = مرة دخول.</p></div>`;
+}
+const arr2q=a=>({q:a[0],o:a[1],a:a[2],w:a[3]});
+
+/* ========== QUIZ ENGINE ========== */
+const ov=$("#ov"),ovIn=$("#ovIn");
+function closeOv(){ov.hidden=true;document.body.style.overflow="";clearInterval(window._tm);route()}
+function startQuiz(qs,opt={}){
+ qs=qs.map(q=>{const idx=shuffle(q.o.map((_,i)=>i));return{...q,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a)}});
+ let i=0,score=0,streak=0,best=0,wrong=[];const t0=Date.now();let left=opt.time||0;
+ ov.hidden=false;document.body.style.overflow="hidden";
+ if(opt.time){clearInterval(window._tm);window._tm=setInterval(()=>{left--;const el=$("#tmr");if(el)el.textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");if(left<=0){clearInterval(window._tm);finish()}},1000)}
+ function show(){const q=qs[i];
+  ovIn.innerHTML=`<div class="qtop"><button class="x" aria-label="إغلاق" id="qx">${ICON.x}</button><div class="qprog"><i style="width:${i/qs.length*100}%"></i></div>${opt.time?`<span class="timer" id="tmr">${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}</span>`:`<span class="num muted">${i+1}/${qs.length}</span>`}</div>
+  <div class="qkind">${opt.title||"سؤال"}${q.src&&q.src!==opt.title?` · <span class="muted">${q.src}</span>`:""}</div><div class="qtext">${q.q}</div>
+  <div class="opts">${q.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${"أبجد"[k]}</span><span>${o}</span></button>`).join("")}</div><div class="sheet" id="sh"></div>`;
+  $("#qx").onclick=closeOv;
+  $$(".opt",ovIn).forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+ }
+ function answer(k){const q=qs[i];const ok=k===q.a;$$(".opt",ovIn).forEach(b=>{b.disabled=true;const kk=+b.dataset.k;if(kk===q.a)b.classList.add("ok");else if(kk===k)b.classList.add("no")});
+  S.answered++;if(ok){score++;streak++;best=Math.max(best,streak);S.correct++}else{streak=0;wrong.push(q)}save();
+  $("#sh").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?(streak>=3?"رائع! "+streak+" إجابات متتالية":"إجابة صحيحة"):"إجابة غير صحيحة"}</b>${q.w||""}</div><button class="btn ${ok?"":"ghost"}" id="nx">${i+1<qs.length?"التالي":"النتيجة"}</button>`;
+  $("#nx").focus();$("#nx").onclick=()=>{i++;i<qs.length?show():finish()};
+ }
+ function finish(){clearInterval(window._tm);const n=qs.length,pct=score/n;const xp=score*10+(pct===1?20:0);addXp(xp);S.quizzes++;save();
+  opt.onDone&&opt.onDone(score,n,(Date.now()-t0)/1000);
+  ovIn.innerHTML=`<div class="result"><div style="font-size:54px">${pct===1?"🏆":pct>=.6?"🎉":"💪"}</div><h2>${pct===1?"علامة كاملة!":pct>=.6?"أحسنت!":"استمر في المحاولة"}</h2>
+  <div class="tiles"><div class="tile" style="--c:var(--good)"><small>الصحيح</small><b>${score}/${n}</b></div><div class="tile" style="--c:var(--gold)"><small>النقاط</small><b>+${xp}</b></div><div class="tile" style="--c:var(--orange)"><small>أطول سلسلة</small><b>${best}</b></div></div>
+  ${pct<.6&&!opt.exam?`<p class="muted">تحتاج 60% على الأقل لإكمال الدرس.</p>`:""}
+  ${wrong.length?`<details class="steps" style="width:100%;text-align:start"><summary>راجع أخطاءك (${wrong.length})</summary>${wrong.map(q=>`<p><b>${q.q}</b><br>✔ ${q.o[q.a]}<br><span class="muted">${q.w||""}</span></p>`).join("")}</details>`:""}
+  <div class="row" style="justify-content:center"><button class="btn" id="rdone">متابعة</button>${wrong.length?`<button class="btn ghost" id="rwrong">أعد الأسئلة الخاطئة</button>`:""}</div></div>`;
+  $("#rdone").onclick=closeOv;if(wrong.length)$("#rwrong").onclick=()=>startQuiz(wrong.map(q=>({...q})),{title:"مراجعة الأخطاء"});
+ }
+ show();
+}
+
+/* ========== LABS ========== */
+const LABS=[
+ ["desc","معمل الإحصاء الوصفي","أدخل بياناتك: جدول تكراري، متوسط، وسيط، منوال، ربيعيات، تباين وانحراف معياري — مع خطوات الحل والرسوم.",ICON.calc,"var(--teal)","var(--teal-soft)"],
+ ["ttest","معمل اختبارات ت","عينة واحدة، مستقلتان (مع ليفين)، مترابطتان: قيمة t ودرجات الحرية والدلالة وحجم الأثر وصياغة النتيجة جاهزة.",ICON.tt,"var(--orange)","var(--orange-soft)"],
+ ["normal","معمل التوزيع الطبيعي","حوّل الدرجة إلى z ومئين، وافحص الاعتدالية بقسمة الالتواء والتفلطح على الخطأ المعياري.",ICON.bell,"var(--good)","var(--good-soft)"],
+ ["chooser","مُرشد اختيار الاختبار","أجب عن 3 أسئلة بسيطة لتعرف الاختبار الإحصائي المناسب لبحثك ومساره في SPSS.",ICON.tree,"var(--violet)","var(--violet-soft)"]
+];
+function renderLabs(){view.innerHTML=`<div class="panel"><h3>المعامل التفاعلية</h3><p class="muted" style="margin:0">كل معمل يحسب لك النتيجة ويشرح كيف وصل إليها، بنفس طريقة المحاضرات وبنفس قوانين SPSS.</p></div><div class="pgrid">${LABS.map(l=>`<button class="pcard" style="--c:${l[4]};--s:${l[5]}" onclick="go('lab/${l[0]}')"><div class="ic">${l[3]}</div><b>${l[1]}</b><span>${l[2]}</span></button>`).join("")}</div>`}
+function labHead(t){return `<button class="back" onclick="go('lab')">${ICON.back} المعامل</button><h2 style="margin:0 0 12px">${t}</h2>`}
+function renderLab(k,sub){labUse(k);({desc:labDesc,ttest:labT,normal:labNormal,chooser:labChooser}[k]||renderLabs)(sub)}
+
+/* --- descriptive lab --- */
+const DESC_PRESETS=[["محاضرة: 20 درجة","3 5 1 4 2 3 5 1 4 2 3 5 1 4 2 3 5 1 4 2"],["محاضرة: الوسيط","27 12 15 300 22 18 14 24 17"],["محاضرة: الربيعيات","100 150 200 50 160 300 250"],["محاضرة: التباين","2 4 5 8 1"],["أوزان 7 أشخاص","25 30 40 45 35 55 50"],["منوالان","2 3 4 4 4 5 5 7 7 7 9"]];
+function labDesc(){
+ view.innerHTML=labHead("معمل الإحصاء الوصفي")+`<div class="panel"><label class="fl" for="dIn">البيانات (افصل بين القيم بمسافة أو فاصلة — تقبل الأرقام العربية)</label><textarea id="dIn">3 5 1 4 2 3 5 1 4 2 3 5 1 4 2 3 5 1 4 2</textarea><div class="row" style="margin-top:8px">${DESC_PRESETS.map((p,i)=>`<button class="btn sm ghost" data-p="${i}">${p[0]}</button>`).join("")}</div></div><div id="dOut"></div>`;
+ const inp=$("#dIn");$$("[data-p]").forEach(b=>b.onclick=()=>{inp.value=DESC_PRESETS[b.dataset.p][1];run()});inp.oninput=run;run();
+ function run(){const a=ST.parse(inp.value),o=$("#dOut");if(a.length<2){o.innerHTML=`<div class="panel muted">أدخل قيمتين على الأقل.</div>`;return}
+  const n=a.length,s=ST.sorted(a),sum=ST.sum(a),m=sum/n,med=ST.median(a),mo=ST.modes(a),q1=ST.pos(a,.25),q2=ST.pos(a,.5),q3=ST.pos(a,.75),rg=s[n-1]-s[0],v=ST.variance(a),sd=Math.sqrt(v),cv=sd/m*100,sk=ST.skew(a),ku=ST.kurt(a),ses=n>2?ST.seSkew(n):NaN,sek=n>3?ST.seKurt(n):NaN,se=sd/Math.sqrt(n);
+  const K=(l,v,hl)=>`<div class="kpi ${hl?"hl":""}"><small>${l}</small><b>${v}</b></div>`;
+  let h=`<div class="panel"><h3>النتائج</h3><div class="kpis">${K("العدد n",n)}${K("المجموع Σx",fmt(sum,3))}${K("المتوسط x̄",fmt(m,3),1)}${K("الوسيط",fmt(med,3),1)}${K("المنوال",mo.vals.length?mo.vals.join("، "):"لا يوجد",1)}${K("أصغر قيمة",fmt(s[0],3))}${K("أكبر قيمة",fmt(s[n-1],3))}${K("المدى",fmt(rg,3))}${K("Q1",fmt(q1.v,3))}${K("Q3",fmt(q3.v,3))}${K("نصف المدى الربيعي",fmt((q3.v-q1.v)/2,3))}${K("التباين s²",fmt(v,3),1)}${K("الانحراف المعياري s",fmt(sd,3),1)}${K("الخطأ المعياري",fmt(se,3))}${K("معامل الاختلاف",isFinite(cv)?fmt(cv,1)+"%":"—")}${K("الالتواء",fmt(sk,3))}${K("التفلطح",fmt(ku,3))}</div>`;
+  if(n>=4&&isFinite(sk)){const zs=sk/ses,zk=ku/sek;const ok=Math.abs(zs)<1.96&&Math.abs(zk)<1.96;h+=`<div class="verdict ${ok?"ok":"mid"}">فحص الاعتدالية: الالتواء ÷ خطئه = ${fmt(sk,3)} ÷ ${fmt(ses,3)} = <span class="ltr">${fmt(zs,2)}</span> — التفلطح ÷ خطئه = ${fmt(ku,3)} ÷ ${fmt(sek,3)} = <span class="ltr">${fmt(zk,2)}</span> ← ${ok?"كلاهما بين ±1.96: التوزيع قريب من الطبيعي ✔":"قيمة خارج ±1.96: راجع الاعتدالية (وقارن بحد ±2.58)"}</div>`}
+  h+=`</div>`;
+  // steps
+  const medPos=(n+1)/2;
+  h+=`<div class="panel"><h3>خطوات الحل</h3><p><b>1) ترتيب البيانات</b> (الرقم الصغير = الرتبة):</p><div class="sorted">${s.map((x,i)=>{const r=i+1;const isM=n%2?r===medPos:(r===n/2||r===n/2+1);const isQ=[q1.pos,q3.pos].some(p=>Math.floor(p)===r||Math.ceil(p)===r);return `<span class="${isM?"m":isQ?"q":""}">${fmt(x,3)}<i>${r}</i></span>`}).join("")}</div>
+  <p><b>2) المتوسط:</b> <span class="ltr">x̄ = ${fmt(sum,3)} / ${n} = ${fmt(m,3)}</span></p>
+  <p><b>3) الوسيط:</b> n = ${n} (${n%2?"فردي":"زوجي"}) ← ${n%2?`رتبة الوسيط = (${n} + 1) ÷ 2 = ${medPos} ← الوسيط = <b>${fmt(med,3)}</b>`:`الرتبتان ${n/2} و${n/2+1} ← الوسيط = (${fmt(s[n/2-1],3)} + ${fmt(s[n/2],3)}) ÷ 2 = <b>${fmt(med,3)}</b>`}</p>
+  <p><b>4) المنوال:</b> ${mo.vals.length?`${mo.vals.join(" و ")} (تكرر ${mo.f} مرات)${mo.vals.length>1?" — "+(mo.vals.length===2?"ثنائية المنوال":"متعددة المنوال"):""}`:"لا توجد قيمة تكررت أكثر من غيرها ← لا يوجد منوال"}</p>
+  <p><b>5) الربيعيات:</b> رتبة Q1 = (${n}+1)×¼ = ${fmt(q1.pos,2)} ← <b>${fmt(q1.v,3)}</b> · رتبة Q2 = ${fmt(q2.pos,2)} ← <b>${fmt(q2.v,3)}</b> · رتبة Q3 = (${n}+1)×¾ = ${fmt(q3.pos,2)} ← <b>${fmt(q3.v,3)}</b></p>
+  <p><b>6) المدى:</b> ${fmt(s[n-1],3)} − ${fmt(s[0],3)} = ${fmt(rg,3)}</p>
+  <details class="steps" ${n<=12?"open":""}><summary>7) جدول التباين والانحراف المعياري</summary>${T(["x","x − x̄","(x − x̄)²"],a.map(x=>[fmt(x,3),fmt(x-m,3),fmt((x-m)**2,3)]),["Σ = "+fmt(sum,3),"0",fmt(ST.ss(a),3)]).replace(/<td>/g,'<td class="n">')}<div class="f">s² = ${fmt(ST.ss(a),3)} / (${n} − 1) = ${fmt(v,3)} &nbsp;&nbsp; s = √${fmt(v,3)} = ${fmt(sd,3)}</div></details></div>`;
+  // freq table
+  const uniq=[...new Set(s)];
+  if(uniq.length<=20){let cum=0;const rows=uniq.map(u=>{const f=s.filter(x=>x===u).length;cum+=f;return[fmt(u,3),f,fmt(f/n*100,1)+"%",cum,fmt(cum/n*100,1)+"%"]});h+=`<div class="panel"><h3>الجدول التكراري</h3>${T(["القيمة","التكرار f","النسبة %","المتجمع الصاعد","% المتجمع"],rows,["المجموع",n,"100%","",""]).replace(/<td>/g,'<td class="n">')}</div>`}
+  else{const k=Math.ceil(1+3.322*Math.log10(n)),w=Math.ceil(rg/k*100)/100||1;let cum=0;const rows=[];for(let i=0;i<k;i++){const lo=s[0]+i*w,hi=lo+w;const f=s.filter(x=>x>=lo&&(i===k-1?x<=hi:x<hi)).length;cum+=f;rows.push([`${fmt(lo,2)} – ${fmt(hi,2)}`,fmt((lo+hi)/2,2),f,fmt(f/n*100,1)+"%",cum])}h+=`<div class="panel"><h3>جدول تكراري بفئات</h3><p class="muted">عدد الفئات حسب قاعدة ستيرجس: k = 1 + 3.322 log(n) = ${k}، طول الفئة ≈ المدى ÷ k = ${fmt(w,2)}</p>${T(["الفئة","مركز الفئة","f","%","المتجمع الصاعد"],rows).replace(/<td>/g,'<td class="n">')}</div>`}
+  h+=`<div class="panel"><h3>المدرج والمضلع التكراري</h3><div class="chart">${histSVG(a,{poly:true})}</div><h3 style="margin-top:12px">مخطط الصندوق Box plot</h3><div class="chart">${boxSVG(a)}</div><p class="muted" style="font-size:14px;margin:0">الصندوق من Q1 إلى Q3، والخط البرتقالي الوسيط، والدوائر الحمراء قيم متطرفة (أبعد من 1.5 × المدى الربيعي).</p></div>`;
+  o.innerHTML=h;
+ }
+}
+
+/* --- t-test lab --- */
+const TP={
+ one:[["مثال: أطوال (µ = 66.5)","64 70 68 72 66 69 71 67 73 65 70 68 74 69 66","66.5"],["درجات قلق (µ = 50)","55 48 61 52 57 49 63 58 54 60","50"]],
+ ind:[["طرق التدريس (توضيحي)","78 85 82 90 76 88 84 91 79 86","70 74 68 80 72 77 69 75 73 71"],["ذكور وإناث (توضيحي)","12 11 13 10 12 14 11 13 12 11","14 13 15 13 14 12 14 15 13 14"]],
+ paired:[["محاضرة: ضغط الدم قبل/بعد النوم","135 125 130 120 120 125 140 150 140 135 145 130","120 105 110 110 100 115 115 115 120 135 140 115"],["قلق قبل/بعد برنامج إرشادي (توضيحي)","32 28 35 30 27 33 36 29 31 34","25 26 28 24 25 27 30 26 24 28"]]
+};
+function labT(mode){
+ mode=["one","ind","paired"].includes(mode)?mode:"one";
+ const M={one:["عينة واحدة","البيانات","قيمة المجتمع µ"],ind:["عينتان مستقلتان","المجموعة الأولى","المجموعة الثانية"],paired:["عينتان مترابطتان","القياس القبلي","القياس البعدي"]};
+ const P=TP[mode];
+ view.innerHTML=labHead("معمل اختبارات ت")+`<div class="seg">${Object.keys(M).map(k=>`<button aria-pressed="${k===mode}" onclick="go('lab/ttest/${k}')">${M[k][0]}</button>`).join("")}</div>
+ <div class="panel"><div class="g2"><div><label class="fl" for="tA">${M[mode][1]}</label><textarea id="tA">${P[0][1]}</textarea></div><div><label class="fl" for="tB">${M[mode][2]}</label>${mode==="one"?`<input type="number" id="tB" step="any" value="${P[0][2]}">`:`<textarea id="tB">${P[0][2]}</textarea>`}</div></div>
+ ${mode!=="one"?`<div class="g2"><div><label class="fl" for="nA">اسم ${mode==="ind"?"المجموعة الأولى":"القياس الأول"}</label><input type="text" id="nA" value="${mode==="ind"?"المجموعة 1":"القبلي"}"></div><div><label class="fl" for="nB">اسم ${mode==="ind"?"المجموعة الثانية":"القياس الثاني"}</label><input type="text" id="nB" value="${mode==="ind"?"المجموعة 2":"البعدي"}"></div></div>`:""}
+ <div class="row" style="margin-top:10px">${P.map((p,i)=>`<button class="btn sm ghost" data-p="${i}">${p[0]}</button>`).join("")}<label class="row" style="gap:6px;margin-inline-start:auto">α <select id="al" style="width:auto"><option>0.05</option><option>0.01</option></select></label></div></div><div id="tOut"></div>`;
+ $$("[data-p]").forEach(b=>b.onclick=()=>{$("#tA").value=P[b.dataset.p][1];$("#tB").value=P[b.dataset.p][2];run()});
+ ["tA","tB","nA","nB","al"].forEach(id=>{const e=$("#"+id);if(e)e.oninput=e.onchange=run});run();
+ function grpStats(a){const n=a.length,m=ST.mean(a),sd=ST.sd(a);return{n,m,sd,se:sd/Math.sqrt(n)}}
+ function normRow(a,lab){if(a.length<4)return `<li>${lab}: عدد القيم قليل جدًا لفحص الاعتدالية.</li>`;const n=a.length,zs=ST.skew(a)/ST.seSkew(n),zk=ST.kurt(a)/ST.seKurt(n);const ok=Math.abs(zs)<1.96&&Math.abs(zk)<1.96;return `<li>${lab}: الالتواء/خطئه = <span class="ltr">${fmt(zs,2)}</span>، التفلطح/خطئه = <span class="ltr">${fmt(zk,2)}</span> ${ok?"✔ طبيعي تقريبًا":"⚠ قد لا يكون طبيعيًا"}</li>`}
+ function run(){const o=$("#tOut");const al=+$("#al").value;const A=ST.parse($("#tA").value);let res,h="";
+  const nA=$("#nA")?.value||"",nB=$("#nB")?.value||"";
+  if(mode==="one"){const mu=parseFloat($("#tB").value);if(A.length<2||!isFinite(mu)){o.innerHTML=`<div class="panel muted">أدخل قيمتين على الأقل وقيمة µ.</div>`;return}
+   const g=grpStats(A),t=(g.m-mu)/g.se,df=g.n-1,p=ST.tP2(t,df),tc=ST.tcrit(df,al),d=(g.m-mu)/g.sd;res={t,df,p,tc,d};
+   h+=`<div class="panel"><h3>One-Sample Statistics</h3><div class="otwrap"><table class="otbl"><thead><tr><th></th><th>N</th><th>Mean</th><th>Std. Deviation</th><th>Std. Error Mean</th></tr></thead><tbody><tr><th>Var</th><td>${g.n}</td><td>${f2(g.m,4)}</td><td>${f2(g.sd,4)}</td><td>${f2(g.se,4)}</td></tr></tbody></table>
+   <table class="otbl"><caption>One-Sample Test (Test Value = ${mu})</caption><thead><tr><th>t</th><th>df</th><th>Sig. (2-tailed)</th><th>Mean Difference</th><th>95% CI Lower</th><th>Upper</th></tr></thead><tbody><tr><td>${f2(t,3)}</td><td>${df}</td><td>${f2(p,3)}</td><td>${f2(g.m-mu,4)}</td><td>${f2(g.m-mu-ST.tcrit(df,.05)*g.se,4)}</td><td>${f2(g.m-mu+ST.tcrit(df,.05)*g.se,4)}</td></tr></tbody></table></div>
+   <details class="steps" open><summary>خطوات الحساب</summary><div class="f">SE = s / √n = ${f2(g.sd,3)} / √${g.n} = ${f2(g.se,3)}<br>t = (x̄ − µ) / SE = (${f2(g.m,3)} − ${mu}) / ${f2(g.se,3)} = ${f2(t,3)}<br>df = n − 1 = ${df} &nbsp;&nbsp; d = (x̄ − µ) / s = ${f2(d,2)}</div></details>
+   <h3>فحص الشروط</h3><ul>${normRow(A,"المتغير")}</ul></div>`;
+   res.apa=`${p<=al?"توجد":"لا توجد"} فروق ذات دلالة إحصائية بين متوسط العينة <span class="ltr">(M = ${f2(g.m)}, SD = ${f2(g.sd)})</span> والقيمة المفترضة للمجتمع (${mu}) <span class="ltr">(t(${df}) = ${f2(t,3)}, ${pTxt(p)}, d = ${f2(d,2).replace(/^(-?)0\./,"$1.")})</span>${p<=al?`، وبحجم تأثير ${effLbl(d)}، لذلك تم رفض الفرضية الصفرية`:"، لذلك لا نرفض الفرضية الصفرية"}.`;
+  }else{const B=ST.parse($("#tB").value);if(A.length<2||B.length<2){o.innerHTML=`<div class="panel muted">أدخل قيمتين على الأقل في كل خانة.</div>`;return}
+   if(mode==="ind"){const a=grpStats(A),b=grpStats(B);const lv=ST.levene(A,B);const sp2=((a.n-1)*a.sd**2+(b.n-1)*b.sd**2)/(a.n+b.n-2);const seP=Math.sqrt(sp2*(1/a.n+1/b.n));const tP=(a.m-b.m)/seP,dfP=a.n+b.n-2;const seW=Math.sqrt(a.sd**2/a.n+b.sd**2/b.n),tW=(a.m-b.m)/seW,dfW=seW**4/((a.sd**2/a.n)**2/(a.n-1)+(b.sd**2/b.n)**2/(b.n-1));
+    const eq=lv.p>.05;const t=eq?tP:tW,df=eq?dfP:dfW,p=ST.tP2(t,df),tc=ST.tcrit(df,al),d=(a.m-b.m)/Math.sqrt(sp2);res={t,df,p,tc,d};const pPv=ST.tP2(tP,dfP),pWv=ST.tP2(tW,dfW);const md=a.m-b.m;
+    h+=`<div class="panel"><h3>Group Statistics</h3><div class="otwrap"><table class="otbl"><thead><tr><th>Group</th><th>N</th><th>Mean</th><th>Std. Deviation</th><th>Std. Error Mean</th></tr></thead><tbody><tr><th>${esc(nA)}</th><td>${a.n}</td><td>${f2(a.m,4)}</td><td>${f2(a.sd,4)}</td><td>${f2(a.se,4)}</td></tr><tr><th>${esc(nB)}</th><td>${b.n}</td><td>${f2(b.m,4)}</td><td>${f2(b.sd,4)}</td><td>${f2(b.se,4)}</td></tr></tbody></table>
+    <table class="otbl"><caption>Independent Samples Test</caption><thead><tr><th></th><th>Levene F</th><th>Sig.</th><th>t</th><th>df</th><th>Sig. (2-tailed)</th><th>Mean Diff.</th></tr></thead><tbody><tr style="${eq?"background:#fff3cf":""}"><th>Equal variances assumed</th><td>${f2(lv.F,3)}</td><td>${f2(lv.p,3)}</td><td>${f2(tP,3)}</td><td>${dfP}</td><td>${f2(pPv,3)}</td><td>${f2(md,4)}</td></tr><tr style="${!eq?"background:#fff3cf":""}"><th>Equal variances not assumed</th><td></td><td></td><td>${f2(tW,3)}</td><td>${f2(dfW,3)}</td><td>${f2(pWv,3)}</td><td>${f2(md,4)}</td></tr></tbody></table></div>
+    <div class="verdict ${eq?"ok":"mid"}">اختبار ليفين: <span class="ltr">F = ${f2(lv.F,3)}, ${pTxt(lv.p)}</span> ← ${eq?"غير دال، التباين متجانس ✔ نقرأ الصف الأول (المظلل)":"دال، التباين غير متجانس ✘ نقرأ الصف الثاني (المظلل)"}</div>
+    <details class="steps"><summary>خطوات الحساب</summary><div class="f">s²p = [(${a.n}−1)(${f2(a.sd,3)})² + (${b.n}−1)(${f2(b.sd,3)})²] / (${a.n}+${b.n}−2) = ${f2(sp2,3)}<br>SE = √[s²p(1/${a.n} + 1/${b.n})] = ${f2(seP,3)}<br>t = (${f2(a.m,3)} − ${f2(b.m,3)}) / ${f2(seP,3)} = ${f2(tP,3)} &nbsp; df = ${dfP}<br>d = (x̄1 − x̄2) / sp = ${f2(d,2)}</div></details>
+    <h3>فحص الشروط</h3><ul>${normRow(A,esc(nA))}${normRow(B,esc(nB))}<li>تجانس التباين (ليفين): ${eq?"✔ متحقق":"✘ غير متحقق — استُخدم تصحيح ويلش"}</li>${a.n<30||b.n<30?`<li>⚠ حجم إحدى المجموعتين أقل من 30.</li>`:""}</ul></div>`;
+    const hi=a.m>b.m?nA:nB;res.apa=`يوضح اختبار ت لعينتين مستقلتين أنه ${p<=al?"توجد":"لا توجد"} فروق ذات دلالة إحصائية <span class="ltr">(t(${eq?df:f2(df,2)}) = ${f2(t,3)}, ${pTxt(p)}, d = ${f2(d,2).replace(/^(-?)0\./,"$1.")})</span> عند مستوى α = ${al} بين ${esc(nA)} <span class="ltr">(M = ${f2(a.m)}, SD = ${f2(a.sd)})</span> و${esc(nB)} <span class="ltr">(M = ${f2(b.m)}, SD = ${f2(b.sd)})</span>${p<=al?` لصالح ${esc(hi)}، وبحجم تأثير ${effLbl(d)}`:""}.`;
+   }else{if(A.length!==B.length){o.innerHTML=`<div class="panel verdict no">في العينات المترابطة يجب أن يتساوى عدد القيم (${A.length} ≠ ${B.length}).</div>`;return}
+    const D=A.map((x,i)=>x-B[i]);const g=grpStats(D),a=grpStats(A),b=grpStats(B);const t=g.m/g.se,df=g.n-1,p=ST.tP2(t,df),tc=ST.tcrit(df,al),d=g.m/g.sd;res={t,df,p,tc,d};
+    h+=`<div class="panel"><h3>Paired Samples Statistics</h3><div class="otwrap"><table class="otbl"><thead><tr><th></th><th>Mean</th><th>N</th><th>Std. Deviation</th><th>Std. Error Mean</th></tr></thead><tbody><tr><th>${esc(nA)}</th><td>${f2(a.m,4)}</td><td>${a.n}</td><td>${f2(a.sd,4)}</td><td>${f2(a.se,4)}</td></tr><tr><th>${esc(nB)}</th><td>${f2(b.m,4)}</td><td>${b.n}</td><td>${f2(b.sd,4)}</td><td>${f2(b.se,4)}</td></tr></tbody></table>
+    <table class="otbl"><caption>Paired Samples Test</caption><thead><tr><th>Mean</th><th>Std. Deviation</th><th>Std. Error Mean</th><th>t</th><th>df</th><th>Sig. (2-tailed)</th></tr></thead><tbody><tr><td>${f2(g.m,4)}</td><td>${f2(g.sd,4)}</td><td>${f2(g.se,4)}</td><td>${f2(t,3)}</td><td>${df}</td><td>${f2(p,3)}</td></tr></tbody></table></div>
+    <details class="steps" open><summary>خطوات الحساب (الفروق D)</summary>${T(["#",esc(nA),esc(nB),"D"],A.map((x,i)=>[i+1,x,B[i],fmt(D[i],3)]),["","","","D̄ = "+f2(g.m,3)]).replace(/<td>/g,'<td class="n">')}<div class="f">s<sub>D</sub> = ${f2(g.sd,3)} &nbsp; SE = ${f2(g.sd,3)} / √${g.n} = ${f2(g.se,3)}<br>t = D̄ / SE = ${f2(g.m,3)} / ${f2(g.se,3)} = ${f2(t,3)} &nbsp; df = ${df} &nbsp; d = ${f2(d,2)}</div></details>
+    <h3>فحص الشروط</h3><ul>${normRow(D,"توزيع الفروق D")}</ul></div>`;
+    const hi=a.m>b.m?nA:nB;res.apa=`يوضح اختبار ت للعينات المترابطة أنه ${p<=al?"توجد":"لا توجد"} فروق ذات دلالة إحصائية بين ${esc(nA)} <span class="ltr">(M = ${f2(a.m)}, SD = ${f2(a.sd)})</span> و${esc(nB)} <span class="ltr">(M = ${f2(b.m)}, SD = ${f2(b.sd)})</span> <span class="ltr">(t(${df}) = ${f2(t,3)}, ${pTxt(p)}, d = ${f2(d,2).replace(/^(-?)0\./,"$1.")})</span>${p<=al?`، وبحجم تأثير ${effLbl(d)}، حيث كان ${esc(hi)} أعلى بمقدار ${f2(Math.abs(g.m),2)} درجة`:""}.`;
+   }
+  }
+  const sig=res.p<=al;
+  h=`<div class="panel"><h3>القرار</h3><div class="kpis"><div class="kpi hl"><small>قيمة t</small><b>${f2(res.t,3)}</b></div><div class="kpi"><small>درجات الحرية df</small><b>${Number.isInteger(res.df)?res.df:f2(res.df,2)}</b></div><div class="kpi hl"><small>الدلالة Sig.</small><b>${f2(res.p,4)}</b></div><div class="kpi"><small>t الحرجة (α=${al})</small><b>±${f2(res.tc,3)}</b></div><div class="kpi"><small>حجم الأثر d</small><b>${f2(res.d,2)}</b></div><div class="kpi"><small>تفسير الأثر</small><b style="font-family:var(--f-body);font-size:17px">${effLbl(res.d)}</b></div></div>
+  <div class="verdict ${sig?"ok":"no"}">${sig?`Sig. = ${f2(res.p,3)} ≤ ${al} ← نرفض الفرض الصفري: توجد فروق دالة إحصائيًا`:`Sig. = ${f2(res.p,3)} > ${al} ← لا نرفض الفرض الصفري: لا توجد فروق دالة`}</div>
+  <div class="chart">${tCurveSVG(res.t,res.df,res.tc)}</div>
+  <div class="apa"><b>صياغة النتيجة جاهزة:</b> ${res.apa} <button class="btn sm ghost" id="cp" style="margin-top:8px">نسخ الصياغة</button></div></div>`+h;
+  o.innerHTML=h;
+  $("#cp").onclick=()=>{const t=$(".apa").innerText.replace("صياغة النتيجة جاهزة:","").replace("نسخ الصياغة","").trim();navigator.clipboard?.writeText(t).then(()=>toast("تم نسخ الصياغة"),()=>toast("تعذر النسخ"))};
+ }
+}
+
+/* --- normal lab --- */
+function labNormal(){
+ view.innerHTML=labHead("معمل التوزيع الطبيعي")+`<div class="panel"><h3>1) تحويل الدرجة الخام إلى درجة معيارية z</h3><div class="g2"><div><label class="fl" for="zx">الدرجة الخام x</label><input type="number" id="zx" value="85" step="any"></div><div class="g2"><div><label class="fl" for="zm">المتوسط</label><input type="number" id="zm" value="70" step="any"></div><div><label class="fl" for="zs">الانحراف المعياري</label><input type="number" id="zs" value="10" step="any"></div></div></div><div id="zOut"></div></div>
+ <div class="panel"><h3>2) فحص الاعتدالية من مخرجات SPSS</h3><p class="muted" style="margin-top:0">انقل قيم Skewness و Kurtosis وأخطاءها المعيارية من جدول Descriptives.</p><div class="g2"><div class="g2"><div><label class="fl" for="sk">Skewness</label><input type="number" id="sk" value="0.394" step="any"></div><div><label class="fl" for="ssk">Std. Error</label><input type="number" id="ssk" value="0.241" step="any"></div></div><div class="g2"><div><label class="fl" for="ku">Kurtosis</label><input type="number" id="ku" value="-0.128" step="any"></div><div><label class="fl" for="sku">Std. Error</label><input type="number" id="sku" value="0.478" step="any"></div></div></div><div id="nOut"></div></div>
+ <div class="panel"><h3>3) قاعدة 68 – 95 – 99.7</h3><div class="seg" id="rule">${[1,2,3].map(k=>`<button aria-pressed="${k===1}" data-k="${k}">± ${k} انحراف معياري</button>`).join("")}</div><div class="chart" id="rOut"></div></div>`;
+ const z=()=>{const x=+$("#zx").value,m=+$("#zm").value,s=+$("#zs").value;if(!(s>0)){$("#zOut").innerHTML=`<p class="muted">الانحراف المعياري يجب أن يكون أكبر من صفر.</p>`;return}const zz=(x-m)/s,pc=ST.ncdf(zz)*100,T=50+10*zz;
+  $("#zOut").innerHTML=`<div class="f">z = (x − x̄) / s = (${x} − ${m}) / ${s} = ${f2(zz,2)}</div><div class="kpis"><div class="kpi hl"><small>الدرجة المعيارية z</small><b>${f2(zz,2)}</b></div><div class="kpi hl"><small>المئين (تقريبًا)</small><b>${f2(pc,1)}</b></div><div class="kpi"><small>الدرجة التائية T = 50 + 10z</small><b>${f2(T,1)}</b></div></div><p>حوالي <b>${f2(pc,1)}%</b> من الأفراد درجاتهم أقل من ${x}${zz>0?"، أي أن الدرجة فوق المتوسط بـ "+f2(zz,2)+" انحراف معياري":zz<0?"، أي أن الدرجة تحت المتوسط بـ "+f2(-zz,2)+" انحراف معياري":" (عند المتوسط تمامًا)"}.</p><div class="chart">${normSVG(-4,zz,f2(pc,1)+"%")}</div>`};
+ const nchk=()=>{const zs=+$("#sk").value/ +$("#ssk").value,zk=+$("#ku").value/ +$("#sku").value;const ok1=Math.abs(zs)<1.96&&Math.abs(zk)<1.96,ok2=Math.abs(zs)<2.58&&Math.abs(zk)<2.58;
+  $("#nOut").innerHTML=`${T(["الحساب","النتيجة","±1.96 (α=.05)","±2.58 (α=.01)"],[["الالتواء: "+$("#sk").value+" ÷ "+$("#ssk").value,f2(zs,2),Math.abs(zs)<1.96?"✔":"✘",Math.abs(zs)<2.58?"✔":"✘"],["التفلطح: "+$("#ku").value+" ÷ "+$("#sku").value,f2(zk,2),Math.abs(zk)<1.96?"✔":"✘",Math.abs(zk)<2.58?"✔":"✘"]])}<div class="verdict ${ok1?"ok":ok2?"mid":"no"}">${ok1?"التوزيع قريب من الطبيعي ← يصلح للاختبارات المعلمية (Parametric tests)":ok2?"مقبول عند حد ±2.58 (Hair et al., 2014) فقط":"التوزيع غير طبيعي ← فكّر في البديل اللامعلمي"}</div>`};
+ ["zx","zm","zs"].forEach(i=>$("#"+i).oninput=z);["sk","ssk","ku","sku"].forEach(i=>$("#"+i).oninput=nchk);z();nchk();
+ const rl=k=>{$("#rOut").innerHTML=normSVG(-k,k,["","68.27%","95.45%","99.73%"][k]);$$("#rule button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.k===k))};$$("#rule button").forEach(b=>b.onclick=()=>rl(+b.dataset.k));rl(1);
+}
+
+/* --- chooser --- */
+function labChooser(){
+ const tree={q:"ما هدف تحليلك؟",o:[
+  ["وصف البيانات (متوسط، نسب، تكرارات)",{r:"الإحصاء الوصفي",p:"Analyze › Descriptive Statistics › Frequencies / Descriptives",w:"للمتغيرات الاسمية: التكرارات والنسب. للكمية: المتوسط والانحراف المعياري، مع فحص الاعتدالية عبر Explore.",lab:"desc"}],
+  ["مقارنة متوسطات (فروق)",{q:"كم مجموعة/قياس تقارن؟",o:[
+   ["متوسط عينة مقابل قيمة معلومة للمجتمع",{q:"هل المتغير التابع موزع طبيعيًا؟",o:[["نعم",{r:"اختبار ت لعينة واحدة",p:"Analyze › Compare Means › One-Sample T Test",w:"اكتب قيمة المجتمع في Test Value.",lab:"ttest/one"}],["لا",{r:"Wilcoxon Signed Rank test",p:"Analyze › Nonparametric Tests › One Sample",w:"البديل اللامعلمي لـ ت لعينة واحدة."}]]}],
+   ["مجموعتان",{q:"هل هما نفس الأفراد (قبلي/بعدي) أم أفراد مختلفون؟",o:[
+    ["أفراد مختلفون (مستقلتان)",{q:"هل البيانات طبيعية في المجموعتين؟",o:[["نعم",{r:"اختبار ت لعينتين مستقلتين",p:"Analyze › Compare Means › Independent-Samples T Test",w:"لا تنسَ قراءة اختبار ليفين لتحديد الصف المناسب.",lab:"ttest/ind"}],["لا",{r:"Mann–Whitney U test",p:"Analyze › Nonparametric Tests › Legacy Dialogs › 2 Independent Samples",w:"البديل اللامعلمي لـ ت المستقلتين."}]]}],
+    ["نفس الأفراد أو أزواج مرتبطة (مترابطتان)",{q:"هل توزيع الفروق بين القياسين طبيعي؟",o:[["نعم",{r:"اختبار ت لعينتين مترابطتين",p:"Analyze › Compare Means › Paired-Samples T Test",w:"شرط الاعتدالية على الفروق وليس على كل قياس.",lab:"ttest/paired"}],["لا",{r:"Wilcoxon Signed-Rank test",p:"Analyze › Nonparametric Tests › Legacy Dialogs › 2 Related Samples",w:"البديل اللامعلمي لـ ت المترابطتين."}]]}]]}],
+   ["ثلاث مجموعات مستقلة فأكثر",{q:"هل البيانات طبيعية والتباين متجانس؟",o:[["نعم",{r:"تحليل التباين الأحادي One-Way ANOVA",p:"Analyze › Compare Means › One-Way ANOVA",w:"إذا كانت F دالة، استخدم Post Hoc (مثل Tukey) لمعرفة أي المجموعات تختلف."}],["لا",{r:"Kruskal–Wallis H test",p:"Analyze › Nonparametric Tests › Legacy Dialogs › K Independent Samples",w:"البديل اللامعلمي لتحليل التباين."}]]}]]}],
+  ["علاقة بين متغيرين",{q:"ما طبيعة المتغيرين؟",o:[["كميان وموزعان طبيعيًا",{r:"معامل ارتباط بيرسون",p:"Analyze › Correlate › Bivariate › Pearson",w:"r بين −1 و+1: الإشارة للاتجاه والقيمة للقوة."}],["رتبيان أو غير طبيعيين",{r:"معامل ارتباط سبيرمان",p:"Analyze › Correlate › Bivariate › Spearman",w:"يعتمد على الرتب بدل القيم."}]]}]]};
+ let stack=[tree];
+ const draw=()=>{const cur=stack[stack.length-1];let h=labHead("مُرشد اختيار الاختبار")+`<div class="panel wiz">`;
+  if(stack.length>1)h+=`<p class="muted" style="margin-top:0">الخطوة ${stack.length}</p>`;
+  if(cur.r){h+=`<span class="chip good">الاختبار المناسب</span><h2 style="margin:8px 0">${cur.r}</h2><div class="path-crumb">${cur.p.split(" › ").map(x=>`<span>${x}</span>`).join("<em>›</em>")}</div><p>${cur.w}</p><div class="row">${cur.lab?`<button class="btn" onclick="go('lab/${cur.lab}')">افتح المعمل</button>`:""}<button class="btn ghost" id="rs">ابدأ من جديد</button></div>`}
+  else{h+=`<h3>${cur.q}</h3><div class="opts">${cur.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="k">${"أبجد"[i]}</span><span>${o[0]}</span></button>`).join("")}</div>`}
+  if(stack.length>1)h+=`<p><button class="btn sm ghost" id="bk">→ رجوع</button></p>`;
+  view.innerHTML=h+"</div>";
+  $$(".wiz .opt").forEach(b=>b.onclick=()=>{stack.push(cur.o[+b.dataset.i][1]);draw()});
+  $("#bk")&&($("#bk").onclick=()=>{stack.pop();draw()});$("#rs")&&($("#rs").onclick=()=>{stack=[tree];draw()});
+ };draw();
+}
+
+/* ========== SPSS SIMULATOR ========== */
+const SPSS_DATA={vars:[["name","String",20,0,"اسم الطالب","None","Nominal"],["gender","Numeric",8,0,"النوع","{1, ذكر}...","Nominal"],["major","Numeric",8,0,"التخصص","{1, لغة عربية}...","Nominal"],["test1","Numeric",8,0,"درجة الاختبار الأول","None","Scale"],["test2","Numeric",8,0,"درجة الاختبار الثاني","None","Scale"]],
+ rows:[["محمد القحطاني",1,1,13,14],["علي الغامدي",1,2,8,12],["طارق محمد",1,3,14,13],["لمياء القحطاني",2,4,9,10],["سارة الحربي",2,1,10,14],["نورة القحطاني",2,1,13,11]],
+ labels:{gender:{1:"ذكر",2:"أنثى"},major:{1:"لغة عربية",2:"دراسات",3:"لغة إنجليزية",4:"رياضيات"}}};
+const MENUS={
+ File:[["New › Data","فتح ملف بيانات جديد فارغ."],["Open › Data...","فتح ملف بيانات محفوظ (.sav)."],["Save As...","حفظ الملف باسم جديد، مثل «تدريب رقم 1.sav»."]],
+ Edit:[["Undo","التراجع عن آخر عمل."],["Cut / Copy / Paste","قص أو نسخ البيانات ولصقها."],["Clear","مسح البيانات المحددة."],["Insert Variable","إدراج متغير (عمود) جديد."],["Insert Cases","إدراج حالة (صف) جديدة."],["Find...","البحث عن قيمة في البيانات."],["Go to Case...","الانتقال إلى حالة معينة."]],
+ Data:[["Transpose...","تحويل الصفوف إلى أعمدة والعكس."],["Merge Files › Add Cases...","دمج ملفين بنفس المتغيرات وحالات مختلفة."],["Merge Files › Add Variables...","دمج ملفين بنفس الحالات ومتغيرات مختلفة."],["Sort Cases...","ترتيب الحالات تصاعديًا أو تنازليًا."],["Split File...","تقسيم التحليل حسب متغير (مثل النوع)."]],
+ Analyze:[["Descriptive Statistics › Frequencies...","freq"],["Descriptive Statistics › Descriptives...","desc"],["Descriptive Statistics › Explore...","explore"],["Compare Means › One-Sample T Test...","one"],["Compare Means › Independent-Samples T Test...","ind"],["Compare Means › Paired-Samples T Test...","paired"],["Compare Means › One-Way ANOVA...","anova"],["Correlate › Bivariate...","corr"]],
+ Graphs:[["Chart Builder...","بناء الرسوم: الأعمدة، الدائرة، المدرج التكراري، الصندوق."]]
+};
+function renderSpss(sub){
+ const seg=`<div class="seg"><button aria-pressed="${sub!=="out"}" onclick="go('spss')">محاكي البرنامج</button><button aria-pressed="${sub==="out"}" onclick="go('spss/out')">قراءة المخرجات</button></div>`;
+ if(sub==="out"){view.innerHTML=seg+`<div class="panel"><h3>جدول الإحصاء الوصفي التفاعلي</h3><p class="muted" style="margin-top:0">اضغط على أي عنوان عمود لترى معناه وكيف نقرأ قيمته.</p><div class="otwrap">${descTable()}</div><div class="expl" id="ex">اضغط على عنوان عمود مثل <b>Skewness</b> أو <b>Std. Error</b>.</div></div>
+  <div class="panel"><h3>جدول اختبار ت لعينتين مستقلتين (مثال المحاضرة)</h3><div class="otwrap"><table class="otbl"><caption>Independent Samples Test</caption><thead><tr><th></th><th data-k="LF">F</th><th data-k="LS">Sig.</th><th data-k="t">t</th><th data-k="df">df</th><th data-k="p">Sig. (2-tailed)</th></tr></thead><tbody><tr style="background:#fff3cf"><th data-k="r1">Equal variances assumed</th><td>1.716</td><td>.196</td><td>-5.641</td><td>50</td><td>.000</td></tr><tr><th data-k="r2">Equal variances not assumed</th><td></td><td></td><td>-5.567</td><td>45.3</td><td>.000</td></tr></tbody></table></div><div class="expl" id="ex2">اضغط على عنوان عمود أو صف.</div><p class="muted" style="font-size:14px">قيمة df للصف الثاني تقريبية للتوضيح.</p></div>`;
+  $$("#dtbl th[data-k]").forEach(th=>th.onclick=()=>{$$("#dtbl th").forEach(x=>x.classList.remove("on"));th.classList.add("on");$("#ex").innerHTML=`<b>${th.textContent}:</b> ${DESC_EXPL[th.dataset.k]||""}`});
+  const E2={LF:"قيمة F لاختبار ليفين لتجانس التباين.",LS:"دلالة ليفين: .196 > .05 ← التباين متجانس ← نعتمد الصف الأول.",t:"قيمة اختبار ت. الإشارة السالبة تعني أن متوسط المجموعة الأولى (الذكور) أقل من الثانية (الإناث).",df:"درجات الحرية = n1 + n2 − 2 = 50؛ تُكتب في التقرير بدل حجم العينة.",p:"الدلالة الإحصائية: .000 تعني p < .001 (لا نكتب p = .000)، وهي أقل من .05 ← توجد فروق دالة.",r1:"صف «افتراض تساوي التباين» نقرأ منه إذا كانت دلالة ليفين > .05.",r2:"صف «عدم افتراض تساوي التباين» (تصحيح ويلش) نقرأ منه إذا كانت دلالة ليفين < .05."};
+  $$(".panel:nth-of-type(3) th[data-k], .otbl:not(#dtbl) th[data-k]").forEach(th=>th.onclick=()=>{$("#ex2").innerHTML=`<b>${th.textContent}:</b> ${E2[th.dataset.k]}`});
+  return}
+ let lab=false,tab="data";
+ view.innerHTML=seg+`<div class="panel"><p style="margin-top:0">محاكاة لبيانات <b>التدريب الأول</b> في SPSS. جرّب: التنقل بين Data View و Variable View، زر Value Labels، وقوائم Analyze و Data و Edit.</p>
+ <div class="spss"><div class="tb"><i></i>تدريب رقم 1.sav [DataSet1] - IBM SPSS Statistics Data Editor</div><div class="menu" id="mb">${Object.keys(MENUS).map(m=>`<button data-m="${m}">${m}</button>`).join("")}<button id="vl" title="Value Labels">🏷 Value Labels</button></div><div class="grid" id="sg"></div><div class="bt"><button data-t="data" class="on">Data View</button><button data-t="var">Variable View</button></div></div>
+ <div class="expl" id="sx">اختر أمرًا من القوائم في الأعلى.</div></div><div id="sOut"></div>`;
+ const grid=()=>{const g=$("#sg");if(tab==="data"){g.innerHTML=`<table><thead><tr><th></th>${SPSS_DATA.vars.map(v=>`<th>${v[0]}</th>`).join("")}<th>var</th></tr></thead><tbody>${SPSS_DATA.rows.map((r,i)=>`<tr><th>${i+1}</th>${r.map((c,j)=>{const vn=SPSS_DATA.vars[j][0];const show=lab&&SPSS_DATA.labels[vn]?SPSS_DATA.labels[vn][c]:c;return `<td class="${typeof c==="number"&&!(lab&&SPSS_DATA.labels[vn])?"r":""}" dir="auto">${show}</td>`}).join("")}<td></td></tr>`).join("")}<tr><th>7</th>${"<td></td>".repeat(6)}</tr></tbody></table>`}
+  else{g.innerHTML=`<table><thead><tr><th></th>${["Name","Type","Width","Decimals","Label","Values","Measure"].map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${SPSS_DATA.vars.map((v,i)=>`<tr><th>${i+1}</th>${v.map(c=>`<td dir="auto">${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`}};
+ grid();
+ $$(".spss .bt button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;$$(".spss .bt button").forEach(x=>x.classList.toggle("on",x===b));grid();$("#sx").innerHTML=tab==="var"?"<b>Variable View:</b> كل صف هنا يعرّف متغيرًا (عمودًا في Data View). لاحظ أن gender و major مرمّزان في عمود Values ومستواهما Nominal.":"<b>Data View:</b> الصفوف = الحالات (الطلاب)، والأعمدة = المتغيرات."});
+ $("#vl").onclick=()=>{lab=!lab;$("#vl").classList.toggle("on",lab);if(tab!=="data"){tab="data";$$(".spss .bt button").forEach(x=>x.classList.toggle("on",x.dataset.t==="data"))}grid();$("#sx").innerHTML=lab?"<b>Value Labels مفعّل:</b> تظهر التسميات (ذكر، أنثى…) بدل الأرقام المخزنة (1، 2…).":"<b>Value Labels معطّل:</b> تظهر الرموز الرقمية المخزنة فعليًا."};
+ $$("#mb [data-m]").forEach(b=>b.onclick=e=>{e.stopPropagation();$$(".spss .dd").forEach(x=>x.remove());$$("#mb button").forEach(x=>x.classList.remove("on"));b.classList.add("on");const dd=document.createElement("div");dd.className="dd";dd.style.left=b.offsetLeft+"px";dd.innerHTML=MENUS[b.dataset.m].map((it,i)=>`<button data-i="${i}">${it[0]}</button>`).join("");$("#mb").appendChild(dd);
+  $$("button",dd).forEach(x=>x.onclick=ev=>{ev.stopPropagation();const it=MENUS[b.dataset.m][+x.dataset.i];dd.remove();b.classList.remove("on");runMenu(b.dataset.m,it)})});
+ document.addEventListener("click",()=>{$$(".spss .dd").forEach(x=>x.remove());$$("#mb button").forEach(x=>x.classList.remove("on"))},{once:false});
+ function runMenu(m,it){const crumb=`<div class="path-crumb" style="justify-content:flex-start"><span>${m}</span>${it[0].split(" › ").map(x=>`<em>›</em><span>${x}</span>`).join("")}</div>`;
+  if(m!=="Analyze"){$("#sx").innerHTML=crumb+it[1];$("#sOut").innerHTML="";return}
+  const t1=SPSS_DATA.rows.map(r=>r[3]),t2=SPSS_DATA.rows.map(r=>r[4]),gd=SPSS_DATA.rows.map(r=>r[1]);const out=$("#sOut");let h="",ex="";
+  const g=a=>({n:a.length,m:ST.mean(a),sd:ST.sd(a)});
+  if(it[1]==="freq"){const f=[1,2].map(k=>gd.filter(x=>x===k).length);ex="ننقل gender إلى Variable(s) ← OK. يظهر جدول التكرارات والنسب.";h=`<table class="otbl"><caption>النوع</caption><thead><tr><th></th><th>Frequency</th><th>Percent</th><th>Valid Percent</th><th>Cumulative Percent</th></tr></thead><tbody><tr><th>ذكر</th><td>${f[0]}</td><td>50.0</td><td>50.0</td><td>50.0</td></tr><tr><th>أنثى</th><td>${f[1]}</td><td>50.0</td><td>50.0</td><td>100.0</td></tr><tr><th>Total</th><td>6</td><td>100.0</td><td>100.0</td><td></td></tr></tbody></table>`}
+  else if(it[1]==="desc"){ex="ننقل test1 و test2 إلى Variable(s) ← Options لاختيار Mean و Std. deviation… ← Continue ← OK.";h=`<table class="otbl"><caption>Descriptive Statistics</caption><thead><tr><th></th><th>N</th><th>Minimum</th><th>Maximum</th><th>Mean</th><th>Std. Deviation</th></tr></thead><tbody>${[["test1",t1],["test2",t2]].map(([n,a])=>{const s=g(a);return `<tr><th>${n}</th><td>6</td><td>${Math.min(...a)}</td><td>${Math.max(...a)}</td><td>${f2(s.m,2)}</td><td>${f2(s.sd,3)}</td></tr>`}).join("")}<tr><th>Valid N (listwise)</th><td>6</td><td colspan="4"></td></tr></tbody></table>`}
+  else if(it[1]==="explore"){ex="Explore: ننقل المتغير إلى Dependent List ← Plots ← Normality plots with tests. يعطي الوصفيات واختبارات الاعتدالية والرسوم والقيم المتطرفة.";h=`<p style="direction:rtl;color:#333">جدول Tests of Normality يعرض Kolmogorov–Smirnov و Shapiro–Wilk. القاعدة: Sig. &gt; .05 ← البيانات طبيعية. (6 حالات فقط عدد صغير جدًا للحكم الموثوق.)</p>`}
+  else if(it[1]==="one"){const s=g(t1),t=(s.m-10)/(s.sd/Math.sqrt(6)),p=ST.tP2(t,5);ex="ننقل test1 إلى Test Variable(s) ونكتب Test Value = 10 ← OK.";h=`<table class="otbl"><caption>One-Sample Test (Test Value = 10)</caption><thead><tr><th></th><th>t</th><th>df</th><th>Sig. (2-tailed)</th><th>Mean Difference</th></tr></thead><tbody><tr><th>test1</th><td>${f2(t,3)}</td><td>5</td><td>${f2(p,3)}</td><td>${f2(s.m-10,3)}</td></tr></tbody></table>`}
+  else if(it[1]==="ind"){const A=t1.filter((_,i)=>gd[i]===1),B=t1.filter((_,i)=>gd[i]===2);const a=g(A),b=g(B);const lv=ST.levene(A,B);const sp=((2)*a.sd**2+(2)*b.sd**2)/4;const t=(a.m-b.m)/Math.sqrt(sp*(2/3));const p=ST.tP2(t,4);ex="ننقل test1 إلى Test Variable(s)، و gender إلى Grouping Variable ← Define Groups (1 و 2) ← OK.";h=`<table class="otbl"><caption>Group Statistics</caption><thead><tr><th>gender</th><th>N</th><th>Mean</th><th>Std. Deviation</th></tr></thead><tbody><tr><th>ذكر</th><td>3</td><td>${f2(a.m,2)}</td><td>${f2(a.sd,3)}</td></tr><tr><th>أنثى</th><td>3</td><td>${f2(b.m,2)}</td><td>${f2(b.sd,3)}</td></tr></tbody></table><table class="otbl"><caption>Independent Samples Test</caption><thead><tr><th></th><th>F</th><th>Sig.</th><th>t</th><th>df</th><th>Sig. (2-tailed)</th></tr></thead><tbody><tr><th>Equal variances assumed</th><td>${f2(lv.F,3)}</td><td>${f2(lv.p,3)}</td><td>${f2(t,3)}</td><td>4</td><td>${f2(p,3)}</td></tr></tbody></table>`}
+  else if(it[1]==="paired"){const D=t1.map((x,i)=>x-t2[i]);const s=g(D);const t=s.m/(s.sd/Math.sqrt(6)),p=ST.tP2(t,5);ex="ننقل الزوج test1 و test2 إلى Paired Variables ← OK.";h=`<table class="otbl"><caption>Paired Samples Test</caption><thead><tr><th></th><th>Mean</th><th>Std. Deviation</th><th>t</th><th>df</th><th>Sig. (2-tailed)</th></tr></thead><tbody><tr><th>test1 - test2</th><td>${f2(s.m,3)}</td><td>${f2(s.sd,3)}</td><td>${f2(t,3)}</td><td>5</td><td>${f2(p,3)}</td></tr></tbody></table>`}
+  else if(it[1]==="anova"){ex="ننقل المتغير التابع إلى Dependent List، والمتغير ذا الثلاث فئات فأكثر إلى Factor ← Post Hoc ← Tukey ← OK. (يحتاج متغيرًا مستقلًا بأكثر من مجموعتين، مثل major.)";h=""}
+  else if(it[1]==="corr"){const ma=ST.mean(t1),mb=ST.mean(t2);const r=t1.reduce((s,x,i)=>s+(x-ma)*(t2[i]-mb),0)/Math.sqrt(ST.ss(t1)*ST.ss(t2));const tt=r*Math.sqrt(4/(1-r*r)),p=ST.tP2(tt,4);ex="ننقل test1 و test2 إلى Variables ونختار Pearson ← OK.";h=`<table class="otbl"><caption>Correlations</caption><thead><tr><th></th><th></th><th>test1</th><th>test2</th></tr></thead><tbody><tr><th rowspan="3">test1</th><th>Pearson Correlation</th><td>1</td><td>${f2(r,3)}</td></tr><tr><th>Sig. (2-tailed)</th><td></td><td>${f2(p,3)}</td></tr><tr><th>N</th><td>6</td><td>6</td></tr></tbody></table>`}
+  $("#sx").innerHTML=crumb+ex;out.innerHTML=h?`<div class="panel"><h3>Output Viewer</h3><div class="otwrap">${h}</div></div>`:"";labUse("spss");
+ }
+}
+
+/* ========== PRACTICE ========== */
+function allQ(){return LESSONS.flatMap(l=>l.quiz.map(q=>({...arr2q(q),src:l.t,u:l.u})))}
+function renderPractice(){
+ const tot=allQ().length;
+ view.innerHTML=`<div class="pgrid">
+ <button class="pcard" style="--c:var(--gold);--s:var(--gold-soft)" id="pQ"><div class="ic">${ICON.quiz}</div><b>تدريب سريع</b><span>10 أسئلة عشوائية من كل الدروس (${tot} سؤالًا في البنك).</span></button>
+ <button class="pcard" style="--c:var(--bad);--s:var(--bad-soft)" id="pE"><div class="ic">${ICON.clock}</div><b>امتحان تجريبي</b><span>25 سؤالًا في 20 دقيقة، مثل الامتحان الحقيقي.</span></button>
+ <button class="pcard" style="--c:var(--teal);--s:var(--teal-soft)" id="pF"><div class="ic">${ICON.cards}</div><b>البطاقات التعليمية</b><span>${GLOSS.length} مصطلحًا: اقلب البطاقة لترى التعريف.</span></button>
+ <button class="pcard" style="--c:var(--violet);--s:var(--violet-soft)" id="pM"><div class="ic">${ICON.link}</div><b>لعبة التوصيل</b><span>صِل المصطلح العربي بالإنجليزي بأسرع وقت.</span></button>
+ </div>
+ <div class="panel" style="margin-top:14px"><h3>تدريب حسب الوحدة</h3><div class="row">${UNITS.map(u=>`<button class="btn sm ghost" data-u="${u.n}">${u.n}. ${u.t}</button>`).join("")}</div></div>
+ <div class="panel"><h3>${ICON.book.replace('<svg','<svg width="20" height="20"')} مسرد المصطلحات والبحث</h3><input class="search" id="gq" placeholder="ابحث: التباين، Levene، الوسيط…"><div id="gl"></div></div>`;
+ $("#pQ").onclick=()=>startQuiz(shuffle(allQ()).slice(0,10),{title:"تدريب سريع"});
+ $("#pE").onclick=()=>startQuiz(shuffle(allQ()).slice(0,25),{title:"امتحان تجريبي",time:1200,exam:true,onDone:(s,n)=>{S.exams.push({s,n,d:today()});save()}});
+ $("#pF").onclick=flash;$("#pM").onclick=matchGame;
+ $$("[data-u]").forEach(b=>b.onclick=()=>startQuiz(shuffle(allQ().filter(q=>q.u===+b.dataset.u)).slice(0,12),{title:"الوحدة "+b.dataset.u}));
+ const gl=()=>{const q=$("#gq").value.trim();const hl=s=>q?esc(s).replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),m=>`<mark>${m}</mark>`):esc(s);
+  const g=GLOSS.filter(x=>!q||x.join(" ").toLowerCase().includes(q.toLowerCase()));
+  const ls=q?LESSONS.filter(l=>(l.t+l.sec.map(s=>s[0]+s[1].replace(/<[^>]+>/g," ")).join(" ")).toLowerCase().includes(q.toLowerCase())):[];
+  $("#gl").innerHTML=(ls.length?`<p class="muted" style="margin-bottom:0">في الدروس: ${ls.map(l=>`<a href="#lesson/${l.id}">${l.t}</a>`).join("، ")}</p>`:"")+g.map(x=>`<div class="gl"><b>${hl(x[0])}</b><span class="en">${hl(x[1])}</span><p>${hl(x[2])}</p></div>`).join("")||`<p class="muted">لا نتائج.</p>`};
+ $("#gq").oninput=gl;gl();
+}
+function flash(){let deck=shuffle(GLOSS),i=0;ov.hidden=false;document.body.style.overflow="hidden";
+ const show=()=>{const c=deck[i];ovIn.innerHTML=`<div class="qtop"><button class="x" id="fx">${ICON.x}</button><div class="qprog"><i style="width:${(i+1)/deck.length*100}%"></i></div><span class="num muted">${i+1}/${deck.length}</span></div><p class="muted" style="text-align:center">اضغط البطاقة لقلبها</p><div class="card3d"><button class="flip" id="fl"><div class="face"><b>${c[0]}</b><small class="en" style="text-align:center">${c[1]}</small></div><div class="face back"><b style="font-size:19px">${c[2]}</b></div></button></div><div class="row" style="justify-content:center;margin-top:auto"><button class="btn ghost" id="fp" ${i?"":"disabled"}>→ السابقة</button><button class="btn" id="fn">${i+1<deck.length?"التالية ←":"إنهاء"}</button></div>`;
+  $("#fx").onclick=closeOv;$("#fl").onclick=()=>$("#fl").classList.toggle("on");$("#fp").onclick=()=>{i--;show()};$("#fn").onclick=()=>{if(i+1<deck.length){i++;show()}else{addXp(15);toast("+15 نقطة لمراجعة البطاقات");closeOv()}}};show()}
+function matchGame(){ov.hidden=false;document.body.style.overflow="hidden";const pairs=shuffle(GLOSS.filter(g=>g[0]!==g[1])).slice(0,6);let L=shuffle(pairs.map((p,i)=>({t:p[0],i}))),R=shuffle(pairs.map((p,i)=>({t:p[1],i})));let sel=null,done=0,miss=0;const t0=Date.now();
+ ovIn.innerHTML=`<div class="qtop"><button class="x" id="mx">${ICON.x}</button><div class="qprog"><i id="mp" style="width:0"></i></div></div><h3 style="margin:16px 0 10px;text-align:center">صِل كل مصطلح بترجمته</h3><div class="mgrid">${L.map((x,k)=>`<button class="opt" data-s="L" data-i="${x.i}">${x.t}</button><button class="opt" data-s="R" data-i="${R[k].i}" dir="ltr">${R[k].t}</button>`).join("")}</div><div id="mres"></div>`;
+ $("#mx").onclick=closeOv;
+ $$(".mgrid .opt",ovIn).forEach(b=>b.onclick=()=>{if(b.classList.contains("gone"))return;if(!sel||sel.dataset.s===b.dataset.s){sel&&sel.classList.remove("sel");sel=b;b.classList.add("sel");return}
+  if(sel.dataset.i===b.dataset.i){[sel,b].forEach(x=>{x.classList.remove("sel");x.classList.add("ok");setTimeout(()=>x.classList.add("gone"),250)});done++;$("#mp").style.width=done/6*100+"%";if(done===6){const sec=Math.round((Date.now()-t0)/1000);const xp=Math.max(10,40-miss*5);addXp(xp);$("#mres").innerHTML=`<div class="result"><h2>أحسنت!</h2><p>${sec} ثانية · ${miss} أخطاء · +${xp} نقطة</p><button class="btn" onclick="matchGame()">جولة جديدة</button></div>`}}
+  else{miss++;const s=sel;[s,b].forEach(x=>x.classList.add("no"));setTimeout(()=>[s,b].forEach(x=>x.classList.remove("no","sel")),500)}sel=null})}
+
+/* ========== PROFILE ========== */
+function renderMe(){
+ const done=LESSONS.filter(l=>S.done[l.id]).length,acc=S.answered?Math.round(S.correct/S.answered*100):0,labs=Object.keys(S.labs).length;
+ const B=[["🎯","البداية","أكمل أول درس",done>=1],["📊","واصف البيانات","أكمل وحدة النزعة المركزية",LESSONS.filter(l=>l.u===3).every(l=>S.done[l.id])],["📏","سيد التشتت","أكمل وحدة التشتت",LESSONS.filter(l=>l.u===4).every(l=>S.done[l.id])],["🔬","المستدل","أكمل وحدة اختبارات ت",LESSONS.filter(l=>l.u===5).every(l=>S.done[l.id])],["💻","خبير SPSS","أكمل وحدة SPSS",LESSONS.filter(l=>l.u===6).every(l=>S.done[l.id])],["🧪","المجرّب","استخدم 3 معامل مختلفة",labs>=3],["🔥","المثابر","3 أيام متتالية",S.streak>=3],["⭐","500 نقطة","اجمع 500 نقطة",S.xp>=500],["🏆","الإحصائي","أكمل كل الدروس",done===LESSONS.length],["📝","جاهز للامتحان","80% في امتحان تجريبي",S.exams.some(e=>e.s/e.n>=.8)]];
+ view.innerHTML=`<div class="panel"><h3>إحصائياتك</h3><div class="kpis"><div class="kpi"><small>النقاط</small><b>${S.xp}</b></div><div class="kpi"><small>الدروس المكتملة</small><b>${done}/${LESSONS.length}</b></div><div class="kpi"><small>دقة الإجابات</small><b>${acc}%</b></div><div class="kpi"><small>أيام متتالية</small><b>${S.streak||0}</b></div><div class="kpi"><small>الأسئلة المجابة</small><b>${S.answered}</b></div><div class="kpi"><small>امتحانات تجريبية</small><b>${S.exams.length}</b></div></div></div>
+ <div class="panel"><h3>التقدم في الوحدات</h3>${UNITS.map(u=>{const ls=LESSONS.filter(l=>l.u===u.n),d=ls.filter(l=>S.done[l.id]).length;return `<div style="margin:8px 0"><div class="row" style="justify-content:space-between"><span>${u.n}. ${u.t}</span><span class="num muted">${d}/${ls.length}</span></div><div class="pbar"><i style="width:${d/ls.length*100}%"></i></div></div>`}).join("")}</div>
+ <div class="panel"><h3>الأوسمة</h3><div class="badges">${B.map(b=>`<div class="badge ${b[3]?"":"off"}"><div class="m">${b[0]}</div><b>${b[1]}</b><small>${b[2]}</small></div>`).join("")}</div></div>
+ ${S.exams.length?`<div class="panel"><h3>نتائج الامتحانات التجريبية</h3>${T(["#","التاريخ","النتيجة"],S.exams.slice(-8).map((e,i)=>[i+1,e.d,`${e.s}/${e.n} (${Math.round(e.s/e.n*100)}%)`]))}</div>`:""}
+ <div class="panel"><h3>الإعدادات</h3><p class="muted" style="margin-top:0">تقدمك محفوظ على هذا الجهاز فقط (في المتصفح)، ولا يحتاج تسجيل دخول.</p><button class="btn ghost" id="rst">مسح التقدم والبدء من جديد</button></div>`;
+ $("#rst").onclick=()=>{if(confirm("هل تريد مسح كل التقدم؟")){const fs=S.fs;S={xp:0,done:{},read:{},streak:0,last:"",quizzes:0,correct:0,answered:0,exams:[],labs:{},fs};save();renderBar();renderMe();toast("تم مسح التقدم")}};
+}
+
+/* ========== init ========== */
+function applyFs(){document.documentElement.style.setProperty("--fs",S.fs||1)}
+$("#fsBtn").onclick=()=>{const steps=[1,1.12,1.25,0.92];S.fs=steps[(steps.indexOf(S.fs||1)+1)%steps.length];applyFs();save();toast("حجم الخط: "+Math.round(S.fs*100)+"%")};
+function applyTheme(){const t=localStorage.getItem("statlab-theme");if(t)document.documentElement.dataset.theme=t}
+$("#thBtn").onclick=()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;const n=dark?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("statlab-theme",n)}catch(e){}};
+try{applyTheme()}catch(e){}
+applyFs();touchStreak();renderBar();route();initAnalytics();
+</script>
+</body>
+</html>
