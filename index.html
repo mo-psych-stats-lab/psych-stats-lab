@@ -1152,6 +1152,9 @@ function applyTheme(){const t=localStorage.getItem("statlab-theme");if(t)documen
 $("#thBtn").onclick=()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;const n=dark?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("statlab-theme",n)}catch(e){}};
 try{applyTheme()}catch(e){}
 applyFs();touchStreak();renderBar();route();initAnalytics();
+/* GoatCounter visit counter — only on the public GitHub Pages copy */
+function gcHit(){try{window.goatcounter&&window.goatcounter.count&&window.goatcounter.count({path:location.pathname+(location.hash||"#path"),title:document.title})}catch(e){}}
+if(/\.github\.io$/.test(location.hostname)){window.goatcounter={no_onload:true};const gs=document.createElement("script");gs.async=true;gs.dataset.goatcounter="https://mo-psych-stats-lab.goatcounter.com/count";gs.src="https://gc.zgo.at/count.js";gs.onload=gcHit;document.head.appendChild(gs);window.addEventListener("hashchange",gcHit)}
 </script>
 </body>
 </html>
