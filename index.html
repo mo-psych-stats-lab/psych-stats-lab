@@ -261,6 +261,18 @@ mark{background:var(--gold-soft);color:var(--ink);border-radius:3px;padding:0 2p
 .path-crumb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;direction:ltr;justify-content:flex-end;margin:8px 0}
 .path-crumb span{background:var(--teal);color:var(--card);padding:3px 10px;border-radius:8px;font-family:var(--f-mono);font-size:13.5px}
 .path-crumb em{color:var(--muted);font-style:normal}
+.fab{position:fixed;left:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;align-items:center;gap:8px;border:none;border-radius:999px;padding:10px 16px;background:linear-gradient(135deg,#6b4fd8,#2f5d8a);color:#fff;font-weight:700;box-shadow:0 8px 24px rgba(47,93,138,.35)}
+.fab svg{width:22px;height:22px}
+@media (min-width:681px){.fab{bottom:24px}}
+.aiout{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;min-height:48px;line-height:1.9}
+.meth{display:grid;gap:10px}
+.meth .opt{display:block;width:100%}
+.meth .opt small{display:block;color:var(--muted);font-size:14.5px;line-height:1.6;margin-top:2px}
+.meth .yr{font-family:var(--f-mono);font-size:13px;background:var(--gray-soft);border-radius:6px;padding:1px 8px;margin-inline-start:6px}
+.qitem{border-bottom:1px dashed var(--line);padding:10px 0}
+.qitem .sc{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.qitem .sc span{border:1px solid var(--line);border-radius:8px;padding:2px 10px;font-size:14px;background:var(--card)}
+.rev{color:var(--orange);font-size:13px;font-weight:700}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 @media print{.bar,.tabs,.lfoot,.foot{display:none}.sec .body{display:block!important}}
 </style>
@@ -278,7 +290,7 @@ mark{background:var(--gold-soft);color:var(--ink);border-radius:3px;padding:0 2p
   <nav class="tabs" role="tablist">
     <button class="tab" data-tab="path"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/></svg>الدروس</button>
     <button class="tab" data-tab="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg>المعامل</button>
-    <button class="tab" data-tab="spss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M15 9v11"/></svg>SPSS</button>
+    <button class="tab" data-tab="spss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M15 9v11"/></svg>SPSS/AMOS</button>
     <button class="tab" data-tab="practice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>التدريب</button>
     <button class="tab" data-tab="stats" id="statsTab" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>الزوار</button>
     <button class="tab" data-tab="me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>إنجازاتي</button>
@@ -423,7 +435,9 @@ const UNITS=[
  {n:3,t:"مقاييس النزعة المركزية",s:"المتوسط، الوسيط، المنوال"},
  {n:4,t:"مقاييس الموقع والتشتت",s:"المحاضرة الثالثة — الربيعيات، المدى، التباين، الانحراف المعياري"},
  {n:5,t:"الإحصاء الاستدلالي واختبارات ت",s:"المحاضرة الخامسة — الاعتدالية، ت لعينة واحدة، مستقلتين، مترابطتين"},
- {n:6,t:"التطبيق على برنامج SPSS",s:"الدورة المختصرة + قراءة المخرجات"}
+ {n:6,t:"التطبيق على برنامج SPSS",s:"الدورة المختصرة + قراءة المخرجات"},
+ {n:7,t:"معاملات الثبات في القياس النفسي",s:"ألفا كرونباخ، كيودر-ريتشاردسون، سبيرمان-براون، جتمان، كابا كوهين، أوميجا"},
+ {n:8,t:"برنامج AMOS والتحليل العاملي التوكيدي",s:"رموز النموذج، خطوات CFA، مؤشرات جودة المطابقة"}
 ];
 
 const LESSONS=[
@@ -756,6 +770,136 @@ const LESSONS=[
  ["متوسط متغير النوع = 1.40 (1 ذكر، 2 أنثى)، فنسبة الإناث:",["14%","40%","60%","1.4%"],1,"المتوسط − 1 = 0.40 ← 40% كودهم 2."],
  ["المتوسط 47.53 والانحراف المعياري 7.61؛ معظم الأعمار تقع تقريبًا بين:",["36 و68","40 و55","47 و48","30 و60"],1,"47.53 ± 7.61 ≈ 40 إلى 55."],
  ["Std. Error في الجدول يعبر عن:",["تشتت القيم","دقة تقدير المتوسط","عدد الأخطاء","الالتواء"],1,"كلما قل الخطأ المعياري كان تقدير متوسط المجتمع أدق."]
+]},
+/* ---------- UNIT 7: RELIABILITY ---------- */
+{id:"rel1",u:7,t:"ألفا كرونباخ وكيودر-ريتشاردسون",en:"Cronbach's Alpha & Kuder-Richardson (KR-20, KR-21)",sec:[
+ ["ما معنى معامل الثبات؟",`<p>معامل الثبات رقم بين <b>0 و 1</b> يعبر عن نسبة التباين الحقيقي في الدرجات (غير الراجع للخطأ). وكلما اقترب من 1 كانت الأداة أكثر ثباتًا.</p>
+ ${T(["قيمة الثبات","الحكم"],[["أقل من 0.70","ضعيف — غير مقبول غالبًا"],["0.70 فأكثر","مقبول"],["0.80 فأكثر","جيد"],["0.90 فأكثر","ممتاز"]])}
+ ${T(["نوع الثبات","يجيب عن سؤال","المعاملات"],[["الاستقرار عبر الزمن","هل تتكرر النتائج إذا أعدنا التطبيق؟","إعادة الاختبار Test-Retest"],["التكافؤ","هل الصورتان متكافئتان؟","الصور المتكافئة"],["الاتساق الداخلي","هل البنود تقيس الشيء نفسه؟","التجزئة النصفية، ألفا كرونباخ، KR-20، KR-21، أوميجا"],["اتفاق المصححين","هل يتفق المصححون؟","كابا كوهين"]])}`],
+ ["معامل ألفا كرونباخ Cronbach's Alpha",`<div class="f">α = [k / (k − 1)] × [1 − (Σσ²<sub>i</sub> / σ²<sub>x</sub>)]</div>
+ ${T(["الرمز","معناه بالعربية"],[["<span class='ltr'>α</span> ألفا","معامل ثبات ألفا لكرونباخ"],["<span class='ltr'>k</span>","عدد بنود (فقرات) المقياس"],["<span class='ltr'>Σ</span> سيجما","علامة المجموع"],["<span class='ltr'>σ²<sub>i</sub></span>","تباين كل بند على حدة"],["<span class='ltr'>Σσ²<sub>i</sub></span>","مجموع تباينات البنود"],["<span class='ltr'>σ²<sub>x</sub></span>","تباين الدرجة الكلية للمقياس"]])}
+ <p><b>متى يستخدم؟</b> عندما تكون البنود <b>متعددة الدرجات</b> (مقياس ليكرت مثلًا)، للتأكد من الاتساق الداخلي.</p>
+ <div class="box ex"><b>مثال</b>مقياس من 10 بنود، مجموع تباينات البنود = 8، تباين الدرجة الكلية = 30:<br><span class="ltr">α = (10/9) × (1 − 8/30) = 1.111 × 0.733 = 0.815</span> ← ثبات <b>جيد</b>.</div>
+ <div class="path-crumb"><span>Analyze</span><em>›</em><span>Scale</span><em>›</em><span>Reliability Analysis</span><em>›</em><span>Model: Alpha</span></div>
+ <div class="box warn"><b>تنبيهات مهمة</b><ul><li>البنود <b>السالبة (المعكوسة)</b> يجب إعادة ترميزها قبل الحساب، وإلا تنخفض ألفا.</li><li>ألفا ترتفع بزيادة عدد البنود، فلا تعني وحدها جودة المقياس.</li><li>ألفا <b>ليست دليلًا على أحادية البعد</b>، وتُحسب لكل بُعد على حدة.</li><li>من Statistics اختر <span class="ltr">Scale if item deleted</span> لترى «ألفا إذا حُذف البند».</li></ul></div>${labLink("rel","احسب ألفا من درجاتك")}`],
+ ["كيودر-ريتشاردسون KR-20",`<p>سُمّيت باسم العالمين <b>كيودر وريتشاردسون (1937)</b> <span class="ltr">Kuder-Richardson</span>، وتستخدم للاختبارات <b>ثنائية الدرجة (صح/خطأ = 1/0)</b> لحساب الاتساق الداخلي.</p>
+ <div class="f">KR-20 = [k / (k − 1)] × [1 − (Σpq / σ²<sub>x</sub>)]</div>
+ ${T(["الرمز","معناه"],[["<span class='ltr'>p</span>","نسبة من أجابوا إجابة صحيحة على البند (معامل السهولة / نسبة النجاح)"],["<span class='ltr'>q = 1 − p</span>","نسبة من أجابوا إجابة خاطئة (نسبة الفشل)"],["<span class='ltr'>p × q</span>","تباين البند الثنائي"],["<span class='ltr'>σ²<sub>x</sub></span>","تباين الدرجة الكلية للاختبار"],["<span class='ltr'>k</span>","عدد الأسئلة"]])}
+ <div class="box ex"><b>مثال</b>اختبار من 5 أسئلة، نسب النجاح p = 0.8، 0.7، 0.6، 0.5، 0.4 ← قيم pq = 0.16، 0.21، 0.24، 0.25، 0.24 ← Σpq = 1.10، وتباين الدرجة الكلية = 2.5:<br><span class="ltr">KR-20 = (5/4) × (1 − 1.10/2.5) = 1.25 × 0.56 = 0.70</span> ← مقبول.</div>
+ <div class="box tip"><b>علاقة مهمة</b>ألفا كرونباخ هي <b>تعميم</b> لمعادلة KR-20: إذا طبقت ألفا على بنود صح/خطأ تحصل تقريبًا على KR-20، لأن تباين البند الثنائي = pq.</div>`],
+ ["كيودر-ريتشاردسون KR-21",`<p>صورة مبسطة من KR-20 تفترض أن <b>صعوبة الفقرات متساوية تقريبًا</b>، فتحتاج فقط المتوسط والتباين وعدد الأسئلة.</p>
+ <div class="f">KR-21 = [k / (k − 1)] × [1 − M(k − M) / (k × σ²<sub>x</sub>)]<small>M = متوسط الدرجات الكلية — وتكافئ: 1 − (k × p̄ × q̄) / σ²x حيث p̄ متوسط صعوبة الفقرات</small></div>
+ <div class="box ex"><b>مثال</b>اختبار معرفي من 20 سؤالًا (صح/خطأ)، M = 12، σ²x = 16:<br><span class="ltr">KR-21 = (20/19) × [1 − (12 × 8)/(20 × 16)] = 1.053 × (1 − 0.30) = 0.737</span> ← مقبول.</div>
+ <div class="box warn"><b>لاحظ</b>إذا اختلفت صعوبة الفقرات فإن KR-21 يعطي قيمة <b>أقل</b> من KR-20 (يقلل تقدير الثبات).</div>`]
+],quiz:[
+ ["معادلة KR-20 تستخدم مع:",["مقاييس ليكرت","الاختبارات ثنائية الدرجة (صح/خطأ)","اتفاق المصححين","إعادة الاختبار"],1,"KR-20 للبنود 0/1، وألفا للبنود متعددة الدرجات."],
+ ["في KR-20، إذا أجاب 70% إجابة صحيحة على بند، فإن pq =",["0.70","0.30","0.21","1.00"],2,"p = 0.70، q = 0.30 ← pq = 0.21"],
+ ["k = 10، Σσ²i = 6، σ²x = 24؛ قيمة ألفا ≈",["0.75","0.83","0.25","0.90"],1,"(10/9)(1 − 6/24) = 1.111 × 0.75 = 0.833"],
+ ["KR-21 يفترض أن:",["البنود متعددة الدرجات","صعوبة الفقرات متساوية تقريبًا","العينة أكبر من 100","يوجد مصححان"],1,"لذلك يحتاج فقط المتوسط والتباين وعدد الأسئلة."],
+ ["قبل حساب ألفا لمقياس فيه عبارات سلبية يجب:",["حذفها","إعادة ترميزها (عكسها)","مضاعفتها","تجاهلها"],1,"العبارات المعكوسة غير المعاد ترميزها تخفض ألفا بشدة."],
+ ["معامل ثبات 0.84 يعتبر:",["ضعيفًا","مقبولًا فقط","جيدًا","ممتازًا"],2,"≥ 0.80 جيد، و≥ 0.90 ممتاز."]
+]},
+{id:"rel2",u:7,t:"التجزئة النصفية وإعادة الاختبار",en:"Split-Half (Spearman-Brown, Guttman) & Test-Retest",sec:[
+ ["معامل سبيرمان-براون Spearman-Brown",`<p>نطبق الاختبار مرة واحدة، ثم نقسمه إلى نصفين (البنود الفردية والزوجية) ونحسب معامل الارتباط r بين النصفين. لكن r هذا هو ثبات <b>نصف</b> الاختبار، فنصححه ليمثل الاختبار <b>كاملًا</b>:</p>
+ <div class="f">r<sub>sb</sub> = 2r / (1 + r)</div>
+ ${T(["الرمز","معناه"],[["<span class='ltr'>r</span>","معامل الارتباط بين النصفين قبل التصحيح"],["<span class='ltr'>r<sub>sb</sub></span>","معامل الثبات بعد التصحيح (ثبات الاختبار كاملًا بعد المضاعفة)"]])}
+ <div class="box ex"><b>مثال</b>الارتباط بين النصفين r = 0.70 ← <span class="ltr">r<sub>sb</sub> = (2 × 0.70)/(1 + 0.70) = 1.40/1.70 = 0.82</span></div>
+ <p><b>الصيغة العامة (إطالة الاختبار n مرة):</b></p><div class="f">r<sub>new</sub> = n·r / [1 + (n − 1)·r]<small>مثال: اختبار ثباته 0.60 لو ضاعفنا طوله 3 مرات ← 1.8/2.2 = 0.82</small></div>
+ <div class="box note"><b>شرط</b>تستخدم سبيرمان-براون عندما يكون <b>تباين النصفين متساويًا تقريبًا</b>؛ وإلا نستخدم معادلة جتمان.</div>`],
+ ["معامل جتمان للتجزئة النصفية Guttman Split-Half",`<p>بديل لسبيرمان-براون عند <b>عدم تساوي تباين النصفين</b>، ولا يحتاج حساب الارتباط:</p>
+ <div class="f">r<sub>G</sub> = 2 × [1 − (σ²<sub>1</sub> + σ²<sub>2</sub>) / σ²<sub>x</sub>]</div>
+ ${T(["الرمز","معناه"],[["<span class='ltr'>σ²<sub>1</sub></span>","تباين درجات النصف الأول"],["<span class='ltr'>σ²<sub>2</sub></span>","تباين درجات النصف الثاني"],["<span class='ltr'>σ²<sub>x</sub></span>","التباين الكلي للاختبار"]])}
+ <div class="box ex"><b>مثال</b>σ²₁ = 4.5، σ²₂ = 5.0، σ²x = 18 ← <span class="ltr">r<sub>G</sub> = 2 × (1 − 9.5/18) = 2 × 0.472 = 0.94</span> ← ممتاز.</div>
+ <div class="path-crumb"><span>Analyze</span><em>›</em><span>Scale</span><em>›</em><span>Reliability Analysis</span><em>›</em><span>Model: Split-half</span></div>
+ <p>يعطي SPSS في جدول واحد: الارتباط بين النصفين، و<span class="ltr">Spearman-Brown Coefficient</span> (Equal Length / Unequal Length)، و<span class="ltr">Guttman Split-Half Coefficient</span>.</p>${labLink("rel","احسب التجزئة النصفية من درجاتك")}`],
+ ["معامل الثبات بإعادة الاختبار Test-Retest",`<p>نطبق الاختبار نفسه على العينة نفسها مرتين بفاصل زمني (غالبًا أسبوعان)، ونحسب <b>معامل ارتباط بيرسون</b> بين درجات التطبيقين:</p>
+ <div class="f">r<sub>tt</sub> = Cov(X<sub>1</sub>, X<sub>2</sub>) / (σ<sub>X1</sub> × σ<sub>X2</sub>)</div>
+ ${T(["الرمز","معناه"],[["<span class='ltr'>X<sub>1</sub></span>","درجات التطبيق الأول"],["<span class='ltr'>X<sub>2</sub></span>","درجات التطبيق الثاني"],["<span class='ltr'>Cov</span>","التغاير بين التطبيقين"],["<span class='ltr'>σ<sub>X1</sub>، σ<sub>X2</sub></span>","الانحراف المعياري لكل تطبيق"]])}
+ <div class="box ex"><b>مثال</b>الارتباط بين التطبيقين r = 0.78 ← ثبات مقبول عبر الزمن (الاستقرار).</div>
+ <div class="path-crumb"><span>Analyze</span><em>›</em><span>Correlate</span><em>›</em><span>Bivariate</span><em>›</em><span>Pearson</span></div>`]
+],quiz:[
+ ["الارتباط بين نصفي اختبار = 0.60، فمعامل سبيرمان-براون =",["0.60","0.75","0.80","0.36"],1,"1.20 ÷ 1.60 = 0.75"],
+ ["لماذا نصحح معامل التجزئة النصفية؟",["لأنه يمثل ثبات نصف الاختبار فقط","لأنه دائمًا سالب","لإلغاء الصدفة","لأن العينة صغيرة"],0,"الارتباط بين النصفين = ثبات اختبار بنصف الطول، والثبات يزيد بزيادة الطول."],
+ ["نستخدم معادلة جتمان بدل سبيرمان-براون عندما:",["يكون تباين النصفين غير متساوٍ","تكون البنود صح/خطأ","يوجد مصححان","تكون العينة كبيرة"],0,"جتمان لا تفترض تساوي تباين النصفين."],
+ ["σ²₁ = 3، σ²₂ = 3، σ²x = 10؛ فمعامل جتمان =",["0.60","0.80","0.40","0.94"],1,"2 × (1 − 6/10) = 0.80"],
+ ["ثبات إعادة الاختبار يُحسب بـ:",["ألفا كرونباخ","ارتباط بيرسون بين التطبيقين","كابا كوهين","KR-21"],1,"الارتباط بين درجات التطبيق الأول والثاني."]
+]},
+{id:"rel3",u:7,t:"كابا كوهين واتفاق المصححين",en:"Cohen's Kappa — Inter-rater Agreement",sec:[
+ ["ما هو كابا كوهين؟",`<p>معامل ثبات خاص <b>باتفاق المصححين (المقدّرين)</b>: يقيس هل اتفق مصححان اتفاقًا حقيقيًا أم بالصدفة. ويستخدم عندما يكون التصحيح <b>ذاتيًا</b> (مثل تصحيح النصوص الكتابية، أو تصنيف السلوك بالملاحظة).</p>
+ <div class="f">κ = (P<sub>o</sub> − P<sub>e</sub>) / (1 − P<sub>e</sub>)</div>
+ ${T(["الرمز","الاسم","المعنى"],[["<span class='ltr'>P<sub>o</sub></span>","نسبة الاتفاق الملاحظ Observed Agreement","نسبة الحالات التي اتفق فيها المصححان فعليًا"],["<span class='ltr'>P<sub>e</sub></span>","نسبة الاتفاق المتوقع بالصدفة Expected Agreement","كم سيتفقان لو صححا عشوائيًا؛ تُحسب من جدول التوزيع"],["<span class='ltr'>κ</span> كابا","درجة الاتفاق الحقيقي بعد إزالة الصدفة","من −1 إلى +1"]])}
+ <div class="box tip"><b>الفرق الجوهري</b>ألفا وكيودر-ريتشاردسون يقيسان اتفاق <b>البنود</b> مع بعضها، أما كابا فيقيس اتفاق <b>الأشخاص المصححين</b>، وهو الوحيد الذي <b>يحذف الصدفة</b> من الحساب.</div>`],
+ ["مثال تطبيقي: تصحيح النصوص الكتابية",`<p>مصححان يصححان 50 نصًا كتابيًا: اتفقا في 40 نصًا ← <span class="ltr">P<sub>o</sub> = 40/50 = 0.80</span>، والاتفاق بالصدفة <span class="ltr">P<sub>e</sub> = 0.50</span>:</p>
+ <div class="f">κ = (0.80 − 0.50) / (1 − 0.50) = 0.30 / 0.50 = 0.60</div>
+ <p>← اتفاق <b>متوسط إلى جيد</b>، ويحتاج المصححون تدريبًا إضافيًا.</p>
+ <div class="box ex"><b>مثال آخر</b>تقييم مقدّرين لسلوك 50 طالبًا: اتفاق ملاحظ 85% والمتوقع 60% ← <span class="ltr">κ = 0.25 / 0.40 = 0.63</span> ← جيد.</div>`],
+ ["كيف نحسب Pe من الجدول؟",`<p>مصححان صنّفا 50 طالبًا (ناجح/راسب):</p>${T(["","المصحح ب: ناجح","المصحح ب: راسب","المجموع"],[["<b>المصحح أ: ناجح</b>","25","5","30"],["<b>المصحح أ: راسب</b>","5","15","20"],["<b>المجموع</b>","30","20","50"]])}
+ <ul><li><span class="ltr">P<sub>o</sub> = (25 + 15) / 50 = 0.80</span> (القطر = حالات الاتفاق)</li><li><span class="ltr">P<sub>e</sub> = (30×30 + 20×20) / 50² = 1300 / 2500 = 0.52</span> (مجموع حاصل ضرب المجاميع الهامشية ÷ n²)</li><li><span class="ltr">κ = (0.80 − 0.52) / (1 − 0.52) = 0.28 / 0.48 = 0.58</span></li></ul>
+ <div class="path-crumb"><span>Analyze</span><em>›</em><span>Descriptive Statistics</span><em>›</em><span>Crosstabs</span><em>›</em><span>Statistics</span><em>›</em><span>Kappa</span></div>${labLink("rel/kappa","احسب كابا من تقديرات المصححين")}`],
+ ["تفسير قيمة كابا",`${T(["قيمة كابا","التفسير","الحكم"],[["أقل من 0.20","ضعيف جدًا","غير مقبول"],["0.21 – 0.40","ضعيف","غير مقبول"],["0.41 – 0.60","متوسط","مقبول نوعًا ما"],["0.61 – 0.80","جيد","مقبول للرسالة"],["0.81 – 1.00","ممتاز","ممتاز"]])}
+ <p class="muted">تصنيف شائع مبني على Landis &amp; Koch (1977).</p>
+ <div class="box note"><b>حالات خاصة</b>لأكثر من مصححين: <b>Fleiss' Kappa</b>. للتقديرات الرتبية: <b>Weighted Kappa</b>. للدرجات المتصلة: <b>معامل الارتباط داخل الفئة ICC</b>.</div>`]
+],quiz:[
+ ["كابا كوهين يقيس:",["اتساق البنود","اتفاق المصححين بعد إزالة الصدفة","ثبات إعادة الاختبار","صدق المحتوى"],1,"هو المعامل الوحيد في الجدول الذي يحذف الصدفة."],
+ ["Po = 0.90 و Pe = 0.50؛ فإن κ =",["0.40","0.80","0.90","0.45"],1,"(0.90 − 0.50) ÷ 0.50 = 0.80"],
+ ["Pe في معادلة كابا تعني:",["نسبة الاتفاق الملاحظ","نسبة الاتفاق المتوقع بالصدفة","نسبة الخطأ","عدد المصححين"],1,"Expected agreement by chance."],
+ ["κ = 0.72 يُفسَّر بأنه اتفاق:",["ضعيف","متوسط","جيد","ممتاز"],2,"من 0.61 إلى 0.80 = جيد."],
+ ["لحساب كابا في SPSS نستخدم:",["Reliability Analysis","Crosstabs ← Statistics ← Kappa","Compare Means","Correlate"],1,"من جدول التقاطع Crosstabs."]
+]},
+{id:"rel4",u:7,t:"أوميجا ماكدونالد والجدول الشامل",en:"McDonald's Omega & Summary Table",sec:[
+ ["معامل أوميجا ماكدونالد ω",`<p>التطوير الحديث الذي يعالج عيب ألفا: ألفا تفترض أن <b>تشبعات البنود متساوية</b> (وهو افتراض نادرًا ما يتحقق)، بينما أوميجا تعتمد على <b>التشبعات الفعلية</b> لكل بند من التحليل العاملي.</p>
+ <div class="f">ω = (Σλ)² / [ (Σλ)² + Σθ ] &nbsp;&nbsp;&nbsp; θ = 1 − λ²<small>λ = التشبع المعياري للبند، θ = تباين الخطأ للبند</small></div>
+ <div class="box ex"><b>مثال</b>4 بنود تشبعاتها 0.70، 0.80، 0.60، 0.75 ← Σλ = 2.85 ← (Σλ)² = 8.12؛ وΣθ = 0.51 + 0.36 + 0.64 + 0.44 = 1.95<br><span class="ltr">ω = 8.12 / (8.12 + 1.95) = 0.81</span> ← جيد.</div>
+ <div class="box note"><b>أين أحسبها؟</b>SPSS الإصدار 29 فأحدث (Reliability Analysis ← Model: Omega)، أو برنامجا JASP و Jamovi، أو يدويًا من تشبعات AMOS المعيارية (وهي نفسها معادلة <b>الثبات المركب CR</b>).</div>${labLink("rel/omega","احسب أوميجا من التشبعات")}`],
+ ["الجدول الشامل لمعاملات الثبات",`<div class="tw"><table><thead><tr><th>المعامل</th><th>المعادلة</th><th>معنى الرموز</th><th>متى يستخدم</th><th>مثال</th></tr></thead><tbody>
+ <tr><td><b>ألفا كرونباخ</b><br><span class="en">Cronbach's Alpha</span></td><td class="n">α = k/(k−1) × [1 − Σσ²i/σ²x]</td><td>k عدد الفقرات، σ²i تباين كل فقرة، σ²x التباين الكلي</td><td>فقرات متعددة الدرجات (ليكرت)، للاتساق الداخلي</td><td>مقياس رضا 10 فقرات ← α = 0.82 ثبات جيد</td></tr>
+ <tr><td><b>KR-20</b><br><span class="en">Kuder-Richardson 20</span></td><td class="n">KR20 = k/(k−1) × [1 − Σpq/σ²x]</td><td>p نسبة الإجابة الصحيحة، q = 1 − p</td><td>اختبارات ثنائية الدرجة (صح/خطأ)</td><td>اختبار تحصيلي ← KR-20 = 0.78</td></tr>
+ <tr><td><b>KR-21</b><br><span class="en">Kuder-Richardson 21</span></td><td class="n">KR21 = k/(k−1) × [1 − M(k−M)/(kσ²x)]</td><td>M متوسط الدرجات، k عدد الفقرات</td><td>صح/خطأ مع تساوي صعوبة الفقرات تقريبًا</td><td>اختبار 20 سؤالًا ← KR-21 = 0.74</td></tr>
+ <tr><td><b>سبيرمان-براون</b><br><span class="en">Spearman-Brown</span></td><td class="n">rsb = 2r/(1 + r)</td><td>r الارتباط بين النصفين، rsb ثبات الاختبار كاملًا</td><td>تصحيح التجزئة النصفية مع تساوي تباين النصفين</td><td>r = 0.70 ← rsb = 0.82</td></tr>
+ <tr><td><b>جتمان</b><br><span class="en">Guttman Split-Half</span></td><td class="n">rG = 2 × [1 − (σ²1 + σ²2)/σ²x]</td><td>σ²1، σ²2 تباين النصفين، σ²x التباين الكلي</td><td>التجزئة النصفية مع عدم تساوي تباين النصفين</td><td>4.5 و5.0 و18 ← rG = 0.94</td></tr>
+ <tr><td><b>إعادة الاختبار</b><br><span class="en">Test-Retest</span></td><td class="n">rtt = Cov(X1,X2)/(σX1 × σX2)</td><td>X1، X2 درجات التطبيقين، Cov التغاير</td><td>تطبيق الاختبار نفسه على العينة نفسها بفاصل زمني</td><td>rtt = 0.78</td></tr>
+ <tr><td><b>كابا كوهين</b><br><span class="en">Cohen's Kappa</span></td><td class="n">κ = (Po − Pe)/(1 − Pe)</td><td>Po الاتفاق الملاحظ، Pe الاتفاق المتوقع بالصدفة</td><td>اتفاق مصححَين أو مقدّرَين على تصنيف</td><td>Po = 0.85، Pe = 0.60 ← κ = 0.63</td></tr>
+ <tr><td><b>أوميجا ماكدونالد</b><br><span class="en">McDonald's Omega</span></td><td class="n">ω = (Σλ)²/[(Σλ)² + Σθ]</td><td>λ التشبع المعياري، θ = 1 − λ² تباين الخطأ</td><td>اتساق داخلي دون افتراض تساوي التشبعات</td><td>تشبعات 0.6–0.8 ← ω = 0.81</td></tr>
+ </tbody></table></div><p class="muted" style="font-size:14px">ملاحظة: تُعد قيمة الثبات ≥ 0.70 مقبولة، و≥ 0.80 جيدة، و≥ 0.90 ممتازة. (هذا الجدول مراجَع ومصحَّح: كل معادلة في صفها الصحيح مع رموزها.)</p>`],
+ ["ملخص تحفظه للمناقشة",`<div class="apa"><b>للحفظ:</b> كرونباخ، كيودر-ريتشاردسون، سبيرمان-براون، جتمان، ماكدونالد، كوهين <b>كلهم أسماء علماء</b> وليست رموزًا مجردة. كيودر-ريتشاردسون مخصص للصح/خطأ، وكرونباخ تعميم له لليكرت، وماكدونالد هو التطوير الحديث الذي صحح عيوب كرونباخ، وكابا كوهين لاتفاق المصححين بعد حذف الصدفة.</div>`]
+],quiz:[
+ ["أهم ميزة لأوميجا على ألفا:",["أسهل في الحساب","لا تفترض تساوي تشبعات البنود","لا تحتاج بيانات","تستخدم للصح/خطأ فقط"],1,"ألفا تفترض تساوي التشبعات (tau-equivalence)، وأوميجا تستخدم التشبعات الفعلية."],
+ ["في معادلة أوميجا، θ تعني:",["التشبع","تباين خطأ البند = 1 − λ²","عدد البنود","المتوسط"],1,"θ = 1 − λ² للتشبعات المعيارية."],
+ ["أي معامل يناسب اختبارًا تحصيليًا صح/خطأ؟",["كابا","KR-20","جتمان فقط","أوميجا فقط"],1,"KR-20 (أو KR-21 مع تساوي الصعوبة)."],
+ ["مصححان يصنفان أداء الطلاب؛ المعامل المناسب:",["ألفا","كابا كوهين","سبيرمان-براون","KR-20"],1,"اتفاق المصححين = كابا."]
+]},
+/* ---------- UNIT 8: AMOS ---------- */
+{id:"amos1",u:8,t:"برنامج AMOS ورموز النموذج",en:"AMOS & Path Diagram Symbols",sec:[
+ ["ما هو AMOS؟",`<p><b>AMOS</b> اختصار <span class="ltr">Analysis of Moment Structures</span>، برنامج من IBM مرتبط بـ SPSS، يستخدم لـ <b>نمذجة المعادلة البنائية SEM</b>، و<b>التحليل العاملي التوكيدي CFA</b>، وتحليل المسار. ويتميز بأنك <b>ترسم النموذج</b> بالأشكال بدل كتابة الأوامر، ويقرأ ملفات SPSS (.sav) مباشرة.</p>
+ ${T(["","التحليل العاملي الاستكشافي EFA","التحليل العاملي التوكيدي CFA"],[["البرنامج","SPSS (Dimension Reduction › Factor)","AMOS"],["الهدف","اكتشاف عدد العوامل وتوزيع البنود","التحقق من بنية محددة مسبقًا نظريًا"],["البنود","كل بند يتشبع على كل العوامل","كل بند يتشبع على عامله المحدد فقط"],["الحكم","نسبة التباين المفسر والتشبعات","مؤشرات جودة المطابقة"]])}
+ <div class="box note"><b>حجم العينة</b>يُفضل 200 فأكثر، أو 10 حالات على الأقل لكل معلمة مقدّرة.</div>`],
+ ["رموز النموذج (Path Diagram)",`${T(["الشكل","معناه","مثال"],[["▭ مستطيل","متغير <b>مشاهد</b> (مقاس فعلًا) Observed","بند في المقياس: x1"],["⬭ شكل بيضاوي","متغير <b>كامن</b> (لا يقاس مباشرة) Latent","القلق، الذكاء العاطفي"],["◯ دائرة صغيرة","<b>الخطأ</b> أو التباين الفريد للبند Error","e1، e2"],["→ سهم في اتجاه واحد","تأثير أو انحدار (تشبع)","من العامل إلى البند"],["↔ سهم مزدوج","تغاير / ارتباط بين متغيرين","بين عاملين"],["الرقم 1 على المسار","تثبيت مسار لتحديد وحدة قياس العامل","أول بند في كل عامل"]])}
+ <div class="box tip"><b>جرّب</b>في تبويب SPSS/AMOS ← قسم AMOS، اضغط على أي شكل في النموذج التفاعلي لترى معناه.</div>${labLink("spss/amos","افتح النموذج التفاعلي")}`]
+],quiz:[
+ ["في AMOS يُرسم المتغير الكامن (مثل القلق) على شكل:",["مستطيل","شكل بيضاوي","دائرة صغيرة","سهم"],1,"البيضاوي للكامن، والمستطيل للمشاهد."],
+ ["السهم المزدوج ↔ في النموذج يعني:",["انحدار","تغاير / ارتباط","خطأ","تشبع"],1,"التغاير بين متغيرين، مثل الارتباط بين عاملين."],
+ ["الفرق الأساسي بين EFA و CFA:",["CFA يكتشف العوامل","CFA يتحقق من بنية محددة مسبقًا","EFA يحتاج AMOS","لا فرق"],1,"التوكيدي يختبر نموذجًا نظريًا جاهزًا."],
+ ["الدوائر الصغيرة e1، e2 تمثل:",["العوامل","أخطاء القياس للبنود","المتوسطات","العينات"],1,"التباين الفريد/الخطأ لكل بند."]
+]},
+{id:"amos2",u:8,t:"التحليل العاملي التوكيدي خطوة بخطوة",en:"CFA in AMOS — Step by Step",sec:[
+ ["خطوات العمل في AMOS",`<ol><li>افتح البرنامج: من SPSS <span class="ltr">Analyze › IBM SPSS Amos</span> أو افتح <span class="ltr">AMOS Graphics</span> مباشرة.</li><li>اختر ملف البيانات: <span class="ltr">File › Data Files › File Name</span> واختر ملف <span class="ltr">.sav</span>.</li><li>ارسم العامل وبنوده بأداة <span class="ltr">Draw a latent variable or add an indicator</span> (اضغط داخل البيضاوي بعدد البنود).</li><li>اعرض المتغيرات <span class="ltr">List variables in data set</span> واسحب كل بند إلى المستطيل الخاص به.</li><li>سمِّ الأخطاء تلقائيًا: <span class="ltr">Plugins › Name Unobserved Variables</span>، وسمِّ العوامل بالضغط المزدوج عليها.</li><li>ارسم سهمًا مزدوجًا بين العوامل (التغاير بينها).</li><li>من <span class="ltr">View › Analysis Properties › Output</span> علّم: <span class="ltr">Standardized estimates</span> و <span class="ltr">Squared multiple correlations</span> و <span class="ltr">Modification indices</span>.</li><li>شغّل التحليل: <span class="ltr">Analyze › Calculate Estimates</span>.</li><li>اقرأ النتائج: <span class="ltr">View › Text Output</span>.</li></ol>
+ <div class="box warn"><b>قبل التشغيل</b>عالج <b>البيانات المفقودة</b> أولًا، وإلا سيرفض AMOS حساب مؤشرات التعديل.</div>`],
+ ["قراءة المخرجات",`${T(["الجدول في Text Output","ماذا نقرأ منه؟","المعيار"],[["Regression Weights","C.R. (النسبة الحرجة) و P","C.R. > 1.96 والعلامة *** تعني p &lt; .001 ← التشبع دال"],["Standardized Regression Weights","التشبعات المعيارية λ","≥ 0.50 (ويقبل البعض ≥ 0.40)"],["Squared Multiple Correlations","R² لكل بند = نسبة تباينه المفسرة بالعامل","كلما زادت كان أفضل"],["Model Fit","مؤشرات جودة المطابقة","انظر الدرس التالي"],["Modification Indices","اقتراحات لتحسين النموذج","لا تربط أخطاء إلا داخل العامل نفسه ومع مبرر نظري"]])}`]
+],quiz:[
+ ["لتشغيل التحليل في AMOS نختار:",["Analyze › Calculate Estimates","File › Save","Data › Transpose","Analyze › Compare Means"],0,"Calculate Estimates."],
+ ["التشبع المعياري المقبول للبند غالبًا:",["≥ 0.10","≥ 0.50","≥ 0.95","سالب"],1,"≥ 0.50 (أو ≥ 0.40 عند البعض)."],
+ ["C.R. = 6.8 مع *** يعني:",["التشبع غير دال","التشبع دال إحصائيًا","النموذج سيئ","يجب حذف البند"],1,"C.R. > 1.96 و*** = p < .001."]
+]},
+{id:"amos3",u:8,t:"مؤشرات جودة المطابقة والصدق البنائي",en:"Model Fit Indices, AVE & CR",sec:[
+ ["مؤشرات جودة المطابقة Model Fit",`${T(["المؤشر","معناه","المعيار"],[["χ² (CMIN) و p","الفرق بين النموذج والبيانات","p &gt; .05 مثالي، لكنه يتأثر جدًا بحجم العينة"],["CMIN/DF","كا² مقسومة على درجات الحرية","&lt; 3 جيد، و&lt; 5 مقبول"],["GFI","مؤشر حسن المطابقة","≥ 0.90"],["AGFI","حسن المطابقة المصحح","≥ 0.90 (ويقبل ≥ 0.85)"],["NFI","المطابقة المعياري","≥ 0.90"],["CFI","المطابقة المقارن","≥ 0.90 مقبول، ≥ 0.95 جيد"],["TLI","توكر–لويس","≥ 0.90 مقبول، ≥ 0.95 جيد"],["RMSEA","جذر متوسط مربع خطأ الاقتراب","≤ 0.08 مقبول، ≤ 0.05 جيد"],["SRMR","جذر متوسط مربعات البواقي المعياري","≤ 0.08 (من Plugins › Standardized RMR)"]].map(r=>[`<span class="ltr"><b>${r[0]}</b></span>`,r[1],r[2]]))}
+ <div class="box note"><b>المرجع الأشهر</b>معايير Hu &amp; Bentler (1999): CFI و TLI ≥ 0.95، RMSEA ≤ 0.06، SRMR ≤ 0.08.</div>${labLink("fit","افحص مؤشرات نموذجك")}`],
+ ["الصدق التقاربي والتمييزي",`${T(["المؤشر","المعادلة","المعيار"],[["متوسط التباين المستخلص AVE","Σλ² / k","≥ 0.50 (صدق تقاربي)"],["الثبات المركب CR","(Σλ)² / [(Σλ)² + Σ(1 − λ²)]","≥ 0.70"],["فورنل ولاركر","√AVE لكل عامل &gt; ارتباطه بالعوامل الأخرى","صدق تمييزي"]])}
+ <div class="apa"><b>نموذج كتابة النتيجة:</b> أظهرت نتائج التحليل العاملي التوكيدي مطابقة جيدة للنموذج <span class="ltr">(χ²/df = 2.14, CFI = .96, TLI = .95, RMSEA = .048, SRMR = .041)</span>، وتراوحت التشبعات المعيارية بين .62 و .84 وكانت جميعها دالة عند مستوى .001.</div>${labLink("rel/omega","احسب AVE و CR من التشبعات")}`]
+],quiz:[
+ ["RMSEA = 0.04 يعني مطابقة:",["سيئة","مقبولة فقط","جيدة","لا يمكن الحكم"],2,"≤ 0.05 جيد."],
+ ["CFI = 0.87 يعني:",["مطابقة جيدة","أقل من المقبول (0.90)","ممتازة","لا علاقة له"],1,"المقبول ≥ 0.90."],
+ ["AVE = 0.42 يعني:",["صدق تقاربي متحقق","صدق تقاربي غير متحقق","ثبات ممتاز","مطابقة جيدة"],1,"المعيار AVE ≥ 0.50."],
+ ["CMIN/DF = 2.4 يعتبر:",["جيدًا","سيئًا","يحتاج حذف بنود","غير مهم"],0,"أقل من 3 = جيد."]
 ]}
 ];
 function descTable(){return `<table class="otbl" id="dtbl"><caption>Descriptive Statistics</caption><thead><tr><th></th>${["N","Range","Minimum","Maximum","Sum","Mean","Std. Error","Std. Deviation","Skewness","Std. Error ","Kurtosis","Std. Error  "].map(h=>`<th data-k="${h.trim()}${h.endsWith("  ")?"K":h.endsWith(" ")?"S":""}">${h.trim()}</th>`).join("")}</tr></thead><tbody>
@@ -803,7 +947,19 @@ const GLOSS=[
 ["تحليل التباين الأحادي","One-Way ANOVA","مقارنة متوسطات أكثر من مجموعتين مستقلتين."],
 ["معامل الارتباط","Correlation coefficient","قيمة بين −1 و+1 تصف قوة واتجاه العلاقة."],
 ["Variable View","Variable View","شاشة تعريف المتغيرات في SPSS."],
-["Data View","Data View","شاشة إدخال البيانات: صفوف للحالات وأعمدة للمتغيرات."]
+["Data View","Data View","شاشة إدخال البيانات: صفوف للحالات وأعمدة للمتغيرات."],
+["ألفا كرونباخ","Cronbach's Alpha","معامل الاتساق الداخلي للبنود متعددة الدرجات: k/(k−1) × [1 − Σσ²i/σ²x]."],
+["كيودر-ريتشاردسون 20","KR-20","ثبات الاختبارات ثنائية الدرجة (صح/خطأ) باستخدام Σpq."],
+["كيودر-ريتشاردسون 21","KR-21","صورة مبسطة من KR-20 تفترض تساوي صعوبة الفقرات."],
+["سبيرمان-براون","Spearman-Brown","تصحيح معامل التجزئة النصفية: 2r/(1+r)."],
+["جتمان","Guttman Split-Half","2 × [1 − (σ²1 + σ²2)/σ²x] عند عدم تساوي تباين النصفين."],
+["كابا كوهين","Cohen's Kappa","اتفاق مصححين بعد حذف الصدفة: (Po − Pe)/(1 − Pe)."],
+["أوميجا ماكدونالد","McDonald's Omega","ثبات يعتمد على التشبعات الفعلية: (Σλ)²/[(Σλ)² + Σθ]."],
+["التحليل العاملي التوكيدي","Confirmatory Factor Analysis (CFA)","اختبار بنية عاملية محددة مسبقًا، عادة في AMOS."],
+["المتغير الكامن","Latent variable","سمة لا تقاس مباشرة؛ تُرسم بيضاوية في AMOS."],
+["مؤشر المطابقة المقارن","CFI","≥ .90 مقبول و≥ .95 جيد."],
+["جذر متوسط مربع خطأ الاقتراب","RMSEA","≤ .08 مقبول و≤ .05 جيد."],
+["متوسط التباين المستخلص","AVE","Σλ²/k؛ ≥ .50 دليل الصدق التقاربي."]
 ];
 
 /* ========== ROUTER ========== */
@@ -829,7 +985,7 @@ function route(){
 function ring(p){const r=44,c=2*Math.PI*r;return `<div class="ring"><svg viewBox="0 0 104 104"><circle cx="52" cy="52" r="${r}" fill="none" stroke="var(--gray-soft)" stroke-width="10"/><circle cx="52" cy="52" r="${r}" fill="none" stroke="var(--good)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}"/></svg><div class="c"><b>${Math.round(p*100)}%</b><small>مكتمل</small></div></div>`}
 function renderPath(){
  const done=LESSONS.filter(l=>S.done[l.id]).length;const cur=LESSONS.find(l=>!S.done[l.id]);
- let h=`<section class="hero">${ring(done/LESSONS.length)}<div><h1>مختبر الإحصاء النفسي</h1><p>${LESSONS.length} درسًا تفاعليًا من محاضرات المادة، مع معامل حسابية تشرح الحل خطوة بخطوة، ومحاكي لبرنامج SPSS، واختبارات تدريبية.</p><div class="row">${cur?`<button class="btn" onclick="go('lesson/${cur.id}')">${done?"أكمل":"ابدأ"}: ${cur.t}</button>`:`<button class="btn gold" onclick="go('practice')">راجع بالاختبار الشامل</button>`}<button class="btn ghost" onclick="go('all')">افتح كل الدروس مرة واحدة</button><button class="btn ghost" onclick="go('lab')">المعامل الحسابية</button></div></div></section>`;
+ let h=`<section class="hero">${ring(done/LESSONS.length)}<div><h1>مختبر الإحصاء النفسي</h1><p>${LESSONS.length} درسًا تفاعليًا من محاضرات المادة، مع معامل حسابية تشرح الحل خطوة بخطوة، ومحاكي لبرنامج SPSS، واختبارات تدريبية.</p><div class="row">${cur?`<button class="btn" onclick="go('lesson/${cur.id}')">${done?"أكمل":"ابدأ"}: ${cur.t}</button>`:`<button class="btn gold" onclick="go('practice')">راجع بالاختبار الشامل</button>`}<button class="btn ghost" onclick="go('all')">افتح كل الدروس مرة واحدة</button><button class="btn ghost" onclick="go('lab/build')">ابنِ مقياسك النفسي</button><button class="btn ghost" onclick="go('lab')">المعامل الحسابية</button></div></div></section>`;
  UNITS.forEach(u=>{h+=`<div class="unit"><div class="n">${u.n}</div><div><b>${u.t}</b><small>${u.s}</small></div></div>`;
   LESSONS.filter(l=>l.u===u.n).forEach(l=>{const i=LESSONS.indexOf(l)+1;const d=S.done[l.id];const best=S.done[l.id]?.score;
    h+=`<button class="node ${d?"done":""} ${cur===l?"current":""}" onclick="go('lesson/${l.id}')"><div class="disc">${d?ICON.check:i}</div><div class="meta"><b>${l.t}</b><small>${l.sec.length} أقسام · ${l.quiz.length} أسئلة${d?` · أفضل نتيجة ${best}/${l.quiz.length}`:""}</small></div></button>`})});
@@ -928,11 +1084,14 @@ const LABS=[
  ["desc","معمل الإحصاء الوصفي","أدخل بياناتك: جدول تكراري، متوسط، وسيط، منوال، ربيعيات، تباين وانحراف معياري — مع خطوات الحل والرسوم.",ICON.calc,"var(--teal)","var(--teal-soft)"],
  ["ttest","معمل اختبارات ت","عينة واحدة، مستقلتان (مع ليفين)، مترابطتان: قيمة t ودرجات الحرية والدلالة وحجم الأثر وصياغة النتيجة جاهزة.",ICON.tt,"var(--orange)","var(--orange-soft)"],
  ["normal","معمل التوزيع الطبيعي","حوّل الدرجة إلى z ومئين، وافحص الاعتدالية بقسمة الالتواء والتفلطح على الخطأ المعياري.",ICON.bell,"var(--good)","var(--good-soft)"],
- ["chooser","مُرشد اختيار الاختبار","أجب عن 3 أسئلة بسيطة لتعرف الاختبار الإحصائي المناسب لبحثك ومساره في SPSS.",ICON.tree,"var(--violet)","var(--violet-soft)"]
+ ["chooser","مُرشد اختيار الاختبار","أجب عن 3 أسئلة بسيطة لتعرف الاختبار الإحصائي المناسب لبحثك ومساره في SPSS.",ICON.tree,"var(--violet)","var(--violet-soft)"],
+ ["rel","معمل معاملات الثبات","ألفا كرونباخ، KR-20، KR-21، سبيرمان-براون، جتمان، كابا كوهين، وأوميجا — مع تحليل البنود وخطوات الحل.",ICON.check.replace('stroke-width="3"','stroke-width="2"'),"var(--gold)","var(--gold-soft)"],
+ ["build","بناء مقياس نفسي","اختر طريقة البناء (من ثرستون 1928 حتى توليد البنود بالذكاء الاصطناعي)، وحدد عدد البنود والعينة، وابنِ أسئلة مقياسك وجرّب تحليلها.",ICON.book,"var(--violet)","var(--violet-soft)"],
+ ["fit","فاحص مؤشرات المطابقة (AMOS)","أدخل مؤشرات نموذجك (CFI، TLI، RMSEA…) واعرف هل المطابقة جيدة، مع صياغة النتيجة.",ICON.tree,"var(--bad)","var(--bad-soft)"]
 ];
 function renderLabs(){view.innerHTML=`<div class="panel"><h3>المعامل التفاعلية</h3><p class="muted" style="margin:0">كل معمل يحسب لك النتيجة ويشرح كيف وصل إليها، بنفس طريقة المحاضرات وبنفس قوانين SPSS.</p></div><div class="pgrid">${LABS.map(l=>`<button class="pcard" style="--c:${l[4]};--s:${l[5]}" onclick="go('lab/${l[0]}')"><div class="ic">${l[3]}</div><b>${l[1]}</b><span>${l[2]}</span></button>`).join("")}</div>`}
 function labHead(t){return `<button class="back" onclick="go('lab')">${ICON.back} المعامل</button><h2 style="margin:0 0 12px">${t}</h2>`}
-function renderLab(k,sub){labUse(k);({desc:labDesc,ttest:labT,normal:labNormal,chooser:labChooser}[k]||renderLabs)(sub)}
+function renderLab(k,sub){labUse(k);({desc:labDesc,ttest:labT,normal:labNormal,chooser:labChooser,rel:labRel,fit:labFit,build:labBuild}[k]||renderLabs)(sub)}
 
 /* --- descriptive lab --- */
 const DESC_PRESETS=[["محاضرة: 20 درجة","3 5 1 4 2 3 5 1 4 2 3 5 1 4 2 3 5 1 4 2"],["محاضرة: الوسيط","27 12 15 300 22 18 14 24 17"],["محاضرة: الربيعيات","100 150 200 50 160 300 250"],["محاضرة: التباين","2 4 5 8 1"],["أوزان 7 أشخاص","25 30 40 45 35 55 50"],["منوالان","2 3 4 4 4 5 5 7 7 7 9"]];
@@ -1054,6 +1213,87 @@ function labChooser(){
  };draw();
 }
 
+/* --- reliability lab --- */
+const pear=(x,y)=>{const mx=ST.mean(x),my=ST.mean(y);let a=0,b=0,c=0;x.forEach((v,i)=>{a+=(v-mx)*(y[i]-my);b+=(v-mx)**2;c+=(y[i]-my)**2});return a/Math.sqrt(b*c)};
+const rd3=x=>Math.round(x*1000)/1000;
+const relLbl=r=>(r=rd3(r),!isFinite(r))?["—","mid"]:r>=.9?["ممتاز","ok"]:r>=.8?["جيد","ok"]:r>=.7?["مقبول","mid"]:["ضعيف — أقل من 0.70","no"];
+const kapLbl=k=>(k=rd3(k))<=.2?["ضعيف جدًا — غير مقبول","no"]:k<=.4?["ضعيف — غير مقبول","no"]:k<=.6?["متوسط — مقبول نوعًا ما","mid"]:k<=.8?["جيد — مقبول للرسالة","ok"]:["ممتاز","ok"];
+const REL_PRE=[["ليكرت: 10 أفراد × 5 بنود","4 5 4 3 5\n3 4 3 3 4\n5 5 4 4 5\n2 3 2 2 3\n4 4 5 4 4\n3 3 3 2 3\n5 4 5 5 5\n2 2 3 2 2\n4 5 4 4 4\n3 4 3 3 3"],["صح/خطأ: 10 طلاب × 6 أسئلة","1 1 1 1 0 1\n1 0 1 0 0 0\n1 1 1 1 1 1\n0 0 1 0 0 0\n1 1 0 1 1 0\n1 1 1 0 0 1\n0 1 0 0 0 0\n1 1 1 1 1 1\n1 0 1 1 0 0\n1 1 1 1 0 1"]];
+function alphaOf(cols){const k=cols.length;if(k<2)return NaN;const n=cols[0].length;const tot=Array.from({length:n},(_,i)=>cols.reduce((s,c)=>s+c[i],0));const vt=ST.variance(tot);return vt?k/(k-1)*(1-cols.reduce((s,c)=>s+ST.variance(c),0)/vt):NaN}
+function labRel(mode){
+ mode=["mat","kappa","sb","omega"].includes(mode)?mode:"mat";
+ const M={mat:"درجات البنود (ألفا، KR، التجزئة)",kappa:"كابا كوهين",sb:"سبيرمان-براون",omega:"أوميجا و AVE و CR"};
+ let h=labHead("معمل معاملات الثبات")+`<div class="seg">${Object.keys(M).map(k=>`<button aria-pressed="${k===mode}" onclick="go('lab/rel/${k}')">${M[k]}</button>`).join("")}</div>`;
+ if(mode==="mat"){
+  view.innerHTML=h+`<div class="panel"><label class="fl" for="rIn">مصفوفة الدرجات: كل سطر = فرد، وكل عمود = بند (افصل بمسافة)</label><textarea id="rIn" style="min-height:190px">${window._relPreset||REL_PRE[0][1]}</textarea><div class="row" style="margin-top:8px">${REL_PRE.map((p,i)=>`<button class="btn sm ghost" data-p="${i}">${p[0]}</button>`).join("")}</div></div><div id="rOut"></div>`;
+  const inp=$("#rIn");$$("[data-p]").forEach(b=>b.onclick=()=>{inp.value=REL_PRE[b.dataset.p][1];run()});inp.oninput=run;run();
+  function run(){const o=$("#rOut");const rows=inp.value.trim().split(/\n+/).map(l=>ST.parse(l)).filter(r=>r.length);
+   if(rows.length<3){o.innerHTML=`<div class="panel muted">أدخل 3 أفراد على الأقل.</div>`;return}
+   const k=rows[0].length;if(k<2||rows.some(r=>r.length!==k)){o.innerHTML=`<div class="panel verdict no">كل الأسطر يجب أن تحتوي على نفس عدد البنود (2 على الأقل).</div>`;return}
+   const n=rows.length,cols=Array.from({length:k},(_,j)=>rows.map(r=>r[j])),tot=rows.map(r=>ST.sum(r)),vt=ST.variance(tot);
+   if(!vt){o.innerHTML=`<div class="panel verdict no">تباين الدرجة الكلية = صفر؛ لا يمكن حساب الثبات.</div>`;return}
+   const iv=cols.map(c=>ST.variance(c)),siv=ST.sum(iv),al=k/(k-1)*(1-siv/vt);
+   const bin=rows.every(r=>r.every(v=>v===0||v===1));
+   const odd=cols.filter((_,j)=>j%2===0),even=cols.filter((_,j)=>j%2===1);const h1=rows.map((_,i)=>odd.reduce((s,c)=>s+c[i],0)),h2=rows.map((_,i)=>even.reduce((s,c)=>s+c[i],0));
+   const r=pear(h1,h2),sb=2*r/(1+r),gt=2*(1-(ST.variance(h1)+ST.variance(h2))/vt);
+   let kr20,kr21,spq,vp,Mt;if(bin){const p=cols.map(c=>ST.mean(c));spq=ST.sum(p.map(x=>x*(1-x)));vp=ST.ss(tot)/n;Mt=ST.mean(tot);kr20=k/(k-1)*(1-spq/vp);kr21=k/(k-1)*(1-Mt*(k-Mt)/(k*vp))}
+   const K=(l,v,hl)=>`<div class="kpi ${hl?"hl":""}"><small>${l}</small><b>${v}</b></div>`;
+   let s=`<div class="panel"><h3>النتائج (${n} فردًا، ${k} بنود)</h3><div class="kpis">${K("ألفا كرونباخ α",f2(al,3),1)}${bin?K("KR-20",f2(kr20,3),1)+K("KR-21",f2(kr21,3)):""}${K("الارتباط بين النصفين r",f2(r,3))}${K("سبيرمان-براون",f2(sb,3),1)}${K("جتمان",f2(gt,3))}</div>
+   <div class="verdict ${relLbl(al)[1]}">ألفا كرونباخ = ${f2(al,3)} ← ثبات ${relLbl(al)[0]}${bin?` · KR-20 = ${f2(kr20,3)} ← ${relLbl(kr20)[0]}`:""}</div>
+   <details class="steps" open><summary>خطوات الحل</summary><div class="f">α = [${k}/(${k}−1)] × [1 − (${f2(siv,3)} / ${f2(vt,3)})] = ${f2(k/(k-1),3)} × ${f2(1-siv/vt,3)} = ${f2(al,3)}<small>مجموع تباينات البنود = ${f2(siv,3)} — تباين الدرجة الكلية = ${f2(vt,3)}</small></div>
+   ${bin?`<div class="f">KR-20 = [${k}/${k-1}] × [1 − (${f2(spq,3)} / ${f2(vp,3)})] = ${f2(kr20,3)}<br>KR-21 = [${k}/${k-1}] × [1 − ${f2(Mt,2)}(${k} − ${f2(Mt,2)}) / (${k} × ${f2(vp,3)})] = ${f2(kr21,3)}<small>في KR يستخدم تباين المجتمع للدرجة الكلية (القسمة على n)</small></div>`:""}
+   <div class="f">النصف الأول = البنود الفردية، والثاني = الزوجية ← r = ${f2(r,3)}<br>r<sub>sb</sub> = 2(${f2(r,3)}) / (1 + ${f2(r,3)}) = ${f2(sb,3)}<br>r<sub>G</sub> = 2 × [1 − (${f2(ST.variance(h1),3)} + ${f2(ST.variance(h2),3)}) / ${f2(vt,3)}] = ${f2(gt,3)}</div></details></div>`;
+   const rowsT=cols.map((c,j)=>{const rest=rows.map((rw,i)=>tot[i]-c[i]);const ri=pear(c,rest);const ad=alphaOf(cols.filter((_,x)=>x!==j));const bad=ri<.3||ad>al+.005;return `<tr class="${bad?"hl":""}"><td class="n">${j+1}</td><td class="n">${f2(ST.mean(c),2)}</td><td class="n">${f2(iv[j],3)}</td><td class="n">${f2(ri,3)}</td><td class="n">${f2(ad,3)}</td><td>${ri<.3?"ارتباط ضعيف بالدرجة الكلية":ad>al+.005?"حذفه يرفع ألفا":"جيد ✔"}</td></tr>`}).join("");
+   s+=`<div class="panel"><h3>تحليل البنود (مثل Item-Total Statistics في SPSS)</h3><div class="tw"><table><thead><tr><th>البند</th><th>المتوسط</th><th>التباين</th><th>الارتباط المصحح بالكلية</th><th>ألفا إذا حُذف البند</th><th>الحكم</th></tr></thead><tbody>${rowsT}</tbody></table></div><p class="muted" style="font-size:14px;margin:0">البند المظلل يحتاج مراجعة: ارتباطه بالدرجة الكلية أقل من 0.30، أو حذفه يرفع ألفا.</p></div>`;
+   o.innerHTML=s;
+  }
+ }else if(mode==="kappa"){
+  view.innerHTML=h+`<div class="panel"><h3>1) من تقديرات المصححين</h3><p class="muted" style="margin-top:0">اكتب تقدير كل مصحح لنفس الحالات بنفس الترتيب (أرقام أو كلمات).</p><div class="g2"><div><label class="fl" for="kA">المصحح الأول</label><textarea id="kA">ناجح ناجح راسب ناجح راسب ناجح ناجح راسب ناجح ناجح راسب ناجح راسب ناجح ناجح ناجح راسب ناجح ناجح راسب</textarea></div><div><label class="fl" for="kB">المصحح الثاني</label><textarea id="kB">ناجح ناجح راسب ناجح ناجح ناجح ناجح راسب ناجح راسب راسب ناجح راسب ناجح ناجح ناجح راسب ناجح راسب راسب</textarea></div></div><div id="kOut"></div></div>
+  <div class="panel"><h3>2) أو أدخل Po و Pe مباشرة</h3><div class="g2"><div><label class="fl" for="po">Po (الاتفاق الملاحظ)</label><input type="number" id="po" step="any" value="0.80"></div><div><label class="fl" for="pe">Pe (الاتفاق بالصدفة)</label><input type="number" id="pe" step="any" value="0.50"></div></div><div id="k2Out"></div></div>`;
+  const tok=s=>s.split(/[\s,،]+/).filter(Boolean);
+  const run=()=>{const A=tok($("#kA").value),B=tok($("#kB").value),o=$("#kOut");if(A.length<2||A.length!==B.length){o.innerHTML=`<div class="verdict no">يجب أن يتساوى عدد التقديرات عند المصححين (${A.length} ≠ ${B.length}).</div>`;return}
+   const n=A.length,cats=[...new Set(A.concat(B))];const cnt=(a,b)=>A.filter((x,i)=>x===a&&B[i]===b).length;const ra=cats.map(c=>A.filter(x=>x===c).length),rb=cats.map(c=>B.filter(x=>x===c).length);
+   const po=cats.reduce((s,c)=>s+cnt(c,c),0)/n,pe=cats.reduce((s,c,i)=>s+ra[i]*rb[i],0)/(n*n),kp=pe<1?(po-pe)/(1-pe):NaN;
+   o.innerHTML=`<div class="tw"><table><thead><tr><th>الأول \\ الثاني</th>${cats.map(c=>`<th>${esc(c)}</th>`).join("")}<th>المجموع</th></tr></thead><tbody>${cats.map((a,i)=>`<tr><td><b>${esc(a)}</b></td>${cats.map(b=>`<td class="n" style="${a===b?"font-weight:700;background:var(--good-soft)":""}">${cnt(a,b)}</td>`).join("")}<td class="n">${ra[i]}</td></tr>`).join("")}</tbody><tfoot><tr><td>المجموع</td>${rb.map(x=>`<td class="n">${x}</td>`).join("")}<td class="n">${n}</td></tr></tfoot></table></div>
+   <div class="f">Po = ${cats.map(c=>cnt(c,c)).join(" + ")} / ${n} = ${f2(po,3)}<br>Pe = (${cats.map((c,i)=>ra[i]+"×"+rb[i]).join(" + ")}) / ${n}² = ${f2(pe,3)}<br>κ = (${f2(po,3)} − ${f2(pe,3)}) / (1 − ${f2(pe,3)}) = ${f2(kp,3)}</div><div class="verdict ${kapLbl(kp)[1]}">κ = ${f2(kp,3)} ← اتفاق ${kapLbl(kp)[0]}</div>`};
+  const run2=()=>{const po=+$("#po").value,pe=+$("#pe").value;const kp=(po-pe)/(1-pe);$("#k2Out").innerHTML=pe>=1||!isFinite(kp)?`<p class="muted">Pe يجب أن تكون أقل من 1.</p>`:`<div class="f">κ = (${po} − ${pe}) / (1 − ${pe}) = ${f2(po-pe,3)} / ${f2(1-pe,3)} = ${f2(kp,3)}</div><div class="verdict ${kapLbl(kp)[1]}">اتفاق ${kapLbl(kp)[0]}</div>`};
+  ["kA","kB"].forEach(i=>$("#"+i).oninput=run);["po","pe"].forEach(i=>$("#"+i).oninput=run2);run();run2();
+ }else if(mode==="sb"){
+  view.innerHTML=h+`<div class="panel"><div class="g2"><div><label class="fl" for="sr">معامل الارتباط r (بين النصفين أو ثبات الاختبار الحالي)</label><input type="number" id="sr" step="any" value="0.70"></div><div><label class="fl" for="sn">مضاعفة طول الاختبار n مرة (2 = التجزئة النصفية)</label><input type="number" id="sn" step="any" value="2"></div></div><div id="sOut2"></div></div>`;
+  const run=()=>{const r=+$("#sr").value,n=+$("#sn").value;const v=n*r/(1+(n-1)*r);$("#sOut2").innerHTML=`<div class="f">r<sub>new</sub> = ${n} × ${r} / [1 + (${n} − 1) × ${r}] = ${f2(n*r,3)} / ${f2(1+(n-1)*r,3)} = ${f2(v,3)}</div><div class="verdict ${relLbl(v)[1]}">الثبات بعد التصحيح = ${f2(v,3)} ← ${relLbl(v)[0]}</div>`};["sr","sn"].forEach(i=>$("#"+i).oninput=run);run();
+ }else{
+  view.innerHTML=h+`<div class="panel"><label class="fl" for="ld">التشبعات المعيارية λ للبنود (من AMOS أو التحليل العاملي)</label><textarea id="ld">0.70 0.80 0.60 0.75</textarea><div id="oOut"></div></div>`;
+  const run=()=>{const L=ST.parse($("#ld").value),o=$("#oOut");if(L.length<2||L.some(x=>Math.abs(x)>1)){o.innerHTML=`<p class="muted">أدخل تشبعين على الأقل بين −1 و 1.</p>`;return}
+   const sl=ST.sum(L),th=L.map(x=>1-x*x),sth=ST.sum(th),om=sl*sl/(sl*sl+sth),ave=ST.sum(L.map(x=>x*x))/L.length;
+   o.innerHTML=`${T(["البند","λ","λ²","θ = 1 − λ²"],L.map((x,i)=>[i+1,f2(x,3),f2(x*x,3),f2(th[i],3)]),["Σ",f2(sl,3),f2(ST.sum(L.map(x=>x*x)),3),f2(sth,3)]).replace(/<td>/g,'<td class="n">')}
+   <div class="f">ω = CR = (${f2(sl,3)})² / [(${f2(sl,3)})² + ${f2(sth,3)}] = ${f2(sl*sl,3)} / ${f2(sl*sl+sth,3)} = ${f2(om,3)}<br>AVE = Σλ² / k = ${f2(ST.sum(L.map(x=>x*x)),3)} / ${L.length} = ${f2(ave,3)}</div>
+   <div class="kpis"><div class="kpi hl"><small>أوميجا ω (= الثبات المركب CR)</small><b>${f2(om,3)}</b></div><div class="kpi hl"><small>AVE</small><b>${f2(ave,3)}</b></div><div class="kpi"><small>√AVE (لفورنل ولاركر)</small><b>${f2(Math.sqrt(ave),3)}</b></div></div>
+   <div class="verdict ${relLbl(om)[1]}">ω = ${f2(om,3)} ← ثبات ${relLbl(om)[0]}</div><div class="verdict ${ave>=.5?"ok":"no"}">AVE = ${f2(ave,3)} ← ${ave>=.5?"الصدق التقاربي متحقق (≥ 0.50) ✔":"الصدق التقاربي غير متحقق (أقل من 0.50)"}</div>${L.some(x=>x<.5)?`<p class="muted">⚠ يوجد بند تشبعه أقل من 0.50.</p>`:""}`};
+  $("#ld").oninput=run;run();
+ }
+}
+
+/* --- model fit lab --- */
+function labFit(){
+ const IDX=[["cmin","χ² (CMIN)",""],["df","df",""],["cfi","CFI",".96"],["tli","TLI",".95"],["rmsea","RMSEA",".048"],["srmr","SRMR",".041"],["gfi","GFI (اختياري)",""],["nfi","NFI (اختياري)",""]];
+ view.innerHTML=labHead("فاحص مؤشرات جودة المطابقة")+`<div class="panel"><p class="muted" style="margin-top:0">انقل القيم من جدول Model Fit في مخرجات AMOS. اترك أي خانة فارغة إذا لم تكن متاحة.</p><div class="g2">${IDX.map(x=>`<div><label class="fl" for="f_${x[0]}"><span class="ltr">${x[1]}</span></label><input type="number" step="any" id="f_${x[0]}" value="${x[0]==="cmin"?"171.2":x[0]==="df"?"80":x[2]}"></div>`).join("")}</div><div class="row" style="margin-top:10px"><button class="btn sm ghost" id="fg">مثال: نموذج جيد</button><button class="btn sm ghost" id="fb">مثال: نموذج ضعيف</button></div></div><div id="fOut"></div>`;
+ const set=v=>{Object.entries(v).forEach(([k,x])=>$("#f_"+k).value=x);run()};
+ $("#fg").onclick=()=>set({cmin:171.2,df:80,cfi:.96,tli:.95,rmsea:.048,srmr:.041,gfi:.93,nfi:.92});
+ $("#fb").onclick=()=>set({cmin:612.5,df:120,cfi:.84,tli:.81,rmsea:.102,srmr:.095,gfi:.80,nfi:.79});
+ IDX.forEach(x=>$("#f_"+x[0]).oninput=run);run();
+ function run(){const g=k=>{const v=$("#f_"+k).value;return v===""?null:+v};const rows=[];let ok=0,tot=0;
+  const add=(name,val,good,acc,crit)=>{if(val==null||!isFinite(val))return;tot++;const st=good(val)?"good":acc(val)?"acc":"bad";if(st!=="bad")ok++;rows.push([`<span class="ltr"><b>${name}</b></span>`,`<span class="ltr num">${f2(val,3)}</span>`,crit,st==="good"?'<span class="chip good">جيد</span>':st==="acc"?'<span class="chip gold">مقبول</span>':'<span class="chip bad">غير مقبول</span>'])};
+  const c=g("cmin"),d=g("df");if(c!=null&&d)add("CMIN/DF",c/d,v=>v<3,v=>v<5,"&lt; 3 جيد، &lt; 5 مقبول");
+  add("CFI",g("cfi"),v=>v>=.95,v=>v>=.9,"≥ .95 جيد، ≥ .90 مقبول");add("TLI",g("tli"),v=>v>=.95,v=>v>=.9,"≥ .95 جيد، ≥ .90 مقبول");
+  add("RMSEA",g("rmsea"),v=>v<=.05,v=>v<=.08,"≤ .05 جيد، ≤ .08 مقبول");add("SRMR",g("srmr"),v=>v<=.05,v=>v<=.08,"≤ .05 جيد، ≤ .08 مقبول");
+  add("GFI",g("gfi"),v=>v>=.95,v=>v>=.9,"≥ .90");add("NFI",g("nfi"),v=>v>=.95,v=>v>=.9,"≥ .90");
+  if(!tot){$("#fOut").innerHTML="";return}
+  const pc=ok/tot,good=pc>=.8;const fm=k=>{const v=g(k);return v==null?null:f2(v,3).replace(/^0\./,".")};
+  const parts=[c!=null&&d?`χ²/df = ${f2(c/d,2)}`:null,fm("cfi")&&`CFI = ${fm("cfi")}`,fm("tli")&&`TLI = ${fm("tli")}`,fm("rmsea")&&`RMSEA = ${fm("rmsea")}`,fm("srmr")&&`SRMR = ${fm("srmr")}`].filter(Boolean).join(", ");
+  $("#fOut").innerHTML=`<div class="panel"><h3>النتيجة</h3>${T(["المؤشر","قيمتك","المعيار","الحكم"],rows)}<div class="verdict ${good?"ok":pc>=.5?"mid":"no"}">${ok} من ${tot} مؤشرات ضمن الحدود المقبولة ← ${good?"مطابقة النموذج للبيانات جيدة ✔":pc>=.5?"مطابقة مقبولة جزئيًا — راجع مؤشرات التعديل والتشبعات الضعيفة":"مطابقة ضعيفة — النموذج يحتاج تعديلًا"}</div>
+  <div class="apa"><b>صياغة النتيجة:</b> أظهرت نتائج التحليل العاملي التوكيدي ${good?"مطابقة جيدة":pc>=.5?"مطابقة مقبولة":"مطابقة ضعيفة"} للنموذج المقترح مع بيانات العينة <span class="ltr">(${parts})</span>.</div></div>`}
+}
+
 /* ========== SPSS SIMULATOR ========== */
 const SPSS_DATA={vars:[["name","String",20,0,"اسم الطالب","None","Nominal"],["gender","Numeric",8,0,"النوع","{1, ذكر}...","Nominal"],["major","Numeric",8,0,"التخصص","{1, لغة عربية}...","Nominal"],["test1","Numeric",8,0,"درجة الاختبار الأول","None","Scale"],["test2","Numeric",8,0,"درجة الاختبار الثاني","None","Scale"]],
  rows:[["محمد القحطاني",1,1,13,14],["علي الغامدي",1,2,8,12],["طارق محمد",1,3,14,13],["لمياء القحطاني",2,4,9,10],["سارة الحربي",2,1,10,14],["نورة القحطاني",2,1,13,11]],
@@ -1062,11 +1302,12 @@ const MENUS={
  File:[["New › Data","فتح ملف بيانات جديد فارغ."],["Open › Data...","فتح ملف بيانات محفوظ (.sav)."],["Save As...","حفظ الملف باسم جديد، مثل «تدريب رقم 1.sav»."]],
  Edit:[["Undo","التراجع عن آخر عمل."],["Cut / Copy / Paste","قص أو نسخ البيانات ولصقها."],["Clear","مسح البيانات المحددة."],["Insert Variable","إدراج متغير (عمود) جديد."],["Insert Cases","إدراج حالة (صف) جديدة."],["Find...","البحث عن قيمة في البيانات."],["Go to Case...","الانتقال إلى حالة معينة."]],
  Data:[["Transpose...","تحويل الصفوف إلى أعمدة والعكس."],["Merge Files › Add Cases...","دمج ملفين بنفس المتغيرات وحالات مختلفة."],["Merge Files › Add Variables...","دمج ملفين بنفس الحالات ومتغيرات مختلفة."],["Sort Cases...","ترتيب الحالات تصاعديًا أو تنازليًا."],["Split File...","تقسيم التحليل حسب متغير (مثل النوع)."]],
- Analyze:[["Descriptive Statistics › Frequencies...","freq"],["Descriptive Statistics › Descriptives...","desc"],["Descriptive Statistics › Explore...","explore"],["Compare Means › One-Sample T Test...","one"],["Compare Means › Independent-Samples T Test...","ind"],["Compare Means › Paired-Samples T Test...","paired"],["Compare Means › One-Way ANOVA...","anova"],["Correlate › Bivariate...","corr"]],
+ Analyze:[["Scale › Reliability Analysis...","rel"],["Descriptive Statistics › Crosstabs... (Kappa)","kappa"],["Descriptive Statistics › Frequencies...","freq"],["Descriptive Statistics › Descriptives...","desc"],["Descriptive Statistics › Explore...","explore"],["Compare Means › One-Sample T Test...","one"],["Compare Means › Independent-Samples T Test...","ind"],["Compare Means › Paired-Samples T Test...","paired"],["Compare Means › One-Way ANOVA...","anova"],["Correlate › Bivariate...","corr"]],
  Graphs:[["Chart Builder...","بناء الرسوم: الأعمدة، الدائرة، المدرج التكراري، الصندوق."]]
 };
 function renderSpss(sub){
- const seg=`<div class="seg"><button aria-pressed="${sub!=="out"}" onclick="go('spss')">محاكي البرنامج</button><button aria-pressed="${sub==="out"}" onclick="go('spss/out')">قراءة المخرجات</button></div>`;
+ const seg=`<div class="seg"><button aria-pressed="${!sub}" onclick="go('spss')">محاكي SPSS</button><button aria-pressed="${sub==="out"}" onclick="go('spss/out')">قراءة المخرجات</button><button aria-pressed="${sub==="amos"}" onclick="go('spss/amos')">AMOS</button></div>`;
+ if(sub==="amos"){renderAmos(seg);return}
  if(sub==="out"){view.innerHTML=seg+`<div class="panel"><h3>جدول الإحصاء الوصفي التفاعلي</h3><p class="muted" style="margin-top:0">اضغط على أي عنوان عمود لترى معناه وكيف نقرأ قيمته.</p><div class="otwrap">${descTable()}</div><div class="expl" id="ex">اضغط على عنوان عمود مثل <b>Skewness</b> أو <b>Std. Error</b>.</div></div>
   <div class="panel"><h3>جدول اختبار ت لعينتين مستقلتين (مثال المحاضرة)</h3><div class="otwrap"><table class="otbl"><caption>Independent Samples Test</caption><thead><tr><th></th><th data-k="LF">F</th><th data-k="LS">Sig.</th><th data-k="t">t</th><th data-k="df">df</th><th data-k="p">Sig. (2-tailed)</th></tr></thead><tbody><tr style="background:#fff3cf"><th data-k="r1">Equal variances assumed</th><td>1.716</td><td>.196</td><td>-5.641</td><td>50</td><td>.000</td></tr><tr><th data-k="r2">Equal variances not assumed</th><td></td><td></td><td>-5.567</td><td>45.3</td><td>.000</td></tr></tbody></table></div><div class="expl" id="ex2">اضغط على عنوان عمود أو صف.</div><p class="muted" style="font-size:14px">قيمة df للصف الثاني تقريبية للتوضيح.</p></div>`;
   $$("#dtbl th[data-k]").forEach(th=>th.onclick=()=>{$$("#dtbl th").forEach(x=>x.classList.remove("on"));th.classList.add("on");$("#ex").innerHTML=`<b>${th.textContent}:</b> ${DESC_EXPL[th.dataset.k]||""}`});
@@ -1089,7 +1330,9 @@ function renderSpss(sub){
   if(m!=="Analyze"){$("#sx").innerHTML=crumb+it[1];$("#sOut").innerHTML="";return}
   const t1=SPSS_DATA.rows.map(r=>r[3]),t2=SPSS_DATA.rows.map(r=>r[4]),gd=SPSS_DATA.rows.map(r=>r[1]);const out=$("#sOut");let h="",ex="";
   const g=a=>({n:a.length,m:ST.mean(a),sd:ST.sd(a)});
-  if(it[1]==="freq"){const f=[1,2].map(k=>gd.filter(x=>x===k).length);ex="ننقل gender إلى Variable(s) ← OK. يظهر جدول التكرارات والنسب.";h=`<table class="otbl"><caption>النوع</caption><thead><tr><th></th><th>Frequency</th><th>Percent</th><th>Valid Percent</th><th>Cumulative Percent</th></tr></thead><tbody><tr><th>ذكر</th><td>${f[0]}</td><td>50.0</td><td>50.0</td><td>50.0</td></tr><tr><th>أنثى</th><td>${f[1]}</td><td>50.0</td><td>50.0</td><td>100.0</td></tr><tr><th>Total</th><td>6</td><td>100.0</td><td>100.0</td><td></td></tr></tbody></table>`}
+  if(it[1]==="rel"){const a=alphaOf([t1,t2]);ex="ننقل البنود إلى Items، ونختار Model: Alpha (أو Split-half أو Guttman) ← Statistics ← Scale if item deleted ← OK. (هنا بندان فقط للتوضيح.)";h=`<table class="otbl"><caption>Reliability Statistics</caption><thead><tr><th>Cronbach's Alpha</th><th>N of Items</th></tr></thead><tbody><tr><td>${f2(a,3).replace(/^(-?)0\./,"$1.")}</td><td>2</td></tr></tbody></table><p style="direction:rtl;color:#333">القيمة منخفضة لأن البندين هنا درجتا اختبارين مختلفين وليسا بنود مقياس واحد. جرّب بياناتك في معمل الثبات.</p>`}
+  else if(it[1]==="kappa"){ex="Crosstabs: ننقل تقدير المصحح الأول إلى Row(s) والثاني إلى Column(s) ← Statistics ← علّم Kappa ← Continue ← OK. يظهر جدول Symmetric Measures وفيه Kappa و Approx. Sig.";h=""}
+  else if(it[1]==="freq"){const f=[1,2].map(k=>gd.filter(x=>x===k).length);ex="ننقل gender إلى Variable(s) ← OK. يظهر جدول التكرارات والنسب.";h=`<table class="otbl"><caption>النوع</caption><thead><tr><th></th><th>Frequency</th><th>Percent</th><th>Valid Percent</th><th>Cumulative Percent</th></tr></thead><tbody><tr><th>ذكر</th><td>${f[0]}</td><td>50.0</td><td>50.0</td><td>50.0</td></tr><tr><th>أنثى</th><td>${f[1]}</td><td>50.0</td><td>50.0</td><td>100.0</td></tr><tr><th>Total</th><td>6</td><td>100.0</td><td>100.0</td><td></td></tr></tbody></table>`}
   else if(it[1]==="desc"){ex="ننقل test1 و test2 إلى Variable(s) ← Options لاختيار Mean و Std. deviation… ← Continue ← OK.";h=`<table class="otbl"><caption>Descriptive Statistics</caption><thead><tr><th></th><th>N</th><th>Minimum</th><th>Maximum</th><th>Mean</th><th>Std. Deviation</th></tr></thead><tbody>${[["test1",t1],["test2",t2]].map(([n,a])=>{const s=g(a);return `<tr><th>${n}</th><td>6</td><td>${Math.min(...a)}</td><td>${Math.max(...a)}</td><td>${f2(s.m,2)}</td><td>${f2(s.sd,3)}</td></tr>`}).join("")}<tr><th>Valid N (listwise)</th><td>6</td><td colspan="4"></td></tr></tbody></table>`}
   else if(it[1]==="explore"){ex="Explore: ننقل المتغير إلى Dependent List ← Plots ← Normality plots with tests. يعطي الوصفيات واختبارات الاعتدالية والرسوم والقيم المتطرفة.";h=`<p style="direction:rtl;color:#333">جدول Tests of Normality يعرض Kolmogorov–Smirnov و Shapiro–Wilk. القاعدة: Sig. &gt; .05 ← البيانات طبيعية. (6 حالات فقط عدد صغير جدًا للحكم الموثوق.)</p>`}
   else if(it[1]==="one"){const s=g(t1),t=(s.m-10)/(s.sd/Math.sqrt(6)),p=ST.tP2(t,5);ex="ننقل test1 إلى Test Variable(s) ونكتب Test Value = 10 ← OK.";h=`<table class="otbl"><caption>One-Sample Test (Test Value = 10)</caption><thead><tr><th></th><th>t</th><th>df</th><th>Sig. (2-tailed)</th><th>Mean Difference</th></tr></thead><tbody><tr><th>test1</th><td>${f2(t,3)}</td><td>5</td><td>${f2(p,3)}</td><td>${f2(s.m-10,3)}</td></tr></tbody></table>`}
@@ -1099,6 +1342,137 @@ function renderSpss(sub){
   else if(it[1]==="corr"){const ma=ST.mean(t1),mb=ST.mean(t2);const r=t1.reduce((s,x,i)=>s+(x-ma)*(t2[i]-mb),0)/Math.sqrt(ST.ss(t1)*ST.ss(t2));const tt=r*Math.sqrt(4/(1-r*r)),p=ST.tP2(tt,4);ex="ننقل test1 و test2 إلى Variables ونختار Pearson ← OK.";h=`<table class="otbl"><caption>Correlations</caption><thead><tr><th></th><th></th><th>test1</th><th>test2</th></tr></thead><tbody><tr><th rowspan="3">test1</th><th>Pearson Correlation</th><td>1</td><td>${f2(r,3)}</td></tr><tr><th>Sig. (2-tailed)</th><td></td><td>${f2(p,3)}</td></tr><tr><th>N</th><td>6</td><td>6</td></tr></tbody></table>`}
   $("#sx").innerHTML=crumb+ex;out.innerHTML=h?`<div class="panel"><h3>Output Viewer</h3><div class="otwrap">${h}</div></div>`:"";labUse("spss");
  }
+}
+
+/* ========== AI HELPER (viewer's own account) ========== */
+const AI={p:null};
+function aiGet(){if(!AI.p)AI.p=(async()=>{try{if(window.claude&&typeof window.claude.use==="function")return await window.claude.use("sample")}catch(e){}return null})();return AI.p}
+const AI_ERR={not_granted:"لم يتم السماح للموقع باستخدام Claude من حسابك.",sampling_disabled:"Claude غير متاح لهذا الحساب.",rate_limited:"وصلت للحد المسموح الآن، حاول بعد قليل.",session_expired:"سجّل الدخول في Claude مرة أخرى.",refused:"رفض Claude هذا الطلب؛ عدّل النص وحاول.",invalid_json:"الرد لم يكن بالشكل المتوقع؛ جرّب مرة أخرى."};
+function aiExternal(prompt,el){
+ el.innerHTML=`<p class="muted" style="margin:6px 0">استخدم حسابك في Claude أو ChatGPT: اضغط «انسخ الطلب» ثم افتح الموقع والصق (Ctrl+V).</p><div class="row"><button class="btn sm gold" data-cp>انسخ الطلب</button><a class="btn sm ghost" style="text-decoration:none" href="https://claude.ai/new" target="_blank" rel="noopener">افتح Claude</a><a class="btn sm ghost" style="text-decoration:none" href="https://chatgpt.com/" target="_blank" rel="noopener">افتح ChatGPT</a></div>`;
+ el.querySelector("[data-cp]").onclick=()=>{const done=()=>toast("تم نسخ الطلب — الصقه في Claude");(navigator.clipboard?navigator.clipboard.writeText(prompt).then(done,()=>fallbackCopy(prompt,done)):fallbackCopy(prompt,done))};
+}
+function fallbackCopy(t,cb){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");cb()}catch(e){toast("تعذر النسخ")}ta.remove()}
+const AI_TASKS=[["explain","فسّر النتائج خطوة بخطوة","فسّر هذه المخرجات خطوة بخطوة لطالب دبلوم علم نفس: ما الاختبار المستخدم، ماذا تعني كل قيمة مهمة (مثل t أو F أو Sig. أو ألفا)، وهل النتيجة دالة عند .05، وما حجم الأثر إن أمكن."],["apa","اكتب النتيجة بأسلوب APA","اكتب فقرة نتيجة جاهزة للرسالة العلمية بالعربية بأسلوب APA (مع القيم الإحصائية بين أقواس بالإنجليزية مثل t(df) = ..., p < .05, d = ...)، ثم سطرًا يفسر النتيجة في ضوء الفرض."],["check","راجع الشروط والأخطاء","راجع هل الاختبار المستخدم مناسب، وما الشروط الواجب التحقق منها (الاعتدالية، تجانس التباين...)، وهل هناك أخطاء في القراءة أو في قيم المخرجات، واقترح البديل اللامعلمي إن لزم."],["next","ماذا أفعل بعد ذلك؟","بناءً على هذه المخرجات، ما الخطوة الإحصائية التالية المناسبة في البحث، وما مسارها في SPSS؟"]];
+function openAI(prefill){
+ ov.hidden=false;document.body.style.overflow="hidden";
+ ovIn.innerHTML=`<div class="qtop"><button class="x" id="aix" aria-label="إغلاق">${ICON.x}</button><h3 style="margin:0;flex:1">🤖 مساعد الذكاء الاصطناعي لنتائج SPSS</h3></div>
+ <p class="muted">الصق جدول المخرجات (أو اكتب القيم)، واختر المطلوب. يعمل بحسابك أنت في Claude، ولا يُحفظ شيء في الموقع.</p>
+ <label class="fl" for="aiT">المطلوب</label><select id="aiT">${AI_TASKS.map(t=>`<option value="${t[0]}">${t[1]}</option>`).join("")}</select>
+ <label class="fl" for="aiIn">مخرجات SPSS أو وصف النتيجة</label><textarea id="aiIn" style="min-height:170px;direction:auto;text-align:start;font-family:var(--f-body)" placeholder="مثال: Independent Samples Test — Levene F = 1.716, Sig. = .196 — t = -5.641, df = 50, Sig. (2-tailed) = .000 — الذكور M = 11.92 SD = 1.25 — الإناث M = 13.62 SD = .89">${esc(prefill||"")}</textarea>
+ <div class="row" style="margin-top:10px" id="aiBtns"><button class="btn" id="aiGo" hidden>اسأل Claude هنا</button><button class="btn sm ghost" id="aiStop" hidden>إيقاف</button></div><div id="aiExt"></div><div class="aiout" id="aiOut" hidden></div>`;
+ $("#aix").onclick=closeOv;
+ const prompt=()=>{const t=AI_TASKS.find(x=>x[0]===$("#aiT").value);return `أنت أستاذ إحصاء نفسي تساعد طالب دبلوم خاص في علم النفس. ${t[2]}\nاكتب بالعربية المبسطة في نقاط قصيرة، وإذا كانت البيانات ناقصة فاذكر ما ينقص بدل التخمين.\n\nالمخرجات:\n${$("#aiIn").value.trim()}`};
+ const ext=$("#aiExt");const renderExt=()=>aiExternal(prompt(),ext);renderExt();$("#aiT").onchange=renderExt;$("#aiIn").oninput=renderExt;
+ aiGet().then(s=>{if(!s||ov.hidden)return;const go=$("#aiGo"),stop=$("#aiStop"),out=$("#aiOut");if(!go)return;go.hidden=false;let ctl;
+  stop.onclick=()=>ctl&&ctl.abort();
+  go.onclick=async()=>{if(!$("#aiIn").value.trim()){toast("الصق المخرجات أولًا");return}ctl=new AbortController();go.disabled=true;stop.hidden=false;out.hidden=false;out.textContent="يفكر…";
+   try{await s(prompt(),{signal:ctl.signal,onText:({text})=>{out.textContent=text}})}catch(e){out.textContent=(e&&e.text)||"";if(e&&e.code!=="cancelled")toast(AI_ERR[e&&e.code]||"تعذر الاتصال الآن، حاول مرة أخرى.")}
+   go.disabled=false;stop.hidden=true}});
+}
+function renderFab(){let f=$("#aiFab");const show=location.hash.startsWith("#spss")||location.hash.startsWith("#lab/ttest")||location.hash.startsWith("#lab/rel")||location.hash.startsWith("#lab/fit");
+ if(!f){f=document.createElement("button");f.id="aiFab";f.className="fab";f.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9 16h6"/></svg>اسأل الذكاء الاصطناعي';f.onclick=()=>{const o=$("#sOut .otwrap")||$(".otwrap");openAI(o?o.innerText.slice(0,4000):"")};document.body.appendChild(f)}
+ f.hidden=!show}
+window.addEventListener("hashchange",renderFab);
+
+/* ========== SCALE BUILDER ========== */
+const METHODS=[
+ {id:"thurstone",t:"طريقة ثرستون — الفترات المتساوية ظاهريًا",en:"Thurstone Equal-Appearing Intervals",yr:1928,era:"كلاسيكية",d:"يكتب الباحث عبارات كثيرة تتدرج من الرفض الشديد للقبول الشديد، ويحكم عليها محكمون على متصل من 1 إلى 11، وتُختار العبارات ذات الاتفاق العالي بقيم موزعة. المفحوص يختار «أوافق» على ما ينطبق، ودرجته = وسيط قيم العبارات التي وافق عليها.",resp:["أوافق","لا أوافق"],bin:true,n:k=>[100,"50–100 محكم لتقدير قيم العبارات + 100 مفحوص على الأقل"]},
+ {id:"likert",t:"طريقة ليكرت — التقديرات التجميعية",en:"Likert Summated Rating",yr:1932,era:"كلاسيكية (الأكثر استخدامًا)",d:"عبارات موجبة وسالبة يستجيب لها المفحوص على تدريج خماسي، وتجمع الدرجات (مع عكس العبارات السالبة) في درجة كلية. سهلة البناء والتصحيح، وتحلل بألفا كرونباخ والتحليل العاملي.",resp:["موافق بشدة","موافق","محايد","غير موافق","غير موافق بشدة"],n:k=>[Math.max(200,10*k),"5–10 أفراد لكل بند وبحد أدنى 200 للتحليل العاملي، و30–50 للتجربة الاستطلاعية"]},
+ {id:"guttman",t:"طريقة جتمان — التدرج التراكمي",en:"Guttman Cumulative Scaling",yr:1944,era:"كلاسيكية",d:"عبارات مرتبة تصاعديًا في الشدة؛ من يوافق على عبارة قوية يوافق بالضرورة على ما قبلها. يُتحقق منها بمعامل إعادة الإنتاج (≥ 0.90).",resp:["نعم","لا"],bin:true,n:k=>[100,"100 فرد على الأقل لحساب معامل إعادة الإنتاج"]},
+ {id:"osgood",t:"التمايز الدلالي — أوسجود",en:"Osgood Semantic Differential",yr:1957,era:"كلاسيكية",d:"يُقيَّم مفهوم واحد على أزواج من الصفات المتضادة (جيد–سيئ، قوي–ضعيف…) بتدريج سباعي، وتمثل ثلاثة أبعاد: التقييم، القوة، النشاط.",resp:["1","2","3","4","5","6","7"],n:k=>[100,"100 فرد على الأقل، ويزيد للتحليل العاملي"]},
+ {id:"rasch",t:"نموذج راش / نظرية الاستجابة للمفردة",en:"Rasch Model / Item Response Theory",yr:1960,era:"حديثة",d:"تُبنى البنود بحيث تغطي مستويات مختلفة من شدة السمة (سهلة وصعبة التأييد)، ويقدَّر موقع الفرد والبند على متصل واحد بالـ logit مستقلًا عن العينة. يتيح الأداء التفاضلي للمفردة DIF وفحص المطابقة.",resp:["لا تنطبق أبدًا","تنطبق نادرًا","تنطبق أحيانًا","تنطبق دائمًا"],n:k=>[250,"150–250 فردًا لتقديرات مستقرة (Linacre)، و500 لنماذج IRT متعددة المعالم"]},
+ {id:"sjt",t:"اختبارات الحكم الموقفي",en:"Situational Judgment Tests (SJT)",yr:1990,era:"حديثة",d:"يُعرض موقف واقعي وعدة تصرفات، ويختار المفحوص الأفضل (والأسوأ). تقيس المهارات والكفايات السلوكية وتقل فيها المرغوبية الاجتماعية، وتحتاج مفتاحًا من الخبراء.",resp:[],n:k=>[200,"200 فرد على الأقل + 5–10 خبراء لبناء مفتاح التصحيح"]},
+ {id:"forced",t:"الاختيار القسري",en:"Forced-Choice / Thurstonian IRT",yr:2011,era:"حديثة",d:"عبارتان (أو أكثر) متساويتان في المرغوبية من أبعاد مختلفة، ويختار المفحوص الأكثر انطباقًا. تقلل التزييف والمرغوبية الاجتماعية، وتُحلل حديثًا بنموذج Thurstonian IRT (Brown & Maydeu-Olivares, 2011).",resp:[],n:k=>[300,"300 فرد على الأقل لنموذج Thurstonian IRT"]},
+ {id:"cat",t:"الاختبار التكيفي المحوسب",en:"Computerized Adaptive Testing (CAT)",yr:1980,era:"حديثة",d:"بنك بنود معايَر بنظرية الاستجابة للمفردة؛ يختار الحاسوب البند التالي حسب إجابات الفرد، فيقيس بدقة بعدد بنود أقل. يتوقف عند وصول الخطأ المعياري لحد معين (مثلًا 0.30).",resp:["لا تنطبق أبدًا","تنطبق نادرًا","تنطبق أحيانًا","تنطبق دائمًا"],n:k=>[500,"500 فرد على الأقل لمعايرة بنك البنود"]},
+ {id:"aig",t:"توليد البنود بالذكاء الاصطناعي",en:"AI-assisted Automatic Item Generation",yr:2020,era:"الأحدث",d:"تُستخدم النماذج اللغوية لتوليد بنود كثيرة من تعريف السمة، ثم يراجعها الخبراء ويحكمونها، وتُفحص إحصائيًا (التحليل العاملي، راش). يوفر الوقت لكنه لا يغني عن التحكيم والتجريب.",resp:["موافق بشدة","موافق","محايد","غير موافق","غير موافق بشدة"],n:k=>[Math.max(200,10*k),"مثل ليكرت: 10 أفراد لكل بند وبحد أدنى 200، بعد التحكيم"]}
+];
+const B={m:null,res:null};
+const q=c=>`«${c}»`;
+function tplItems(m,c,dims,k){
+ const pos=[`أشعر بـ${q(c)} في كثير من المواقف اليومية.`,`يلاحظ المحيطون بي ${q(c)} في تصرفاتي.`,`أفكر في الأمور المرتبطة بـ${q(c)} أكثر من غيري.`,`يظهر ${q(c)} لدي بوضوح عند التعامل مع الآخرين.`,`يصعب عليّ التحكم في ${q(c)} عندما أكون تحت ضغط.`,`يؤثر ${q(c)} في أدائي الدراسي أو المهني.`,`أشعر بـ${q(c)} عند مواجهة مواقف جديدة.`,`أتصرف بطريقة تعكس ${q(c)} حتى في المواقف البسيطة.`,`تتكرر لدي مواقف يظهر فيها ${q(c)}.`,`أجد نفسي مدفوعًا بـ${q(c)} في قراراتي.`,`يستمر ${q(c)} معي لفترات طويلة.`,`أتذكر مواقف كثيرة شعرت فيها بـ${q(c)}.`];
+ const neg=[`نادرًا ما أشعر بـ${q(c)}.`,`لا يؤثر ${q(c)} في علاقاتي بالآخرين.`,`أستطيع أن أمضي يومي دون أن أفكر في ${q(c)}.`,`لا يلاحظ أحد ${q(c)} في سلوكي.`];
+ const D=dims.length?dims:["عام"];const out=[];
+ if(m==="osgood"){const P=[["جيد","سيئ","التقييم"],["مفيد","ضار","التقييم"],["ممتع","ممل","التقييم"],["مهم","تافه","التقييم"],["مريح","مزعج","التقييم"],["إيجابي","سلبي","التقييم"],["قوي","ضعيف","القوة"],["كبير","صغير","القوة"],["صعب","سهل","القوة"],["عميق","سطحي","القوة"],["نشط","خامل","النشاط"],["سريع","بطيء","النشاط"],["متغير","ثابت","النشاط"],["حاد","هادئ","النشاط"]];for(let i=0;i<k;i++){const p=P[i%P.length];out.push({text:`${p[0]} ـــ ـــ ـــ ـــ ـــ ـــ ـــ ${p[1]}`,dim:p[2],reverse:i%3===2})}return out}
+ if(m==="guttman"){const L=["أحيانًا","مرة في الأسبوع على الأقل","عدة مرات في الأسبوع","يوميًا تقريبًا","لدرجة أنه يؤثر على بعض مهامي","لدرجة أنه يمنعني من بعض الأنشطة","لدرجة أنه يمنعني من معظم الأنشطة","لدرجة أنني أحتاج مساعدة متخصصة"];for(let i=0;i<k;i++)out.push({text:`أشعر بـ${q(c)} ${L[Math.min(i,L.length-1)]}${i>=L.length?` (مستوى ${i+1})`:""}.`,dim:"تراكمي",value:i+1});return out}
+ if(m==="thurstone"){const V=[[11,`${q(c)} أمر ضروري ولا يمكن الاستغناء عنه.`],[10,`${q(c)} من أهم ما يميز الإنسان الناجح.`],[9,`أرى أن ${q(c)} له فوائد كثيرة.`],[8,`${q(c)} مفيد في أغلب المواقف.`],[7,`${q(c)} مقبول بشكل عام.`],[6,`لا أمانع وجود ${q(c)} في حياتي.`],[5,`ليس لدي رأي واضح حول ${q(c)}.`],[4,`أتحفظ أحيانًا على ${q(c)}.`],[3,`${q(c)} يسبب مشكلات أكثر مما يفيد.`],[2,`أرفض ${q(c)} في معظم المواقف.`],[1,`${q(c)} أمر ضار تمامًا ولا فائدة منه.`]];for(let i=0;i<k;i++){const j=Math.round(i*(V.length-1)/Math.max(1,k-1));out.push({text:V[j][1],dim:"الاتجاه",value:V[j][0]})}return out}
+ if(m==="sjt"){const C=["في قاعة المحاضرات","أثناء العمل في مجموعة","مع أحد أفراد الأسرة","في مقابلة مهمة","مع صديق مقرب","أثناء امتحان","في موقف عام أمام الناس","عند تلقي نقد من شخص آخر"];for(let i=0;i<k;i++)out.push({text:`${C[i%C.length]}، واجهت موقفًا يتطلب ${q(c)}. ماذا تفعل؟`,dim:D[i%D.length],options:["أتعامل مع الموقف مباشرة وبهدوء","أطلب المساعدة أو المشورة من شخص أثق به","أؤجل التعامل مع الموقف لوقت لاحق","أنسحب من الموقف تمامًا"],key:"الأفضل: أ — الأسوأ: د (يُراجع المفتاح مع الخبراء)"});return out}
+ if(m==="forced"){for(let i=0;i<k;i++){const a=pos[i%pos.length],b=pos[(i+5)%pos.length];out.push({text:"أي العبارتين تنطبق عليك أكثر؟",dim:`${D[i%D.length]} / ${D[(i+1)%D.length]}`,options:[a,b]})}return out}
+ const lv=["سهل التأييد","متوسط","صعب التأييد"];
+ for(let i=0;i<k;i++){const rev=(m==="likert"||m==="aig")&&(i%4===3);const t=rev?neg[Math.floor(i/4)%neg.length]:pos[(i-Math.floor(i/4))%pos.length];const it={text:t,dim:D[i%D.length],reverse:rev};if(m==="rasch"||m==="cat"){it.level=lv[i%3];it.value=+(-1.5+3*(i%3)/2+((i*37)%10-5)/20).toFixed(2)}out.push(it)}
+ return out;
+}
+function simulate(items,n,binary,steps){
+ const k=items.length,lam=items.map((_,i)=>.55+((i*13)%7)/20),thr=items.map(it=>it.value!=null&&Math.abs(it.value)<4?it.value/2:0);
+ const gauss=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+ const rows=[];for(let p=0;p<n;p++){const th=gauss();rows.push(items.map((it,j)=>{const z=lam[j]*th+Math.sqrt(1-lam[j]**2)*gauss()-thr[j];if(binary)return z>0?1:0;const cut=[-1.3,-.45,.35,1.15,1.9].slice(0,steps-1);return 1+cut.filter(c=>z>c).length}))}
+ return rows;
+}
+function labBuild(){
+ const step=()=>{if(!B.m){view.innerHTML=labHead("بناء مقياس نفسي")+`<div class="panel"><h3>1) اختر طريقة البناء</h3><p class="muted" style="margin-top:0">مرتبة من الأقدم إلى الأحدث.</p><div class="meth">${METHODS.map(m=>`<button class="opt" data-m="${m.id}"><b>${m.t}</b><span class="yr">${m.yr}</span> <span class="chip ${m.era.startsWith("كلاس")?"":"gold"}">${m.era}</span><span class="en" style="display:block;text-align:start">${m.en}</span><small>${m.d}</small></button>`).join("")}</div></div>`;$$("[data-m]").forEach(b=>b.onclick=()=>{B.m=METHODS.find(x=>x.id===b.dataset.m);B.res=null;step();window.scrollTo(0,0)});return}
+  const m=B.m;
+  view.innerHTML=labHead("بناء مقياس نفسي")+`<div class="panel"><div class="row" style="justify-content:space-between"><span class="chip">${m.t} · ${m.yr}</span><button class="btn sm ghost" id="chg">تغيير الطريقة</button></div><p class="muted">${m.d}</p>
+  <h3>2) بيانات المقياس</h3><div class="g2"><div><label class="fl" for="bC">السمة أو المفهوم المراد قياسه</label><input type="text" id="bC" value="${esc(B.c||"القلق الاجتماعي")}"></div><div><label class="fl" for="bP">الفئة المستهدفة</label><input type="text" id="bP" value="${esc(B.p||"طلاب الجامعة")}"></div></div>
+  <div class="g2"><div><label class="fl" for="bK">عدد البنود (الأسئلة)</label><input type="number" id="bK" min="3" max="60" value="${B.k||12}"></div><div><label class="fl" for="bN">حجم العينة المخطط</label><input type="number" id="bN" min="10" max="2000" value="${B.n||200}"></div></div>
+  <label class="fl" for="bD">الأبعاد (افصل بينها بفاصلة — اختياري)</label><input type="text" id="bD" value="${esc(B.d!=null?B.d:"المعرفي، الوجداني، السلوكي")}"><div id="bRec"></div>
+  <div class="row" style="margin-top:12px"><button class="btn" id="bTpl">ابنِ الأسئلة (قوالب جاهزة)</button><button class="btn gold" id="bAI" hidden>🤖 ابنِ الأسئلة بالذكاء الاصطناعي</button></div><div id="bExt"></div></div><div id="bOut"></div>`;
+  $("#chg").onclick=()=>{B.m=null;step()};
+  const vals=()=>{B.c=$("#bC").value.trim()||"السمة";B.p=$("#bP").value.trim();B.k=Math.max(3,Math.min(60,+$("#bK").value||12));B.n=Math.max(10,Math.min(2000,+$("#bN").value||100));B.d=$("#bD").value;return{c:B.c,p:B.p,k:B.k,n:B.n,dims:B.d.split(/[،,]/).map(s=>s.trim()).filter(Boolean)}};
+  const aiPrompt=()=>{const v=vals();return `أنت خبير في بناء المقاييس النفسية باللغة العربية. ابنِ ${v.k} بندًا لقياس «${v.c}» لدى ${v.p||"الفئة المستهدفة"} باستخدام ${m.t} (${m.en}).${v.dims.length?` الأبعاد: ${v.dims.join("، ")} — وزّع البنود عليها بالتساوي.`:""}
+قواعد: صياغة عربية فصحى واضحة، عبارة واحدة لكل فكرة، بلا نفي مزدوج، ومناسبة للفئة المستهدفة.${m.id==="likert"||m.id==="aig"?" اجعل نحو 25% من البنود سالبة (معكوسة).":""}${m.id==="thurstone"?" أعطِ كل عبارة قيمة مقترحة من 1 إلى 11 في value، موزعة على المتصل.":""}${m.id==="guttman"?" رتّب العبارات تصاعديًا في الشدة وضع ترتيبها في value.":""}${m.id==="rasch"||m.id==="cat"?" نوّع صعوبة التأييد وضع صعوبة مقترحة بالـ logit من -2 إلى 2 في value.":""}${m.id==="osgood"?" كل بند زوج صفات متضادة بالشكل: صفة ـــ صفة، وdim أحد: التقييم، القوة، النشاط.":""}${m.id==="sjt"?" كل بند موقف واقعي قصير مع 4 تصرفات في options ومفتاح الأفضل والأسوأ في key.":""}${m.id==="forced"?" كل بند: text = «أي العبارتين تنطبق عليك أكثر؟» وoptions عبارتان متقاربتان في المرغوبية الاجتماعية من بعدين مختلفين.":""}
+أعد JSON فقط بهذا الشكل:
+{"instructions":"تعليمات للمفحوص","items":[{"text":"...","dim":"...","reverse":false,"value":null,"options":[],"key":""}],"notes":"ملاحظات للباحث عن التحكيم والتحليل"}`};
+  const rec=()=>{const v=vals();const r=m.n(v.k);$("#bRec").innerHTML=`<div class="verdict ${v.n>=r[0]?"ok":"mid"}">العينة المقترحة لهذه الطريقة: ${r[1]} ← الحد الأدنى المقترح ≈ ${r[0]}. عينتك (${v.n}) ${v.n>=r[0]?"كافية ✔":"أقل من المقترح"}.</div>`;aiExternal(aiPrompt(),$("#bExt"))};
+  ["bC","bP","bK","bN","bD"].forEach(i=>$("#"+i).oninput=rec);rec();
+  $("#bTpl").onclick=()=>{const v=vals();B.res={instructions:"",items:tplItems(m.id,v.c,v.dims,v.k),notes:"",src:"tpl"};show()};
+  aiGet().then(s=>{const btn=$("#bAI");if(!s||!btn)return;btn.hidden=false;btn.onclick=async()=>{btn.disabled=true;const old=btn.textContent;btn.textContent="جارٍ البناء… (قد يستغرق دقيقة)";
+   try{const r=await s.json(aiPrompt(),{cache:false});if(!r||!Array.isArray(r.items)||!r.items.length)throw{code:"invalid_json"};B.res={instructions:String(r.instructions||""),items:r.items.map(x=>({text:String(x.text||""),dim:String(x.dim||""),reverse:!!x.reverse,value:x.value==null||x.value===""?null:+x.value,options:Array.isArray(x.options)?x.options.map(String):[],key:String(x.key||"")})).filter(x=>x.text),notes:String(r.notes||""),src:"ai"};show()}
+   catch(e){toast(AI_ERR[e&&e.code]||"تعذر البناء الآن، استخدم القوالب الجاهزة أو انسخ الطلب لـ Claude.")}
+   btn.disabled=false;btn.textContent=old}});
+  if(B.res)show();
+ };
+ function show(){const m=B.m,r=B.res,o=$("#bOut");if(!o)return;const v={c:B.c,n:B.n};
+  const resp=m.resp;const its=r.items;
+  let h=`<div class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">3) مقياس ${esc(v.c)}</h3><span class="chip ${r.src==="ai"?"gold":""}">${r.src==="ai"?"مولّد بالذكاء الاصطناعي":"قوالب جاهزة — مسودة للتعديل"}</span></div>
+  <p><b>التعليمات:</b> ${esc(r.instructions||defInstr(m))}</p>`;
+  its.forEach((it,i)=>{h+=`<div class="qitem"><b>${i+1}.</b> ${esc(it.text)} ${it.reverse?'<span class="rev">(معكوس)</span>':""}<div class="muted" style="font-size:13.5px">${it.dim?"البعد: "+esc(it.dim):""}${it.value!=null&&isFinite(it.value)?` · ${m.id==="thurstone"?"القيمة المقترحة":m.id==="guttman"?"الترتيب":"الصعوبة (logit)"}: ${it.value}`:""}${it.level?" · "+it.level:""}</div>${it.options&&it.options.length?`<div class="sc">${it.options.map((op,j)=>`<span>${"أبجدهوز"[j]||j+1}) ${esc(op)}</span>`).join("")}</div>${it.key?`<div class="muted" style="font-size:13.5px">المفتاح: ${esc(it.key)}</div>`:""}`:resp.length?`<div class="sc">${resp.map(x=>`<span>${x}</span>`).join("")}</div>`:""}</div>`});
+  h+=`<p class="muted" style="font-size:14px">${esc(r.notes||"")}</p><div class="box warn"><b>قبل التطبيق</b>هذه مسودة: اعرضها على 5–10 محكمين (صدق المحتوى CVR/CVI)، وجرّبها على عينة استطلاعية 30–50 فردًا، وعدّل الصياغة.</div>
+  <div class="row"><button class="btn sm" id="bCopy">نسخ المقياس</button><button class="btn sm ghost" onclick="window.print()">طباعة / PDF</button></div></div>`;
+  const sim=["sjt","forced"].includes(m.id)?null:true;
+  if(sim)h+=`<div class="panel"><h3>4) جرّب التحليل على عينة افتراضية (${v.n} فردًا)</h3><p class="muted" style="margin-top:0">نولّد استجابات افتراضية لـ ${v.n} فردًا على بنودك (بعد عكس البنود السالبة) لتتدرب على حساب الثبات.</p><button class="btn sm gold" id="bSim">ولّد البيانات واحسب الثبات</button><div id="bSimOut"></div></div>`;
+  o.innerHTML=h;o.scrollIntoView({behavior:"smooth",block:"start"});
+  $("#bCopy").onclick=()=>{const t=`مقياس ${v.c}\n${r.instructions||defInstr(m)}\n\n`+its.map((it,i)=>`${i+1}. ${it.text}${it.reverse?" (معكوس)":""}${it.options&&it.options.length?"\n   "+it.options.map((x,j)=>("أبجدهوز"[j]||j+1)+") "+x).join("\n   "):""}`).join("\n")+(resp.length&&!(its[0].options&&its[0].options.length)?`\n\nالبدائل: ${resp.join(" / ")}`:"");const done=()=>toast("تم نسخ المقياس");navigator.clipboard?navigator.clipboard.writeText(t).then(done,()=>fallbackCopy(t,done)):fallbackCopy(t,done)};
+  const sb=$("#bSim");if(sb)sb.onclick=()=>{const bin=!!m.bin,steps=Math.max(2,resp.length||5);const rows=simulate(its,Math.min(v.n,2000),bin,steps);const cols=its.map((_,j)=>rows.map(rw=>rw[j]));const a=alphaOf(cols);
+   window._relPreset=rows.map(rw=>rw.join(" ")).join("\n");
+   $("#bSimOut").innerHTML=`<div class="kpis" style="margin-top:10px"><div class="kpi hl"><small>${bin?"KR-20 / ألفا":"ألفا كرونباخ"}</small><b>${f2(a,3)}</b></div><div class="kpi"><small>عدد الأفراد</small><b>${rows.length}</b></div><div class="kpi"><small>عدد البنود</small><b>${its.length}</b></div></div><div class="verdict ${relLbl(a)[1]}">الثبات ${relLbl(a)[0]} (بيانات افتراضية للتدريب فقط — النتيجة الحقيقية تأتي من تطبيقك الفعلي)</div><div class="row"><button class="btn sm" onclick="go('lab/rel')">حلّل البنود في معمل الثبات</button></div>`};
+ }
+ step();
+}
+function defInstr(m){return m.id==="thurstone"?"ضع علامة أمام العبارات التي توافق عليها فقط.":m.id==="guttman"?"أجب بنعم أو لا على كل عبارة.":m.id==="osgood"?"قيّم المفهوم على كل زوج من الصفات بوضع علامة في الخانة الأقرب لرأيك (1 = الصفة اليمنى، 7 = الصفة اليسرى).":m.id==="sjt"?"اقرأ كل موقف واختر التصرف الذي ستقوم به فعلًا.":m.id==="forced"?"اختر من كل زوج العبارة التي تنطبق عليك أكثر، حتى لو انطبقت الاثنتان.":"اقرأ كل عبارة واختر البديل الذي يعبر عنك بصدق، لا توجد إجابات صحيحة أو خاطئة."}
+
+/* ========== AMOS SIMULATOR ========== */
+const AMOS_EX={lat:"<b>متغير كامن (Latent) ⬭:</b> سمة لا تُقاس مباشرة مثل «القلق» أو «الاكتئاب»، ونستدل عليها من البنود. نرسمه بأداة Draw a latent variable.",obs:"<b>متغير مشاهد (Observed) ▭:</b> بند في المقياس له عمود في ملف SPSS (مثل x1). نسحبه من List variables in data set إلى المستطيل.",err:"<b>الخطأ (Error) ◯:</b> الجزء من تباين البند الذي لا يفسره العامل. كل بند له خطأ خاص (e1، e2…) ونسميها تلقائيًا من Plugins › Name Unobserved Variables.",reg:"<b>سهم في اتجاه واحد →:</b> تأثير العامل على البند = <b>التشبع (λ)</b>. الرقم على السهم في المخرجات المعيارية هو التشبع، ويفضل ≥ 0.50.",cov:"<b>سهم مزدوج ↔:</b> التغاير/الارتباط بين العاملين. القيمة المعيارية عليه = معامل الارتباط بين العاملين (يُستخدم في الصدق التمييزي).",one:"<b>الرقم 1:</b> تثبيت أول مسار في كل عامل (وكل مسار خطأ) بالقيمة 1 لتحديد وحدة قياس المتغير الكامن، وإلا لا يمكن تقدير النموذج. AMOS يضعه تلقائيًا.",r2:"<b>الرقم فوق البند (R²):</b> مربع التشبع = نسبة تباين البند التي يفسرها العامل (مثلًا 0.80² = 0.64)."};
+function renderAmos(seg){
+ const F=[{n:"القلق",x:170,it:[["x1",.78],["x2",.82],["x3",.69]]},{n:"الاكتئاب",x:470,it:[["x4",.74],["x5",.85],["x6",.63]]}];
+ let g=`<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1b1b1b"/></marker></defs>`;
+ F.forEach(f=>{f.it.forEach((it,i)=>{const x=f.x+(i-1)*95;
+  g+=`<g class="am" data-k="err"><circle cx="${x}" cy="45" r="20" fill="#fff" stroke="#1b1b1b" stroke-width="1.5"/><text x="${x}" y="50" text-anchor="middle">e${it[0].slice(1)}</text></g>
+  <g class="am" data-k="one"><line x1="${x}" y1="65" x2="${x}" y2="118" stroke="#1b1b1b" stroke-width="1.5" marker-end="url(#ah)"/><text x="${x+8}" y="95" style="font-size:12px">1</text></g>
+  <g class="am" data-k="obs"><rect x="${x-34}" y="120" width="68" height="40" fill="#eef4fb" stroke="#1b1b1b" stroke-width="1.5"/><text x="${x}" y="145" text-anchor="middle" style="font-weight:700">${it[0]}</text></g>
+  <g class="am" data-k="r2"><text x="${x+36}" y="117" style="font-size:11px;fill:#a35a00">${f2(it[1]*it[1],2).replace(/^0/,"")}</text></g>
+  <g class="am" data-k="reg"><line x1="${f.x}" y1="232" x2="${x}" y2="162" stroke="#1b1b1b" stroke-width="1.5" marker-end="url(#ah)"/><text x="${(f.x+x)/2+(i===1?8:i===0?-22:6)}" y="${200}" style="font-size:12px;fill:#2f5d8a;font-weight:700">${f2(it[1],2).replace(/^0/,"")}</text></g>`});
+  g+=`<g class="am" data-k="lat"><ellipse cx="${f.x}" cy="262" rx="72" ry="30" fill="#fff7e0" stroke="#1b1b1b" stroke-width="1.5"/><text x="${f.x}" y="268" text-anchor="middle" style="font-weight:700;font-size:15px">${f.n}</text></g>`});
+ g+=`<g class="am" data-k="cov"><path d="M180,293 Q320,370 460,293" fill="none" stroke="#1b1b1b" stroke-width="1.5" marker-start="url(#ah)" marker-end="url(#ah)"/><text x="320" y="345" text-anchor="middle" style="font-size:12px;fill:#2f5d8a;font-weight:700">.46</text></g>`;
+ view.innerHTML=seg+`<div class="panel"><h3>نموذج تحليل عاملي توكيدي تفاعلي</h3><p class="muted" style="margin-top:0">اضغط على أي شكل أو سهم أو رقم في النموذج لترى معناه. (القيم توضيحية: المخرجات المعيارية Standardized estimates)</p>
+ <div class="spss"><div class="tb"><i></i>IBM SPSS Amos Graphics — CFA_model.amw</div><div class="menu">${["File","Edit","View","Diagram","Analyze","Tools","Plugins"].map(m=>`<button data-am="${m}">${m}</button>`).join("")}</div><div style="padding:6px;overflow-x:auto"><svg viewBox="0 0 640 380" style="width:100%;min-width:480px;display:block;font-family:Segoe UI,Tahoma,sans-serif;font-size:13px" id="amsvg">${g}</svg></div></div>
+ <div class="expl" id="amx">اضغط على عنصر في النموذج، أو على قائمة بالأعلى.</div></div>
+ <div class="panel"><h3>Text Output: Standardized Regression Weights</h3><div class="otwrap"><table class="otbl"><thead><tr><th></th><th></th><th></th><th>Estimate</th></tr></thead><tbody>${F.flatMap(f=>f.it.map(it=>`<tr><td>${it[0]}</td><td>&lt;---</td><td>${f.n==="القلق"?"Anxiety":"Depression"}</td><td>${f2(it[1],3).replace(/^0/,"")}</td></tr>`)).join("")}</tbody></table>
+ <table class="otbl"><caption>Model Fit Summary (مختصر)</caption><thead><tr><th>CMIN/DF</th><th>CFI</th><th>TLI</th><th>RMSEA</th></tr></thead><tbody><tr><td>1.86</td><td>.978</td><td>.959</td><td>.044</td></tr></tbody></table></div>
+ <p>كل التشبعات ≥ 0.50 ← البنود تمثل عواملها جيدًا. ومؤشرات المطابقة ضمن الحدود ← النموذج مطابق للبيانات.</p><div class="row"><button class="btn sm" onclick="go('lab/fit')">افحص مؤشرات نموذجك</button><button class="btn sm ghost" onclick="go('lab/rel/omega')">احسب AVE و CR</button><button class="btn sm ghost" onclick="go('lesson/amos2')">خطوات CFA</button></div></div>`;
+ const AM={File:"<b>File › Data Files:</b> لاختيار ملف بيانات SPSS (.sav) قبل رسم النموذج.",Edit:"<b>Edit:</b> نسخ ونقل وحذف الأشكال، وتغيير شكل الأسهم.",View:"<b>View › Analysis Properties › Output:</b> علّم Standardized estimates و Squared multiple correlations و Modification indices. و<b>View › Text Output</b> لقراءة النتائج.",Diagram:"<b>Diagram:</b> أدوات الرسم: Draw Observed (مستطيل)، Draw Unobserved (بيضاوي)، Draw Path (سهم)، Draw Covariance (سهم مزدوج).",Analyze:"<b>Analyze › Calculate Estimates:</b> تشغيل التحليل وحساب التقديرات.",Tools:"<b>Tools:</b> أدوات إضافية مثل Macro والإعدادات.",Plugins:"<b>Plugins › Name Unobserved Variables:</b> تسمية الأخطاء تلقائيًا. و<b>Standardized RMR</b> لحساب مؤشر SRMR."};
+ $$("#amsvg .am").forEach(el=>{el.style.cursor="pointer";el.onclick=()=>{$$("#amsvg .am").forEach(x=>x.style.opacity=".35");$$(`#amsvg .am[data-k="${el.dataset.k}"]`).forEach(x=>x.style.opacity="1");$("#amx").innerHTML=AMOS_EX[el.dataset.k]}});
+ $$("[data-am]").forEach(b=>b.onclick=()=>{$$("#amsvg .am").forEach(x=>x.style.opacity="1");$("#amx").innerHTML=AM[b.dataset.am]});
+ labUse("amos");
 }
 
 /* ========== PRACTICE ========== */
@@ -1151,7 +1525,7 @@ $("#fsBtn").onclick=()=>{const steps=[1,1.12,1.25,0.92];S.fs=steps[(steps.indexO
 function applyTheme(){const t=localStorage.getItem("statlab-theme");if(t)document.documentElement.dataset.theme=t}
 $("#thBtn").onclick=()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;const n=dark?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("statlab-theme",n)}catch(e){}};
 try{applyTheme()}catch(e){}
-applyFs();touchStreak();renderBar();route();initAnalytics();
+applyFs();touchStreak();renderBar();route();initAnalytics();renderFab();
 /* GoatCounter visit counter — only on the public GitHub Pages copy */
 function gcHit(){try{window.goatcounter&&window.goatcounter.count&&window.goatcounter.count({path:location.pathname+(location.hash||"#path"),title:document.title})}catch(e){}}
 if(/\.github\.io$/.test(location.hostname)){window.goatcounter={no_onload:true};const gs=document.createElement("script");gs.async=true;gs.dataset.goatcounter="https://mo-psych-stats-lab.goatcounter.com/count";gs.src="https://gc.zgo.at/count.js";gs.onload=gcHit;document.head.appendChild(gs);window.addEventListener("hashchange",gcHit)}
