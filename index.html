@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>مختبر الإحصاء النفسي</title>
 <meta name="description" content="منصة تفاعلية لمادة الإحصاء: الجداول التكرارية، النزعة المركزية، التشتت، اختبارات ت، وبرنامج SPSS — دروس ومعامل حسابية واختبارات.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f5d8a'/%3E%3Cpath d='M7 24V15M13 24V8M19 24v-6M25 24V12' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1b2d'/%3E%3Cpath d='M5 23c4 0 5-1 7-6s2.5-9 4-9 2 4 4 9 3 6 7 6' stroke='%234fd1bf' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 :root{
   --paper:#f5f5f1;--card:#fff;--ink:#1f2328;--muted:#59606a;--line:#dadcd5;
@@ -310,11 +310,132 @@ body.nogrid .sgrid td{border-color:transparent!important}
 .vpick label span{color:var(--muted);font-size:13.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 @media print{.bar,.tabs,.lfoot,.foot{display:none}.sec .body{display:block!important}}
+/* ===== Design system v2: "calibrated lab" ===== */
+:root{
+  --paper:#f2f4f7;--card:#ffffff;--ink:#0f1b2d;--muted:#536074;--line:#dbe1e9;
+  --teal:#0b6e69;--teal-soft:#e1f0ee;--gold:#b7770a;--gold-soft:#fbf1dc;
+  --good:#1f7a4d;--good-soft:#e2f2e8;--bad:#b23b33;--bad-soft:#fbe7e5;
+  --violet:#4b4fa3;--violet-soft:#ebecf8;--orange:#b5591f;--orange-soft:#fbebe0;--gray-soft:#eceff3;
+  --c1:#0b6e69;--c2:#d18a0b;--c3:#1f7a4d;
+  --navy:#0f1b2d;--navy-2:#16263d;--hero-grid:#1d314c;--hero-axis:#7f93ad;--hero-curve:#4fd1bf;--hero-bar:rgba(244,180,61,.30);--hero-ink:#eaf1f8;--hero-muted:#a9b8cb;
+  --f-display:"Noto Kufi Arabic","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --r:16px;--r-sm:10px;
+  --shadow:0 1px 2px rgba(15,27,45,.06),0 8px 24px -12px rgba(15,27,45,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0b1320;--card:#121d2e;--ink:#e6edf5;--muted:#9fb0c4;--line:#24344b;
+  --teal:#4fd1bf;--teal-soft:#123232;--gold:#f0b43d;--gold-soft:#2c2412;
+  --good:#6fd39b;--good-soft:#14301f;--bad:#f08a80;--bad-soft:#3a1d1b;
+  --violet:#a9adf0;--violet-soft:#22244a;--orange:#f2a172;--orange-soft:#3a2416;--gray-soft:#1a2639;
+  --c1:#4fd1bf;--c2:#f0b43d;--c3:#6fd39b;--navy:#08101b;--navy-2:#0f1a2b;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{
+  --paper:#0b1320;--card:#121d2e;--ink:#e6edf5;--muted:#9fb0c4;--line:#24344b;
+  --teal:#4fd1bf;--teal-soft:#123232;--gold:#f0b43d;--gold-soft:#2c2412;
+  --good:#6fd39b;--good-soft:#14301f;--bad:#f08a80;--bad-soft:#3a1d1b;
+  --violet:#a9adf0;--violet-soft:#22244a;--orange:#f2a172;--orange-soft:#3a2416;--gray-soft:#1a2639;
+  --c1:#4fd1bf;--c2:#f0b43d;--c3:#6fd39b;--navy:#08101b;--navy-2:#0f1a2b;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6)}
+body{line-height:1.8}
+.num{font-family:var(--f-body);font-variant-numeric:tabular-nums lining-nums}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:700;letter-spacing:0}
+.wrap{max-width:1040px}
+.bar{background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px)}
+.bar .in{max-width:1040px}
+.brand{color:var(--ink);font-weight:700;font-size:18px}
+.brand svg rect{fill:var(--navy)}
+.stat{background:transparent;border:1px solid var(--line)}
+/* tabs as segmented instrument switch */
+.tabs{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;gap:4px;box-shadow:var(--shadow)}
+.tab{border:none;background:transparent;border-radius:10px;min-height:44px;color:var(--muted)}
+.tab:hover{color:var(--ink);background:var(--gray-soft)}
+.tab[aria-selected="true"]{background:var(--navy);color:#fff}
+:root[data-theme="dark"] .tab[aria-selected="true"]{background:var(--teal);color:#062221}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tab[aria-selected="true"]{background:var(--teal);color:#062221}}
+@media (max-width:680px){.tabs{border-radius:0;box-shadow:0 -6px 20px -12px rgba(15,27,45,.35);padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}.tab{min-height:52px}}
+/* buttons: flat, precise */
+.btn{border-radius:var(--r-sm);box-shadow:none;min-height:46px;font-weight:600;transition:background-color .15s,transform .1s}
+.btn:hover{background:color-mix(in srgb,var(--teal) 86%,#000)}
+.btn:active{transform:translateY(1px);box-shadow:none}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{background:var(--gray-soft)}
+.btn.gold{background:var(--gold);box-shadow:none;color:#fff}
+.btn.sm{min-height:40px}
+.panel{border-radius:var(--r);box-shadow:var(--shadow);border-color:var(--line)}
+.panel>h3{font-size:19px}
+.chip{border-radius:6px}
+/* hero instrument */
+.hero2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px;align-items:center;background:var(--navy);color:var(--hero-ink);border-radius:22px;padding:30px 30px 26px;margin:6px 0 16px;position:relative;overflow:hidden;box-shadow:0 30px 60px -30px rgba(15,27,45,.55)}
+:root[data-theme="dark"] .hero2{border:1px solid var(--line)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero2{border:1px solid var(--line)}}
+.hero2::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 110%,rgba(79,209,191,.16),transparent 60%);pointer-events:none}
+.hero2-kicker{margin:0 0 6px;color:var(--hero-muted);font-size:15px}
+.hero2 h1{font-size:clamp(30px,5.4vw,46px);line-height:1.2;margin:0 0 12px;color:#fff}
+.hero2-lead{color:#c9d6e5;margin:0 0 20px;max-width:46ch;font-size:17.5px}
+.hero2 .btn{background:var(--hero-curve);color:#062221}
+.hero2 .btn:hover{background:#7fe3d5}
+.hero2 .btn.ghost{background:transparent;color:#fff;border-color:#33496a}
+.hero2 .btn.ghost:hover{background:#1a2c45}
+.readouts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:22px;background:#24395a;border:1px solid #24395a;border-radius:12px;overflow:hidden}
+.readouts div{background:var(--navy-2);padding:10px 12px;position:relative}
+.readouts span{display:block;color:var(--hero-muted);font-size:13px}
+.readouts b{font-size:21px;color:#fff;font-weight:600}
+.readouts i{position:absolute;inset:auto 0 0 auto;height:3px;width:var(--p);background:var(--hero-curve)}
+.hero2-art{position:relative}
+.hero-svg{direction:ltr;width:100%;height:auto;display:block;border-radius:14px;background:var(--navy-2);border:1px solid #213654}
+.htick{fill:var(--hero-muted);font-size:12px;font-family:"IBM Plex Sans Arabic",sans-serif}
+.hnote{fill:var(--hero-curve);font-size:12px;font-weight:600}
+.hero2-cap{margin:10px 2px 0;color:var(--hero-muted);font-size:14.5px}
+.hero2-cap b{color:#fff;font-weight:600}
+.hcurve{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.6s .35s cubic-bezier(.3,.7,.2,1) forwards}
+.hbar{transform-origin:center bottom;transform-box:fill-box;transform:scaleY(0);animation:rise .6s var(--d) cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes rise{to{transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){.hcurve{stroke-dashoffset:0;animation:none}.hbar{transform:none;animation:none}}
+@media (max-width:760px){.hero2{grid-template-columns:1fr;padding:22px 18px}.readouts{grid-template-columns:repeat(2,1fr)}.hero2-art{order:-1}}
+/* tool strip */
+.toolstrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.toolstrip button{display:flex;gap:10px;align-items:flex-start;text-align:start;background:none;border:none;border-inline-start:1px solid var(--line);padding:14px 14px;min-height:72px;color:var(--ink)}
+.toolstrip button:first-child{border-inline-start:none}
+.toolstrip button:hover{background:var(--gray-soft)}
+.toolstrip svg{width:26px;height:26px;flex:none;color:var(--teal);margin-top:2px}
+.toolstrip b{display:block;font-family:var(--f-display);font-size:15.5px;font-weight:700}
+.toolstrip small{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+@media (max-width:900px){.toolstrip{grid-template-columns:1fr 1fr}.toolstrip button{border-inline-start:none;border-top:1px solid var(--line)}.toolstrip button:nth-child(-n+2){border-top:none}.toolstrip button:nth-child(even){border-inline-start:1px solid var(--line)}}
+.sec-title{font-size:22px}
+/* ruler path */
+.ruler{position:relative;padding-inline-start:30px;margin-top:8px}
+.ruler::before{content:"";position:absolute;inset-block:6px;inset-inline-start:10px;width:2px;background:var(--line)}
+.ruler::after{content:"";position:absolute;inset-block:6px;inset-inline-start:2px;width:8px;background:repeating-linear-gradient(to bottom,var(--line) 0 1px,transparent 1px 12px)}
+.unit2{display:flex;align-items:center;gap:12px;margin:26px 0 8px;position:relative}
+.unit2-n{position:absolute;inset-inline-start:-36px;width:26px;height:26px;border-radius:7px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:700}
+.unit2 b{display:block;font-family:var(--f-display);font-size:18px}
+.unit2 small{display:block;color:var(--muted);font-size:14px;line-height:1.5}
+.unit2-p{margin-inline-start:auto;color:var(--muted);font-size:14px;border:1px solid var(--line);border-radius:6px;padding:0 8px}
+.node2{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:6px 0;text-align:start;position:relative;min-height:58px;transition:border-color .15s,background-color .15s}
+.node2:hover{border-color:var(--teal)}
+.node2::before{content:"";position:absolute;inset-inline-start:-21px;top:50%;width:14px;height:2px;background:var(--line)}
+.node2 .tick{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);color:var(--muted);font-weight:700;font-size:14px;background:var(--card)}
+.node2 .tick svg{width:16px;height:16px}
+.node2.done .tick{background:var(--good);border-color:var(--good);color:#fff}
+.node2.current{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+.node2.current .tick{border-color:var(--teal);color:var(--teal)}
+.node2 .meta2 b{display:block;font-family:var(--f-display);font-weight:600;font-size:16.5px;line-height:1.5}
+.node2 .meta2 small{display:block;color:var(--muted);font-size:13.5px}
+.node2 .here{margin-inline-start:auto;font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap}
+/* lesson & labs polish */
+.lhead{border-radius:var(--r);box-shadow:var(--shadow);border-top:4px solid var(--teal)}
+.sec{border-radius:12px}
+.sec.open{box-shadow:var(--shadow)}
+.pcard{border-bottom-width:1px;box-shadow:var(--shadow)}
+.pcard:hover{transform:none;border-color:var(--teal)}
+.box{border-radius:10px}
+.f{border:1px solid var(--line);background:color-mix(in srgb,var(--gray-soft) 70%,var(--card))}
+.foot{border-top:none}
+
 </style>
 </head>
 <body>
 <header class="bar"><div class="in">
-  <a class="brand" href="#path"><svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M7 24V15M13 24V8M19 24v-6M25 24V12" stroke="var(--card)" stroke-width="3" stroke-linecap="round"/></svg><span>مختبر الإحصاء النفسي</span></a>
+  <a class="brand" href="#path"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1b2d"/><path d="M5 24h22" stroke="#7f93ad" stroke-width="1.5"/><path d="M5 23c4 0 5-1 7-6s2.5-9 4-9 2 4 4 9 3 6 7 6" stroke="#4fd1bf" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg><span>مختبر الإحصاء النفسي</span></a>
   <div class="stat fire" id="sStreak" title="أيام متتالية"></div>
   <div class="stat xp" id="sXp" title="نقاط الخبرة"></div>
   <button class="ibtn" id="fsBtn" title="حجم الخط" aria-label="تغيير حجم الخط">أ±</button>
@@ -1020,13 +1141,38 @@ function route(){
 
 /* ========== PATH ========== */
 function ring(p){const r=44,c=2*Math.PI*r;return `<div class="ring"><svg viewBox="0 0 104 104"><circle cx="52" cy="52" r="${r}" fill="none" stroke="var(--gray-soft)" stroke-width="10"/><circle cx="52" cy="52" r="${r}" fill="none" stroke="var(--good)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}"/></svg><div class="c"><b>${Math.round(p*100)}%</b><small>مكتمل</small></div></div>`}
+function heroInstrument(){const W=520,H=250,P=28,X=v=>P+(W-2*P)*(v+3.4)/6.8,base=H-34,Y=v=>base-150*Math.exp(-v*v/2);let d="";for(let i=0;i<=120;i++){const v=-3.4+6.8*i/120;d+=(i?"L":"M")+X(v).toFixed(1)+","+Y(v).toFixed(1)}
+ const bins=[];for(let k=-3;k<3;k+=.5){const m=k+.25,h=150*Math.exp(-m*m/2)*(0.86+((Math.abs(k*7)%5)/30));bins.push({x:X(k)+1.5,w:X(k+.5)-X(k)-3,h})}
+ let g=`<defs><pattern id="hg" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="var(--hero-grid)" stroke-width="1"/></pattern></defs><rect width="${W}" height="${H}" fill="url(#hg)"/>`;
+ bins.forEach((b,i)=>g+=`<rect class="hbar" style="--d:${i*45}ms" x="${b.x}" y="${base-b.h}" width="${b.w}" height="${b.h}" fill="var(--hero-bar)"/>`);
+ g+=`<line x1="${P}" y1="${base}" x2="${W-P}" y2="${base}" stroke="var(--hero-axis)" stroke-width="1.2"/>`;
+ [-2,-1,0,1,2].forEach(s=>{g+=`<line x1="${X(s)}" y1="${base}" x2="${X(s)}" y2="${base+6}" stroke="var(--hero-axis)"/><text x="${X(s)}" y="${base+20}" text-anchor="middle" class="htick">${s===0?"µ":(s>0?"+":"−")+Math.abs(s)+"σ"}</text>`});
+ g+=`<path class="hcurve" d="${d}" fill="none" stroke="var(--hero-curve)" stroke-width="3" stroke-linecap="round"/>`;
+ g+=`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(0)}" y2="${base}" stroke="var(--hero-curve)" stroke-dasharray="3 4" opacity=".7"/><text x="${X(1)+6}" y="${Y(1)-8}" class="hnote">68%</text><text x="${X(2)+6}" y="${Y(2)-8}" class="hnote">95%</text>`;
+ return `<svg class="hero-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="منحنى التوزيع الطبيعي مع مدرج تكراري">${g}</svg>`}
 function renderPath(){
- const done=LESSONS.filter(l=>S.done[l.id]).length;const cur=LESSONS.find(l=>!S.done[l.id]);
- let h=`<section class="hero">${ring(done/LESSONS.length)}<div><h1>مختبر الإحصاء النفسي</h1><p>${LESSONS.length} درسًا تفاعليًا من محاضرات المادة، مع معامل حسابية تشرح الحل خطوة بخطوة، ومحاكي لبرنامج SPSS، واختبارات تدريبية.</p><div class="row">${cur?`<button class="btn" onclick="go('lesson/${cur.id}')">${done?"أكمل":"ابدأ"}: ${cur.t}</button>`:`<button class="btn gold" onclick="go('practice')">راجع بالاختبار الشامل</button>`}<button class="btn ghost" onclick="go('all')">افتح كل الدروس مرة واحدة</button><button class="btn ghost" onclick="go('lab/build')">ابنِ مقياسك النفسي</button><button class="btn ghost" onclick="go('lab')">المعامل الحسابية</button></div></div></section>`;
- UNITS.forEach(u=>{h+=`<div class="unit"><div class="n">${u.n}</div><div><b>${u.t}</b><small>${u.s}</small></div></div>`;
-  LESSONS.filter(l=>l.u===u.n).forEach(l=>{const i=LESSONS.indexOf(l)+1;const d=S.done[l.id];const best=S.done[l.id]?.score;
-   h+=`<button class="node ${d?"done":""} ${cur===l?"current":""}" onclick="go('lesson/${l.id}')"><div class="disc">${d?ICON.check:i}</div><div class="meta"><b>${l.t}</b><small>${l.sec.length} أقسام · ${l.quiz.length} أسئلة${d?` · أفضل نتيجة ${best}/${l.quiz.length}`:""}</small></div></button>`})});
- view.innerHTML=h;
+ const done=LESSONS.filter(l=>S.done[l.id]).length,cur=LESSONS.find(l=>!S.done[l.id]),pct=Math.round(done/LESSONS.length*100);
+ const curUnit=cur?UNITS.find(u=>u.n===cur.u):null;
+ let h=`<section class="hero2">
+  <div class="hero2-text">
+   <p class="hero2-kicker">الدبلوم الخاص في علم النفس — مادة الإحصاء</p>
+   <h1>مختبر الإحصاء النفسي</h1>
+   <p class="hero2-lead">افهم الإحصاء بالتجربة: تقرأ الدرس، ثم تجرّب في معمل يحسب معك خطوة بخطوة، ثم تختبر نفسك. وفيه برنامج SPSS و AMOS يعملان على بياناتك.</p>
+   <div class="row">${cur?`<button class="btn" onclick="go('lesson/${cur.id}')">${done?"أكمل من حيث توقفت":"ابدأ الدرس الأول"}</button>`:`<button class="btn" onclick="go('practice')">ابدأ الامتحان التجريبي</button>`}<button class="btn ghost" onclick="go('spss')">افتح برنامج SPSS</button></div>
+   <div class="readouts" aria-label="تقدمك"><div><span>التقدم</span><b class="num">${pct}%</b><i style="--p:${pct}%"></i></div><div><span>الدروس</span><b class="num">${done}/${LESSONS.length}</b></div><div><span>النقاط</span><b class="num">${S.xp}</b></div><div><span>أيام متتالية</span><b class="num">${S.streak||0}</b></div></div>
+  </div>
+  <div class="hero2-art">${heroInstrument()}<p class="hero2-cap">${cur?`التالي: <b>${cur.t}</b> · الوحدة ${cur.u}${curUnit?" — "+curUnit.t:""}`:"أنهيت كل الدروس — راجع بالامتحان التجريبي"}</p></div>
+ </section>
+ <nav class="toolstrip" aria-label="أدوات المختبر">
+  ${[["spss","برنامج SPSS","أدخل بياناتك أو افتح Excel وحلّل",'<path d="M3 5h18v14H3z"/><path d="M3 10h18M9 10v9M15 10v9"/>'],["spss/amos","برنامج AMOS","تحليل عاملي توكيدي ونمذجة بنائية",'<ellipse cx="12" cy="7" rx="6" ry="3.5"/><path d="M6 17h4v4H6zM14 17h4v4h-4zM10 10.5 8 17M14 10.5l2 6.5"/>'],["lab/build","بناء مقياس","من ثرستون حتى الذكاء الاصطناعي، مع لينك للمفحوصين",'<path d="M4 20h16M6 16l4-10 4 10M8 12h4M16 6h4M18 4v4"/>'],["lab","المعامل الحسابية","وصفي، اختبارات ت، ثبات، اعتدالية",'<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/>'],["practice","التدريب","امتحان تجريبي، بطاقات، ومسرد",'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>']].map(t=>`<button onclick="go('${t[0]}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${t[3]}</svg><span><b>${t[1]}</b><small>${t[2]}</small></span></button>`).join("")}
+ </nav>
+ <div class="row" style="justify-content:space-between;margin:26px 0 6px"><h2 class="sec-title">مسار الدروس</h2><button class="btn sm ghost" onclick="go('all')">كل الدروس في صفحة واحدة</button></div>
+ <div class="ruler">`;
+ UNITS.forEach(u=>{const ls=LESSONS.filter(l=>l.u===u.n),ud=ls.filter(l=>S.done[l.id]).length;
+  h+=`<div class="unit2"><span class="unit2-n num">${u.n}</span><div><b>${u.t}</b><small>${u.s}</small></div><span class="unit2-p num">${ud}/${ls.length}</span></div>`;
+  ls.forEach(l=>{const i=LESSONS.indexOf(l)+1,d=S.done[l.id],best=d?.score;
+   h+=`<button class="node2 ${d?"done":""} ${cur===l?"current":""}" onclick="go('lesson/${l.id}')"><span class="tick num">${d?ICON.check:i}</span><span class="meta2"><b>${l.t}</b><small>${l.sec.length} أقسام، ${l.quiz.length} أسئلة${d?`، أفضل نتيجة ${best}/${l.quiz.length}`:""}</small></span>${cur===l?'<span class="here">أنت هنا</span>':""}</button>`})});
+ view.innerHTML=h+`</div>`;
 }
 
 /* ========== LESSON ========== */
