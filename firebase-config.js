@@ -12,13 +12,13 @@
      appId: "..."
    };
 */
-/* Public web config for project mopsychology. The key is restricted to the GitHub Pages domain and Firebase APIs; data is protected by firestore.rules. */
+/* Public web config for project mopsych-stats (accounts separate from the scales lab). The key is restricted to the GitHub Pages domain and Firebase APIs; data is protected by firestore.rules. */
 window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCxS767butQrBz1kGtzzXhEJrcDVn84IDI",
-  authDomain: "mopsychology.firebaseapp.com",
-  projectId: "mopsychology",
-  appId: "1:462145790135:web:d734fae38c7dab37b52d32",
-  messagingSenderId: "462145790135"
+  apiKey: "AIzaSyCA3PB5iQwieljcvBNU-_JqDR70LtKY8Do",
+  authDomain: "mopsych-stats.firebaseapp.com",
+  projectId: "mopsych-stats",
+  appId: "1:107885720191:web:9e27c20dfdc3dd4033454a",
+  messagingSenderId: "107885720191"
 };
 /* Optional: App Check with reCAPTCHA v3 to block abusive scripts (see SETUP-FIREBASE.md, step 6). */
 window.FIREBASE_APPCHECK_SITE_KEY = null;
