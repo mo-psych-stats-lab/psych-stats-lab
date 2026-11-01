@@ -2,7 +2,7 @@
    Lenis smooth scrolling synced with GSAP ScrollTrigger, a live Galton board in the hero (balls build the normal curve),
    split headline, count-up readouts, and scroll reveals for every page. Reduced-motion viewers get static visuals. */
 (function () {
-  var G = window.gsap, ST = window.ScrollTrigger, SPLIT = window.SplitText;
+  var G = window.gsap, ST = window.ScrollTrigger, SPLIT = window.SplitText, hover = matchMedia('(hover: hover)').matches, wipe = null, firstEnter = true;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, on = !!G && !reduce;
   if (G && ST) G.registerPlugin(ST);
   if (G && SPLIT) G.registerPlugin(SPLIT);
@@ -71,19 +71,31 @@
     if (cv && !cv.dataset.on) { cv.dataset.on = '1'; if (stopGalton) stopGalton(); stopGalton = galton(cv); }
     if (!on) return;
     if (ST) ST.getAll().forEach(function (t) { if (t.vars && t.vars.id === 'srv') t.kill(); });
+    if (!firstEnter) { if (!wipe) { wipe = document.createElement('div'); wipe.className = 'swipe'; document.body.appendChild(wipe); } G.fromTo(wipe, { scaleX: 1, transformOrigin: '0% 50%' }, { scaleX: 0, duration: 0.55, ease: 'expo.inOut' }); }
+    firstEnter = false;
     var h1 = view.querySelector('.hero2 h1');
-    if (h1 && SPLIT && !h1.dataset.split) { h1.dataset.split = '1'; var sp = new SPLIT(h1, { type: 'words' }); G.from(sp.words, { yPercent: 100, autoAlpha: 0, duration: 0.7, ease: 'power4.out', stagger: 0.08 }); }
+    if (h1 && SPLIT && !h1.dataset.split) { h1.dataset.split = '1'; var sp = new SPLIT(h1, { type: 'words', mask: 'words' }); G.from(sp.words, { yPercent: 120, duration: 0.9, ease: 'expo.out', stagger: 0.08 }); }
     var hero = view.querySelector('.hero2');
     if (hero) {
       G.from(hero.querySelectorAll('.hero2-kicker,.hero2-lead,.hero2 .row > *,.readouts > div'), { autoAlpha: 0, y: 14, duration: 0.5, ease: 'power2.out', stagger: 0.06, delay: 0.2, clearProps: 'all' });
       hero.querySelectorAll('.readouts b').forEach(function (b) { var m = (b.textContent || '').match(/^(\d+)(.*)$/); if (!m) return; var o = { v: 0 }, end = +m[1], suf = m[2]; G.to(o, { v: end, duration: 1.1, delay: 0.3, ease: 'power2.out', onUpdate: function () { b.textContent = Math.round(o.v) + suf; } }); });
     }
-    var items = [].slice.call(view.querySelectorAll('.toolstrip > button, .unit2, .panel, .lcard, .card'));
+    var items = [].slice.call(view.querySelectorAll('.toolstrip > button, .unit2, .panel, .lcard, .card, .pcard'));
     if (ST && items.length) {
-      G.set(items, { autoAlpha: 0, y: 22 });
-      ST.batch(items, { id: 'srv', start: 'top 94%', once: true, onEnter: function (b) { G.to(b, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power3.out', stagger: 0.05, clearProps: 'transform,opacity,visibility' }); } });
+      G.set(items, { clipPath: 'inset(0 0 100% 0)', y: 26 });
+      ST.batch(items, { id: 'srv', start: 'top 94%', once: true, onEnter: function (b) { G.to(b, { clipPath: 'inset(0 0 0% 0)', y: 0, duration: 0.85, ease: 'expo.out', stagger: 0.06, clearProps: 'clipPath,transform' }); } });
       ST.refresh();
     }
+    // lessons path: a progress rail fills as you scroll through the units
+    var path = view.querySelector('.ruler');
+    if (ST && path && !path.querySelector('.prail')) { var rail = document.createElement('div'); rail.className = 'prail'; path.prepend(rail); G.fromTo(rail, { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { id: 'srv', trigger: path, start: 'top 70%', end: 'bottom 70%', scrub: 0.6 } }); }
+    // cards tilt toward the cursor with a moving light
+    if (hover) [].slice.call(view.querySelectorAll('.toolstrip > button, .pcard, .readouts > div')).forEach(function (el) {
+      if (el.dataset.tilt) return; el.dataset.tilt = '1'; G.set(el, { transformPerspective: 700 });
+      var rx = G.quickTo(el, 'rotationX', { duration: 0.5, ease: 'power3' }), ry = G.quickTo(el, 'rotationY', { duration: 0.5, ease: 'power3' });
+      el.addEventListener('pointermove', function (e) { var r = el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height; rx((0.5 - py) * 8); ry((px - 0.5) * 10); el.style.setProperty('--mx', px * 100 + '%'); el.style.setProperty('--my', py * 100 + '%'); });
+      el.addEventListener('pointerleave', function () { rx(0); ry(0); });
+    });
   }
   function boot() {
     var view = document.getElementById('view'); if (!view) return;
