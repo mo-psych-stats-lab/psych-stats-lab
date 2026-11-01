@@ -9,13 +9,19 @@
   function r(a, b) { var n = a.length, ma = 0, mb = 0, i; for (i = 0; i < n; i++) { ma += a[i]; mb += b[i]; } ma /= n; mb /= n; var s = 0, sa = 0, sb = 0; for (i = 0; i < n; i++) { var x = a[i] - ma, y = b[i] - mb; s += x * y; sa += x * x; sb += y * y; } return sa && sb ? s / Math.sqrt(sa * sb) : 0; }
   function gauss() { var u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
   function smooth(x, k) { var o = x.slice(); for (var i = 1; i < x.length; i++) o[i] = k * o[i - 1] + Math.sqrt(1 - k * k) * x[i]; return o; }
+  // real Destrieux region names: language-network regions carry the signal, the rest do not
+  var LANG = ['L_G_temp_sup-Lateral', 'L_S_temporal_sup', 'L_G_temporal_middle', 'L_G_front_inf-Triangul', 'L_G_front_inf-Opercular', 'L_G_pariet_inf-Angular', 'L_G_temp_sup-Plan_tempo', 'R_G_temp_sup-Lateral', 'R_S_temporal_sup', 'L_G_temporal_inf', 'L_Pole_temporal', 'L_G_front_inf-Orbital', 'R_G_temporal_middle', 'L_G_pariet_inf-Supramar', 'R_G_pariet_inf-Angular', 'L_S_front_inf'];
+  function regName(c) { if (typeof DESTRIEUX === 'undefined') return c; var f = DESTRIEUX.info(c); return f.known ? f.ar + ' (' + f.hemi + ')' : c; }
   function simulate(R, T, signal, noise, quality) {
-    var regs = [];
+    var regs = [], nAct = Math.round(R * 0.4), others = typeof DESTRIEUX === 'undefined' ? [] : ['L_', 'R_'].reduce(function (a, h) { return a.concat(DESTRIEUX.keys.map(function (k) { return h + k; })); }, []).filter(function (c) { return LANG.indexOf(c) < 0; });
+    var near = others.filter(function (c) { var l = DESTRIEUX.info(c).lobe; return /الصدغي|الجبهي|الجداري/.test(l); }), far = others.filter(function (c) { return near.indexOf(c) < 0; });
+    var actList = LANG.concat(near), offList = far.concat(near.slice().reverse());
     for (var j = 0; j < R; j++) {
       var active = j < Math.round(R * 0.4), s = smooth(Array.from({ length: T }, gauss), 0.8).map(function (v) { return v * (active ? signal : 0.05); });
       var o1 = s.map(function (v) { return v + noise * gauss(); }), o2 = s.map(function (v) { return v + noise * gauss(); });
       var pr = s.map(function (v) { return quality * v + (1 - quality) * signal * gauss() * 0.6; });
-      regs.push({ name: (active ? 'منطقة لغوية ' : 'منطقة أخرى ') + (j + 1), pred: pr, o1: o1, o2: o2, active: active });
+      var code = active ? actList[j] : offList[j - nAct];
+      regs.push({ name: code ? regName(code) : (active ? 'منطقة لغوية ' : 'منطقة أخرى ') + (j + 1), lang: active, pred: pr, o1: o1, o2: o2, active: active });
     }
     return regs;
   }
@@ -55,7 +61,7 @@
       var out = document.getElementById('nzOut'); out.innerHTML = '<div class="panel">جارٍ الحساب…</div>';
       setTimeout(function () {
         var Pn = Math.min(5000, Math.max(999, Math.ceil(2 * regs.length / 0.05))), rows = analyse(regs, Pn), cnt = function (k) { return rows.filter(function (x) { return x[k]; }).length; }, falsePos = function (k) { return sim ? rows.filter(function (x) { return x[k] && !x.active; }).length : null; };
-        var tbl = '<table class="otbl"><thead><tr><th>المنطقة</th><th>r</th><th>الثبات</th><th>السقف</th><th>المعيارية</th><th>p (تباديل)</th><th>غير مصحح</th><th>بونفيروني</th><th>FDR</th></tr></thead><tbody>' + rows.map(function (x) { return '<tr><th>' + E(x.name) + '</th><td>' + f(x.acc) + '</td><td>' + f(x.rel) + '</td><td>' + f(x.ceil) + '</td><td>' + f(x.norm) + '</td><td>' + (x.p < 0.001 ? '<.001' : f(x.p, 3)) + '</td><td>' + (x.unc ? '✓' : '') + '</td><td>' + (x.bonf ? '✓' : '') + '</td><td>' + (x.fdr ? '✓' : '') + '</td></tr>'; }).join('') + '</tbody></table>';
+        var tbl = '<table class="otbl"><thead><tr><th>المنطقة</th><th>r</th><th>الثبات</th><th>السقف</th><th>المعيارية</th><th>p (تباديل)</th><th>غير مصحح</th><th>بونفيروني</th><th>FDR</th></tr></thead><tbody>' + rows.map(function (x) { return '<tr><th>' + E(regName(x.name)) + '</th><td>' + f(x.acc) + '</td><td>' + f(x.rel) + '</td><td>' + f(x.ceil) + '</td><td>' + f(x.norm) + '</td><td>' + (x.p < 0.001 ? '<.001' : f(x.p, 3)) + '</td><td>' + (x.unc ? '✓' : '') + '</td><td>' + (x.bonf ? '✓' : '') + '</td><td>' + (x.fdr ? '✓' : '') + '</td></tr>'; }).join('') + '</tbody></table>';
         out.innerHTML = '<div class="panel"><div class="readouts"><div><span>دال (غير مصحح)</span><b class="num">' + cnt('unc') + (sim ? ' <small>(' + falsePos('unc') + ' زائفة)</small>' : '') + '</b></div><div><span>دال (بونفيروني)</span><b class="num">' + cnt('bonf') + (sim ? ' <small>(' + falsePos('bonf') + ' زائفة)</small>' : '') + '</b></div><div><span>دال (FDR)</span><b class="num">' + cnt('fdr') + (sim ? ' <small>(' + falsePos('fdr') + ' زائفة)</small>' : '') + '</b></div><div><span>متوسط الدقة المعيارية</span><b class="num">' + f(rows.filter(function (x) { return isFinite(x.norm); }).reduce(function (s, x, i, a) { return s + x.norm / a.length; }, 0)) + '</b></div></div>' + bars(rows) +
           '<p class="muted" style="margin:6px 0">' + (sim ? 'لاحظ: بدون تصحيح تظهر مناطق «دالة» بلا إشارة حقيقية؛ بونفيروني يمنعها لكنه يفقد مناطق حقيقية؛ وFDR توازن بين الاثنين. ' : '') + 'الدقة المعيارية القريبة من 1 تعني أن النموذج يفسر تقريبًا كل ما يمكن تفسيره في تلك المنطقة. عدد التباديل ' + Pn + '، فأصغر p ممكنة ≈ ' + f(1 / (Pn + 1), 4) + '؛ ولابد أن تكون أصغر من حد بونفيروني (0.05 ÷ عدد المناطق) وإلا استحال أن يكون أي اختبار دالًا بعد التصحيح.</p>' + tbl + '</div>';
       }, 30);
