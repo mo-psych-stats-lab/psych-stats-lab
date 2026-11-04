@@ -31,7 +31,7 @@ var ADMIN = (function () {
     css(); el.innerHTML = '<div class="ad"><h2 style="margin:0">لوحة المسؤول</h2><div id="adB"><p class="muted">جارٍ التحميل…</p></div></div>';
     var B = el.querySelector('#adB');
     if (!(window.ACCT && ACCT.fs)) { B.innerHTML = '<section class="ad-card"><p style="margin:0">لوحة المسؤول بتشتغل على نسخة GitHub من الموقع (بحسابات Firebase)، مش جوه Claude.</p></section>'; return; }
-    if (!fsOK()) { B.innerHTML = '<section class="ad-card"><p style="margin:0">سجّل دخولك الأول من «حسابي»، وبعدين ارجع للصفحة دي.</p></section>'; return; }
+    if (!fsOK()) { B.innerHTML = '<section class="ad-card"><p style="margin:0">سجّل دخولك الأول من «حسابي» بنفس الإيميل اللي هتعمله مسؤول، وبعدين ارجع للصفحة دي. اللوحة بتشتغل على نسخة GitHub من الموقع: ' + (/github\.io$/.test(location.hostname) ? '' : '<a href="https://mo-psych-stats-lab.github.io/' + (document.title.indexOf('الإحصاء') >= 0 ? 'psych-stats-lab' : 'psych-scales-lab') + '/#admin" target="_blank" rel="noopener">افتحها من هنا</a>') + '</p></section>'; return; }
     var uid = ACCT.fs.uid(), adm = null, err = '';
     try { adm = await ACCT.fs.get('admins/' + uid); } catch (e) { err = /permission/i.test(e.message || '') ? 'قواعد قاعدة البيانات القديمة لسه شغالة: انشر ملف firestore.rules الجديد (الخطوة 1).' : (e.message || ''); }
     if (!adm) { B.innerHTML = setupCard(uid, err); var cp = B.querySelector('#adCp'); if (cp) cp.onclick = function () { (navigator.clipboard ? navigator.clipboard.writeText(uid) : Promise.reject()).then(function () { say('اتنسخ'); }, function () { say('انسخه يدويًا'); }); }; return; }
