@@ -281,6 +281,7 @@
       set: async (p, data) => st.db.doc(p).set(Object.assign({}, data, { updated: firebase.firestore.FieldValue.serverTimestamp() })),
       list: async c => (await st.db.collection(c).get()).docs.map(d => Object.assign({ id: d.id }, d.data())),
       del: async p => st.db.doc(p).delete(),
+      refresh: async () => { if (!st.user) return false; try { await st.user.reload(); } catch (e) { } const u = st.fb.auth().currentUser; if (u) { await u.getIdToken(true); st.verified = !!u.emailVerified; } return st.verified; },
       put: async (p, data) => { const d = {}; Object.keys(data).forEach(k => { d[k] = data[k] === '__ts__' ? firebase.firestore.FieldValue.serverTimestamp() : data[k]; }); return st.db.doc(p).set(d); }
     },
     init() {
