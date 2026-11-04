@@ -280,7 +280,8 @@
       get: async p => { const d = await st.db.doc(p).get(); return d.exists ? d.data() : null; },
       set: async (p, data) => st.db.doc(p).set(Object.assign({}, data, { updated: firebase.firestore.FieldValue.serverTimestamp() })),
       list: async c => (await st.db.collection(c).get()).docs.map(d => Object.assign({ id: d.id }, d.data())),
-      del: async p => st.db.doc(p).delete()
+      del: async p => st.db.doc(p).delete(),
+      put: async (p, data) => { const d = {}; Object.keys(data).forEach(k => { d[k] = data[k] === '__ts__' ? firebase.firestore.FieldValue.serverTimestamp() : data[k]; }); return st.db.doc(p).set(d); }
     },
     init() {
       if (window.claude && typeof window.claude.use === 'function') { initClaude(); return; }
