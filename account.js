@@ -258,6 +258,15 @@
     signedIn: () => (st.mode === 'firebase' && !!st.user) || (st.mode === 'claude' && !!st.claudeDb),
     displayName: () => st.mode === 'firebase' ? (st.user ? st.name : '') : st.mode === 'claude' ? st.claudeName : '',
     renderPanel, forms,
+    // minimal Firestore access for the know-yourself journey and the admin page (firebase mode only)
+    fs: {
+      ready: () => st.mode === 'firebase' && !!st.user && !!st.db,
+      uid: () => st.user ? st.user.uid : null, email: () => st.user ? (st.user.email || '') : '', name: () => st.name || '', verified: () => !!st.verified,
+      get: async p => { const d = await st.db.doc(p).get(); return d.exists ? d.data() : null; },
+      set: async (p, data) => st.db.doc(p).set(Object.assign({}, data, { updated: firebase.firestore.FieldValue.serverTimestamp() })),
+      list: async c => (await st.db.collection(c).get()).docs.map(d => Object.assign({ id: d.id }, d.data())),
+      del: async p => st.db.doc(p).delete()
+    },
     init() {
       if (window.claude && typeof window.claude.use === 'function') { initClaude(); return; }
       if (cfg && cfg.apiKey && cfg.projectId) { st.mode = 'firebase'; initFirebase().catch(e => { st.mode = 'none';  changed(); }); }
