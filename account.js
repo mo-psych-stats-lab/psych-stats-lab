@@ -14,6 +14,23 @@
 
   /* ---------- loading the vendored SDK (same-origin files, pinned 10.12.2) ---------- */
   function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.async = false; s.onload = res; s.onerror = () => rej(new Error('load ' + src)); document.head.appendChild(s); }); }
+
+  /* ---------- email action links (verify email / reset password) handled inside the site ----------
+     Works when the Firebase email templates use this site as the custom action URL, and also as the continue URL. */
+  const acs = () => ({ url: location.origin + location.pathname + '#account' });
+  async function sendVer(user) { try { await user.sendEmailVerification(acs()); } catch (e) { if (/continue-uri|unauthorized-domain/.test(e && e.code || '')) await user.sendEmailVerification(); else throw e; } }
+  async function sendReset(auth, em) { try { await auth.sendPasswordResetEmail(em, acs()); } catch (e) { if (/continue-uri|unauthorized-domain/.test(e && e.code || '')) await auth.sendPasswordResetEmail(em); else throw e; } }
+  function actionBox(html) { const d = document.createElement('div'); d.setAttribute('role', 'dialog'); d.style.cssText = 'position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:rgba(0,0,0,.45);padding:16px'; d.innerHTML = '<div style="background:var(--surface,#fff);color:var(--ink,#111);border-radius:14px;padding:18px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:10px;font:inherit">' + html + '</div>'; document.body.appendChild(d); return d; }
+  async function handleAction(auth) {
+    const q = new URLSearchParams(location.search), mode = q.get('mode'), code = q.get('oobCode'); if (!mode || !code) return;
+    const clean = () => { try { history.replaceState(null, '', location.pathname + '#account'); } catch (e) { } };
+    const bad = e => { const c = (e && e.code) || ''; return /expired|invalid-action-code/.test(c) ? 'اللينك ده انتهى أو اتستخدم قبل كده. لو طلبت أكتر من رسالة، استخدم آخر رسالة بس، أو اطلب رسالة جديدة من «حسابي».' : 'حصل خطأ: ' + (c || (e && e.message) || ''); };
+    try {
+      if (mode === 'verifyEmail') { await auth.applyActionCode(code); clean(); await new Promise(r => { const un = auth.onAuthStateChanged(u => { un(); r(u); }); }); if (auth.currentUser) { await auth.currentUser.reload(); await auth.currentUser.getIdToken(true); st.verified = !!auth.currentUser.emailVerified; changed(); } const d = actionBox('<h3 style="margin:0">تم تأكيد بريدك ✓</h3><p style="margin:0">حسابك مفعّل دلوقتي. لو مش داخل، سجّل دخولك من «حسابي».</p><button style="padding:8px 14px;border-radius:9px;border:0;cursor:pointer">تمام</button>'); d.querySelector('button').onclick = () => d.remove(); }
+      else if (mode === 'resetPassword') { const em = await auth.verifyPasswordResetCode(code); const d = actionBox('<h3 style="margin:0">كلمة مرور جديدة</h3><p style="margin:0" dir="ltr">' + String(em).replace(/[<>&"]/g, '') + '</p><label for="rpw">كلمة المرور الجديدة (8 أحرف على الأقل)</label><input id="rpw" type="password" autocomplete="new-password" style="padding:8px;border-radius:8px;border:1px solid #ccc"><div id="rpm" style="font-size:14px"></div><button style="padding:8px 14px;border-radius:9px;border:0;cursor:pointer">احفظ</button>'); d.querySelector('button').onclick = async () => { const pw = d.querySelector('#rpw').value; if (pw.length < 8) { d.querySelector('#rpm').textContent = 'كلمة المرور لازم تكون 8 أحرف على الأقل'; return; } try { await auth.confirmPasswordReset(code, pw); clean(); d.querySelector('div').innerHTML = '<h3 style="margin:0">اتغيرت كلمة المرور ✓</h3><p style="margin:0">سجّل دخولك دلوقتي بكلمة المرور الجديدة من «حسابي».</p>'; setTimeout(() => d.remove(), 4000); } catch (e) { d.querySelector('#rpm').textContent = bad(e); } }; }
+      else if (mode === 'recoverEmail') { await auth.checkActionCode(code); await auth.applyActionCode(code); clean(); const d = actionBox('<h3 style="margin:0">رجع بريدك القديم ✓</h3><p style="margin:0">يُفضّل تغيّر كلمة المرور دلوقتي من «حسابي».</p><button style="padding:8px 14px;border-radius:9px;border:0;cursor:pointer">تمام</button>'); d.querySelector('button').onclick = () => d.remove(); }
+    } catch (e) { clean(); const d = actionBox('<h3 style="margin:0">مقدرناش نكمّل</h3><p style="margin:0">' + bad(e) + '</p><button style="padding:8px 14px;border-radius:9px;border:0;cursor:pointer">تمام</button>'); d.querySelector('button').onclick = () => d.remove(); }
+  }
   async function initFirebase() {
     const base = (window.FIREBASE_SDK_BASE || 'vendor/firebase-10.12.2/');
     await loadScript(base + 'firebase-app-compat.js'); await loadScript(base + 'firebase-auth-compat.js'); await loadScript(base + 'firebase-firestore-compat.js');
@@ -21,6 +38,7 @@
     if (window.FIREBASE_APPCHECK_SITE_KEY) { try { await loadScript(base + 'firebase-app-check-compat.js'); firebase.appCheck().activate(new firebase.appCheck.ReCaptchaV3Provider(window.FIREBASE_APPCHECK_SITE_KEY), true); } catch (e) { } }
     st.fb = firebase; st.db = firebase.firestore();
     firebase.auth().useDeviceLanguage();
+    handleAction(firebase.auth());
     firebase.auth().onAuthStateChanged(async u => {
       st.user = u; st.verified = !!(u && u.emailVerified); st.name = u ? (u.displayName || '') : '';
       st.ready = true;
@@ -184,7 +202,7 @@
         $$('[data-am]', el).forEach(b => b.onclick = () => { mode = b.dataset.am; draw(); });
         const pw = $('#aPw', el), bar = $('#pwBar', el); if (bar) pw.oninput = () => { const k = pwStrength(pw.value); bar.style.width = k * 25 + '%'; bar.style.background = k >= 3 ? 'var(--good)' : k === 2 ? 'var(--amber)' : 'var(--bad)'; $('#pwTxt', el).textContent = ['ضعيفة جدًا', 'ضعيفة', 'متوسطة', 'جيدة', 'قوية'][k]; };
         const err = m => { const e = $('#aErr', el); e.hidden = false; e.textContent = m; };
-        const rs = $('#aReset', el); if (rs) rs.onclick = async () => { const em = $('#aEmail', el).value.trim(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return err('اكتب بريدك الإلكتروني أولًا.'); try { await st.fb.auth().sendPasswordResetEmail(em); } catch (e) { } toast('إن كان البريد مسجلًا فستصلك رسالة لاستعادة كلمة المرور'); };
+        const rs = $('#aReset', el); if (rs) rs.onclick = async () => { const em = $('#aEmail', el).value.trim(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return err('اكتب بريدك الإلكتروني أولًا.'); try { await sendReset(st.fb.auth(), em); } catch (e) { } toast('إن كان البريد مسجلًا فستصلك رسالة لاستعادة كلمة المرور'); };
         $('#aForm', el).onsubmit = async e => {
           e.preventDefault(); if (Date.now() < st.lockUntil) return err('محاولات كثيرة؛ انتظر ' + Math.ceil((st.lockUntil - Date.now()) / 1000) + ' ثانية.');
           const em = $('#aEmail', el).value.trim(), p = $('#aPw', el).value;
@@ -198,8 +216,8 @@
               if (p !== $('#aPw2', el).value) { btn.disabled = false; return err('كلمتا المرور غير متطابقتين.'); }
               const cr = await st.fb.auth().createUserWithEmailAndPassword(em, p);
               await cr.user.updateProfile({ displayName: nm }); st.name = nm;
-              try { await cr.user.sendEmailVerification(); } catch (x) { }
-              toast('أُنشئ حسابك. أرسلنا رسالة تأكيد إلى بريدك');
+              try { await sendVer(cr.user); } catch (x) { }
+              toast('أُنشئ حسابك. أرسلنا رسالة تأكيد لبريدك، ولو مش في الوارد بص في الـ Spam');
             } else { await st.fb.auth().signInWithEmailAndPassword(em, p); st.failures = 0; toast('مرحبًا بعودتك'); }
           } catch (x) { st.failures++; if (st.failures >= 5) { st.lockUntil = Date.now() + 30000 * Math.min(4, st.failures - 4); } btn.disabled = false; err(errMsg(x)); }
         };
@@ -209,12 +227,12 @@
     const u = st.user;
     el.innerHTML = `<div class="section-title"><h2>حسابي</h2></div>
       <div class="grid2"><section class="card stack"><div class="row"><span class="avatar">${h((st.name || u.email || '؟')[0])}</span><div class="grow"><b>${h(st.name || 'باحث')}</b><div class="small muted ltr" style="text-align:right">${h(u.email || '')}</div></div><span class="chip amber">${h(rk)}</span></div>
-        ${st.verified ? '<div class="notice good small">بريدك مؤكد. تقدمك يُحفظ في حسابك تلقائيًا.</div>' : '<div class="notice warn small"><b>أكّد بريدك الإلكتروني</b>افتح الرسالة التي أرسلناها ثم أعد تحميل الصفحة. التأكيد مطلوب للظهور في لوحة المتصدرين ونشر النماذج.<div class="row" style="margin-top:6px"><button class="btn sm ghost" id="aVer">إعادة إرسال الرسالة</button><button class="btn sm ghost" id="aRel">تحققت، حدّث الحالة</button></div></div>'}
+        ${st.verified ? '<div class="notice good small">بريدك مؤكد. تقدمك يُحفظ في حسابك تلقائيًا.</div>' : '<div class="notice warn small"><b>أكّد بريدك الإلكتروني</b>افتح الرسالة التي أرسلناها واضغط اللينك. <b>لو مش لاقيها، بص في مجلد الرسائل غير المرغوب فيها (Spam)</b> واضغط «ليست رسالة غير مرغوب فيها»، علشان الرسائل الجاية توصل الوارد. استخدم آخر رسالة بس. التأكيد مطلوب للظهور في لوحة المتصدرين ونشر النماذج.<div class="row" style="margin-top:6px"><button class="btn sm ghost" id="aVer">إعادة إرسال الرسالة</button><button class="btn sm ghost" id="aRel">تحققت، حدّث الحالة</button></div></div>'}
         <div class="field"><label class="fl" for="aNm">الاسم الظاهر</label><div class="row"><input type="text" id="aNm" maxlength="40" value="${h(st.name)}" class="grow"><button class="btn sm ghost" id="aNmS">حفظ</button></div></div>
         <label class="row small"><input type="checkbox" id="aLb" ${st.lbOptIn ? 'checked' : ''}> اعرض اسمي في لوحة المتصدرين</label>
         <div class="row"><button class="btn ghost sm" id="aOut">تسجيل الخروج</button><button class="btn sm danger" id="aDel">حذف الحساب</button></div></section>
         <section class="card stack"><h3>${ic('trophy')} لوحة المتصدرين</h3><div class="seg"><button data-lb="week" aria-pressed="true">آخر 7 أيام</button><button data-lb="total" aria-pressed="false">الكل</button></div><div id="lbList"><p class="muted small">جارٍ التحميل…</p></div></section></div>`;
-    const v = $('#aVer', el); if (v) v.onclick = async () => { try { await u.sendEmailVerification(); toast('أُرسلت رسالة التأكيد'); } catch (e) { toast(errMsg(e)); } };
+    const v = $('#aVer', el); if (v) v.onclick = async () => { try { await sendVer(u); toast('أُرسلت رسالة تأكيد جديدة. استخدم آخر رسالة بس، لأن الرسائل القديمة بتبطل'); } catch (e) { toast(errMsg(e)); } };
     const r = $('#aRel', el); if (r) r.onclick = async () => { await u.reload(); st.verified = st.fb.auth().currentUser.emailVerified; if (st.verified) { await st.fb.auth().currentUser.getIdToken(true); await pushState(getS(), true); } changed(); };
     $('#aNmS', el).onclick = async () => { const nm = $('#aNm', el).value.replace(/[<>]/g, '').trim().slice(0, 40); if (nm.length < 2) return toast('اسم قصير جدًا'); try { await u.updateProfile({ displayName: nm }); st.name = nm; await pushState(getS(), true); toast('حُفظ الاسم'); changed(); } catch (e) { toast(errMsg(e)); } };
     $('#aLb', el).onchange = async e => { st.lbOptIn = e.target.checked; try { await userRef().set({ prefs: { lb: st.lbOptIn }, updated: st.fb.firestore.FieldValue.serverTimestamp() }, { merge: true }); if (!st.lbOptIn) await st.db.collection('leaderboard').doc(u.uid).delete(); else await pushState(getS(), true); toast(st.lbOptIn ? 'اسمك ظاهر في اللوحة' : 'أُخفي اسمك من اللوحة'); loadLb('week'); } catch (x) { toast(errMsg(x)); } };
