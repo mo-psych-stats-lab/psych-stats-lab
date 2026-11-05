@@ -14,7 +14,7 @@ var TESTS = (function () {
   var xp = function (n) { try { if (typeof addXP === 'function') addXP(n); } catch (e) { } };
   var fsOK = function () { try { return !!(window.ACCT && ACCT.fs && ACCT.fs.ready()); } catch (e) { return false; } };
   var shared = function () { try { var k = JSON.parse(localStorage.getItem('know-v1') || 'null'); return !!(k && k.share); } catch (e) { return false; } };
-  async function sync() { if (!shared() || !fsOK()) return; try { await ACCT.fs.set('tests/' + ACCT.fs.uid(), { name: (ACCT.fs.name() || '').slice(0, 60), email: ACCT.fs.email(), consent: true, results: JSON.stringify(st.r).slice(0, 59000), done: Object.keys(st.r).length }); } catch (e) { } }
+  async function sync() { if (!shared() || !fsOK()) return; try { await ACCT.fs.set('tests/' + ACCT.fs.uid(), { name: (ACCT.fs.name() || '').slice(0, 60), email: ACCT.fs.email(), consent: true, results: JSON.stringify(Object.assign({}, st.r, { _p: (function () { try { if (typeof S === 'undefined' || !S) return null; var d = S.done || {}, n = Object.keys(d).filter(function (k) { return d[k]; }).length; return { xp: S.xp || 0, lessons: n, streak: S.streak || 0, site: document.title.indexOf('الإحصاء') >= 0 ? 'stats' : 'scales', at: Date.now() }; } catch (e) { return null; } })() })).slice(0, 59000), done: Object.keys(st.r).length }); } catch (e) { } }
   var A5 = ['لا تنطبق إطلاقًا', 'لا تنطبق', 'محايد', 'تنطبق', 'تنطبق تمامًا'];
   /* ---------- questionnaires: [text, reversed, subscale] ---------- */
   var Q = {
