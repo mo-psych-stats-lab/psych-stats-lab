@@ -1293,7 +1293,7 @@ function route(){
  if(h[0]==="lab"){setTab("lab");return h[1]?renderLab(h[1],h[2]):renderLabs()}
  if(h[0]==="spss"){setTab("spss");return renderSpss(h[1])}
  if(h[0]==="practice"){setTab("practice");return renderPractice()}
- if(h[0]==="laws"){setTab("laws");view.innerHTML='<div id="lwv" style="--lw-accent:var(--teal)"><p class="muted">جارٍ تحميل القوانين…</p></div>';const run=()=>{const el=$("#lwv");if(el)LAWS.render(el)};if(window.LAWS)return run();if(!window.__lwLoading){window.__lwLoading=1;const sc=document.createElement("script");sc.src="laws.js?v=20261119a";sc.onload=run;sc.onerror=()=>{window.__lwLoading=0;const el=$("#lwv");if(el)el.textContent="تعذر تحميل صفحة القوانين. تحقق من الاتصال وحدّث الصفحة."};document.head.appendChild(sc)}return}
+ if(h[0]==="laws"){setTab("laws");view.innerHTML='<div id="lwv" style="--lw-accent:var(--teal)"><p class="muted">جارٍ تحميل القوانين…</p></div>';const run=()=>{const el=$("#lwv");if(el)LAWS.render(el)};if(window.LAWS)return run();if(!window.__lwLoading){window.__lwLoading=1;const sc=document.createElement("script");sc.src="laws.js?v=cca56bd5";sc.onload=run;sc.onerror=()=>{window.__lwLoading=0;const el=$("#lwv");if(el)el.textContent="تعذر تحميل صفحة القوانين. تحقق من الاتصال وحدّث الصفحة."};document.head.appendChild(sc)}return}
  if(h[0]==="me"){setTab("me");return renderMe()}
  if(h[0]==="account"){setTab("me");return renderAccount()}
  if(h[0]==="stats"){setTab("stats");return renderStats()}
