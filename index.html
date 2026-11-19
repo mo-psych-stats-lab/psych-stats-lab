@@ -615,7 +615,7 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 <div id="toast" class="toast" hidden></div>
 <script>window.ACCT_APP="stats";</script>
 <script src="firebase-config.js?v=20261104a"></script>
-<script src="account.js?v=20261104f"></script><script src="laws.js?v=20261118a"></script><script src="vendor/anim/gsap.min.js"></script><script src="vendor/anim/ScrollTrigger.min.js"></script><script src="vendor/anim/SplitText.min.js"></script><script src="vendor/anim/MotionPathPlugin.min.js"></script><script src="vendor/anim/lenis.min.js"></script><script src="stats-motion.js?v=20261101d"></script><script src="stats-exam.js?v=20261101a"></script><script src="audience.js?v=20261101a"></script><script src="constructs.js?v=20261104a"></script><script src="destrieux.js?v=20261101a"></script><script src="stats-neuro.js?v=20261101b"></script><script src="know.js?v=20261105c"></script><script src="tests.js?v=20261105c"></script><script src="reward.js?v=20261104a"></script><script src="stats-thesis.js?v=20261104a"></script><script src="admin.js?v=20261105c"></script>
+<script src="account.js?v=20261104f"></script><script src="vendor/anim/gsap.min.js"></script><script src="vendor/anim/ScrollTrigger.min.js"></script><script src="vendor/anim/SplitText.min.js"></script><script src="vendor/anim/MotionPathPlugin.min.js"></script><script src="vendor/anim/lenis.min.js"></script><script src="stats-motion.js?v=20261101d"></script><script src="stats-exam.js?v=20261101a"></script><script src="audience.js?v=20261101a"></script><script src="constructs.js?v=20261104a"></script><script src="destrieux.js?v=20261101a"></script><script src="stats-neuro.js?v=20261101b"></script><script src="know.js?v=20261105c"></script><script src="tests.js?v=20261105c"></script><script src="reward.js?v=20261104a"></script><script src="stats-thesis.js?v=20261104a"></script><script src="admin.js?v=20261105c"></script>
 
 <script>
 "use strict";
@@ -1293,7 +1293,7 @@ function route(){
  if(h[0]==="lab"){setTab("lab");return h[1]?renderLab(h[1],h[2]):renderLabs()}
  if(h[0]==="spss"){setTab("spss");return renderSpss(h[1])}
  if(h[0]==="practice"){setTab("practice");return renderPractice()}
- if(h[0]==="laws"){setTab("laws");view.innerHTML='<div id="lwv" style="--lw-accent:var(--teal)"></div>';return window.LAWS?LAWS.render($("#lwv")):($("#lwv").textContent="تعذر تحميل صفحة القوانين. حدّث الصفحة.")}
+ if(h[0]==="laws"){setTab("laws");view.innerHTML='<div id="lwv" style="--lw-accent:var(--teal)"><p class="muted">جارٍ تحميل القوانين…</p></div>';const run=()=>{const el=$("#lwv");if(el)LAWS.render(el)};if(window.LAWS)return run();if(!window.__lwLoading){window.__lwLoading=1;const sc=document.createElement("script");sc.src="laws.js?v=20261119a";sc.onload=run;sc.onerror=()=>{window.__lwLoading=0;const el=$("#lwv");if(el)el.textContent="تعذر تحميل صفحة القوانين. تحقق من الاتصال وحدّث الصفحة."};document.head.appendChild(sc)}return}
  if(h[0]==="me"){setTab("me");return renderMe()}
  if(h[0]==="account"){setTab("me");return renderAccount()}
  if(h[0]==="stats"){setTab("stats");return renderStats()}
