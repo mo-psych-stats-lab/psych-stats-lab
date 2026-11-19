@@ -73,7 +73,7 @@
       const dk = (x => x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'))(new Date()), days = {}, cut = Date.now() - 60 * 864e5;
       st.days = st.days || {}; st.days[dk] = Math.min(10000, (st.days[dk] | 0) + 1);
       Object.keys(st.days).forEach(k => { if (new Date(k).getTime() < cut) { days[k] = st.fb.firestore.FieldValue.delete(); delete st.days[k]; } else days[k] = st.days[k]; });
-      await userRef().set({ name: (st.name || '').slice(0, 40), email: (st.user.email || '').slice(0, 120), days, [APP]: { state: json, xp: s.xp | 0 }, updated: ts }, { merge: true });
+      await userRef().set({ name: (st.name || '').slice(0, 40), ...(st.user.isAnonymous ? {} : { email: (st.user.email || '').slice(0, 120) }), days, [APP]: { state: json, xp: s.xp | 0 }, updated: ts }, { merge: true });
       if (st.lbOptIn && st.verified) {
         const lbRef = st.db.collection('leaderboard').doc(st.user.uid), cur = await lbRef.get(), c = cur.exists ? cur.data() : {};
         const xpMine = Math.max(0, Math.min(1e6, s.xp | 0)), wMine = Math.max(0, Math.min(1e6, week7(s) | 0));
@@ -201,7 +201,7 @@
       return;
     }
     if (!st.ready) { el.innerHTML = '<p class="muted">جارٍ التحميل…</p>'; return; }
-    if (!st.user) {
+    if (!st.user || st.user.isAnonymous) {
       let mode = 'up';
       const draw = () => {
         el.innerHTML = `<div class="section-title"><h2>حسابي</h2><span class="chip">اختياري</span></div>
@@ -281,6 +281,9 @@
     // minimal Firestore access for the know-yourself journey and the admin page (firebase mode only)
     fs: {
       ready: () => st.mode === 'firebase' && !!st.user && !!st.db,
+      canGuest: () => st.mode === 'firebase' && !!st.fb && !st.user,
+      anon: () => !!(st.user && st.user.isAnonymous),
+      guest: async nm => { nm = String(nm || '').replace(/[<>]/g, '').trim().slice(0, 40); if (!realName(nm)) throw new Error(NAME_ERR); const c = await st.fb.auth().signInAnonymously(); await c.user.updateProfile({ displayName: nm }); st.name = nm; return c.user.uid; },
       uid: () => st.user ? st.user.uid : null, email: () => st.user ? (st.user.email || '') : '', name: () => st.name || '', verified: () => !!st.verified,
       get: async p => { const d = await st.db.doc(p).get(); return d.exists ? d.data() : null; },
       set: async (p, data) => st.db.doc(p).set(Object.assign({}, data, { updated: firebase.firestore.FieldValue.serverTimestamp() })),
