@@ -13,7 +13,8 @@ var TESTS = (function () {
   var say = function (m) { try { toast(m); } catch (e) { } };
   var xp = function (n) { try { if (typeof addXP === 'function') addXP(n); } catch (e) { } };
   var fsOK = function () { try { return !!(window.ACCT && ACCT.fs && ACCT.fs.ready()); } catch (e) { return false; } };
-  var shared = function () { try { var k = JSON.parse(localStorage.getItem('know-v1') || 'null'); return !!(k && k.share); } catch (e) { return false; } };
+  var shared = function () { return !!(window.PRIVACY && PRIVACY.ok()); };
+  window.addEventListener('privacy-accepted', function () { sync(); });
   async function sync() { if (!shared() || !fsOK()) return; try { await ACCT.fs.set('tests/' + ACCT.fs.uid(), { name: (ACCT.fs.name() || '').slice(0, 60), email: ACCT.fs.email(), consent: true, results: JSON.stringify(Object.assign({}, st.r, { _p: (function () { try { if (typeof S === 'undefined' || !S) return null; var d = S.done || {}, n = Object.keys(d).filter(function (k) { return d[k]; }).length; return { xp: S.xp || 0, lessons: n, streak: S.streak || 0, site: document.title.indexOf('الإحصاء') >= 0 ? 'stats' : 'scales', at: Date.now() }; } catch (e) { return null; } })() })).slice(0, 59000), done: Object.keys(st.r).length }); } catch (e) { } }
   var A5 = ['لا تنطبق إطلاقًا', 'لا تنطبق', 'محايد', 'تنطبق', 'تنطبق تمامًا'];
   /* ---------- questionnaires: [text, reversed, subscale] ---------- */
@@ -160,7 +161,7 @@ var TESTS = (function () {
       (cog.length ? '<div class="ts-box"><h3 style="margin:0">البروفايل المعرفي</h3>' + bars(cog) + '<p style="margin:0">متوسط الجوانب: <b>' + mean + '%</b>' + (spread >= 40 ? '. والفرق كبير بين أعلى وأقل جانب (' + spread + ' نقطة)، يعني قدراتك مش متساوية، وده طبيعي ومفيد تعرفه: ركّز على نقاط قوتك في طريقة المذاكرة.' : '.') + '</p><p class="muted small" style="margin:0">الجوانب دي مرتبطة ببعض في الأبحاث (العامل العام g عند سبيرمان)، بس كل جانب ليه تباين خاص (نموذج CHC). ومفيش رقم IQ هنا علشان لسه مفيش معايير.</p></div>' : '') +
       (per.length ? '<div class="ts-box"><h3 style="margin:0">الشخصية (العوامل الخمسة)</h3>' + bars(per) + '</div>' : '') +
       (others ? '<div class="ts-box"><h3 style="margin:0">المقاييس النفسية</h3><table><tbody>' + others + '</tbody></table></div>' : '') +
-      '<div class="ts-box"><p class="muted small" style="margin:0">ده بروفايل للتعلّم والتأمل الذاتي، مش تشخيص. أي نتيجة مقلقة تستاهل كلام مع متخصص. ولو وافقت على المشاركة في «اعرف نفسك»، المسؤول بيشوف النتايج دي علشان يقدر يساعدك.</p></div>');
+      '<div class="ts-box"><p class="muted small" style="margin:0">ده بروفايل للتعلّم والتأمل الذاتي، مش تشخيص. أي نتيجة مقلقة تستاهل كلام مع متخصص. والمحاضر (مسؤول الموقع) بيشوف النتايج دي بس، حسب سياسة الخصوصية.</p></div>');
     document.getElementById('tsHome').onclick = home;
   }
   var _runC = runC; runC = function (id) { curId = id; return _runC(id); };
