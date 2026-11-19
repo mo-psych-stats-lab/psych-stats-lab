@@ -51,6 +51,7 @@
     try {
       const snap = await userRef().get(); const d = snap.exists ? snap.data() : {};
       if (d.prefs && typeof d.prefs.lb === 'boolean') st.lbOptIn = d.prefs.lb;
+      st.days = d.days && typeof d.days === 'object' ? d.days : {};
       const remote = d[APP] && d[APP].state ? safeParse(d[APP].state) : null, local = getS();
       if (remote && (remote.xp || 0) > (local.xp || 0)) { setS(Object.assign({}, local, remote, { fs: local.fs, theme: local.theme })); }
       await pushState(getS(), true);
@@ -69,7 +70,10 @@
     const json = JSON.stringify(s); if (json.length > 400000) return;
     const ts = st.fb.firestore.FieldValue.serverTimestamp();
     try {
-      await userRef().set({ name: (st.name || '').slice(0, 40), [APP]: { state: json, xp: s.xp | 0 }, updated: ts }, { merge: true });
+      const dk = (x => x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'))(new Date()), days = {}, cut = Date.now() - 60 * 864e5;
+      st.days = st.days || {}; st.days[dk] = Math.min(10000, (st.days[dk] | 0) + 1);
+      Object.keys(st.days).forEach(k => { if (new Date(k).getTime() < cut) { days[k] = st.fb.firestore.FieldValue.delete(); delete st.days[k]; } else days[k] = st.days[k]; });
+      await userRef().set({ name: (st.name || '').slice(0, 40), email: (st.user.email || '').slice(0, 120), days, [APP]: { state: json, xp: s.xp | 0 }, updated: ts }, { merge: true });
       if (st.lbOptIn && st.verified) {
         const lbRef = st.db.collection('leaderboard').doc(st.user.uid), cur = await lbRef.get(), c = cur.exists ? cur.data() : {};
         const xpMine = Math.max(0, Math.min(1e6, s.xp | 0)), wMine = Math.max(0, Math.min(1e6, week7(s) | 0));
@@ -244,6 +248,7 @@
         ${st.verified ? '<div class="notice good small">بريدك مؤكد. تقدمك يُحفظ في حسابك تلقائيًا.</div>' : '<div class="notice warn small"><b>أكّد بريدك الإلكتروني</b>افتح الرسالة التي أرسلناها واضغط اللينك. <b>لو مش لاقيها، بص في مجلد الرسائل غير المرغوب فيها (Spam)</b> واضغط «ليست رسالة غير مرغوب فيها»، علشان الرسائل الجاية توصل الوارد. استخدم آخر رسالة بس. التأكيد مطلوب للظهور في لوحة المتصدرين ونشر النماذج.<div class="row" style="margin-top:6px"><button class="btn sm ghost" id="aVer">إعادة إرسال الرسالة</button><button class="btn sm ghost" id="aRel">تحققت، حدّث الحالة</button></div><details style="margin-top:8px"><summary><b>اللينك بيفتح صفحة خطأ؟</b></summary><p style="margin:6px 0">انسخ اللينك من الإيميل (اضغط عليه ضغطة طويلة ثم «نسخ الرابط»)، والصقه هنا، والموقع هيأكّد بريدك من غير ما يفتح صفحة Firebase.</p><div class="row"><input type="text" id="aLink" dir="ltr" class="grow" placeholder="https://...oobCode=..."><button class="btn sm" id="aLinkGo">أكّد</button></div></details></div>'}<div class="row" style="margin-top:8px"><a class="btn sm ghost" href="#admin" style="text-decoration:none">لوحة المسؤول</a><span class="muted small">للمسؤول فقط</span></div>
         ${realName(st.name || '') ? '' : '<div class="notice warn small"><b>اكتب اسمك الحقيقي بالكامل</b>مطلوب علشان مسؤول الموقع يقدر يتابعك ويساعدك.</div>'}<div class="field"><label class="fl" for="aNm">اسمك الحقيقي بالكامل</label><div class="row"><input type="text" id="aNm" maxlength="40" value="${h(st.name)}" class="grow"><button class="btn sm ghost" id="aNmS">حفظ</button></div></div>
         <label class="row small"><input type="checkbox" id="aLb" ${st.lbOptIn ? 'checked' : ''}> اعرض اسمي في لوحة المتصدرين</label>
+        <p class="small muted" style="margin:0">مسؤول الموقع (المحاضر) يرى تقدمك الدراسي: الدروس والتدريب والنقاط وأيام دخولك، علشان يتابع الدفعة ويساعد المتأخر. أما نتائج «اعرف نفسك» والاختبارات النفسية فلا تظهر له إلا لو وافقت على مشاركتها.</p>
         <div class="row"><button class="btn ghost sm" id="aOut">تسجيل الخروج</button><button class="btn sm danger" id="aDel">حذف الحساب</button></div></section>
         <section class="card stack"><h3>${ic('trophy')} لوحة المتصدرين</h3><div class="seg"><button data-lb="week" aria-pressed="true">آخر 7 أيام</button><button data-lb="total" aria-pressed="false">الكل</button></div><div id="lbList"><p class="muted small">جارٍ التحميل…</p></div></section></div>`;
     const v = $('#aVer', el); if (v) v.onclick = async () => { try { await sendVer(u); toast('أُرسلت رسالة تأكيد جديدة. استخدم آخر رسالة بس، لأن الرسائل القديمة بتبطل'); } catch (e) { toast(errMsg(e)); } };
