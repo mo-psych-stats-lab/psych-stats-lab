@@ -1,12 +1,12 @@
 /* Offline support: network first, cached copy when offline. Only same-origin GET requests are cached. */
-const CACHE = 'psych-stats-lab-20261120a';
+const CACHE = 'psych-stats-lab-20261120b';
 const CORE = [
  "./",
  "icon-192.png",
  "icon-512.png",
  "manifest.webmanifest",
  "firebase-config.js?v=20261104a",
- "account.js?v=c3e59f56",
+ "account.js?v=20261120b",
  "vendor/anim/gsap.min.js",
  "vendor/anim/ScrollTrigger.min.js",
  "vendor/anim/SplitText.min.js",
@@ -23,7 +23,7 @@ const CORE = [
  "tests.js?v=1e611eb9",
  "reward.js?v=20261104a",
  "stats-thesis.js?v=20261104a",
- "admin.js?v=20261120a",
+ "admin.js?v=20261120b",
  "laws.js?v=cca56bd5"
 ];
 self.addEventListener('install', e => {
