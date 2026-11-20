@@ -2,7 +2,7 @@
    Web (GitHub Pages): Firebase Authentication (email + password) + Firestore, only when
    window.FIREBASE_CONFIG is set (see SETUP-FIREBASE.md). Passwords never touch this code's
    storage: Firebase Auth stores them hashed (scrypt) on Google's servers.
-   Inside claude.ai: the viewer's Claude account; progress syncs through the artifact db when allowed. */
+   Inside the hosted preview: the viewer's own account; progress syncs through the artifact db when allowed. */
 (function () {
   const APP = window.ACCT_APP || 'scales';             /* 'scales' | 'stats' */
   const cfg = window.FIREBASE_CONFIG || null;
@@ -86,7 +86,7 @@
   function hookCloud() { if (typeof Cloud !== 'undefined') Cloud.push = s => pushState(s); if (typeof SCALES !== 'undefined') { SCALES.cloud.push = s => pushScale(s); SCALES.cloud.remove = id => st.user && userRef().collection('scales').doc(id).delete().catch(() => { }); } }
   function unhookCloud() { if (typeof Cloud !== 'undefined') Cloud.push = null; if (typeof SCALES !== 'undefined') { SCALES.cloud.push = null; SCALES.cloud.remove = null; } }
 
-  /* ---------- Claude (artifact) mode ---------- */
+  /* ---------- hosted-preview mode ---------- */
   async function initClaude() {
     try {
       const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
@@ -192,7 +192,7 @@
       ${APP === 'scales' ? `<li>${ic('check')} تنشر نموذج مقياسك أونلاين وتصلك الإجابات لحظيًا.</li>` : ''}
       <li>${ic('check')} وسام «عضو مسجل» و15 نقطة.</li></ul>`;
     if (st.mode === 'claude') {
-      el.innerHTML = `<div class="section-title"><h2>حسابي</h2></div><section class="card stack"><div class="row"><span class="avatar">${h((st.claudeName || '؟')[0])}</span><div class="grow"><b>${h(st.claudeName || 'حساب Claude')}</b><div class="small muted">${h(rk)}</div></div></div><p class="small" style="margin:0">داخل Claude يُستخدم حسابك في Claude مباشرة؛ لا تحتاج إلى تسجيل منفصل.</p><div class="notice small ${st.claudeDb ? 'good' : ''}">${st.claudeDb ? 'تقدمك ومقاييسك تُحفظ في حسابك وتتزامن بين أجهزتك.' : 'تقدمك يُحفظ في هذا المتصفح. لحفظه على كل أجهزتك استخدم نسخة الموقع المنشورة على GitHub وأنشئ حسابًا هناك.'}</div></section>`;
+      el.innerHTML = `<div class="section-title"><h2>حسابي</h2></div><section class="card stack"><div class="row"><span class="avatar">${h((st.claudeName || '؟')[0])}</span><div class="grow"><b>${h(st.claudeName || 'حساب المساعد الذكي')}</b><div class="small muted">${h(rk)}</div></div></div><p class="small" style="margin:0">داخل المنصة المستضيفة يُستخدم حسابك فيها مباشرة؛ لا تحتاج إلى تسجيل منفصل.</p><div class="notice small ${st.claudeDb ? 'good' : ''}">${st.claudeDb ? 'تقدمك ومقاييسك تُحفظ في حسابك وتتزامن بين أجهزتك.' : 'تقدمك يُحفظ في هذا المتصفح. لحفظه على كل أجهزتك استخدم نسخة الموقع المنشورة على GitHub وأنشئ حسابًا هناك.'}</div></section>`;
       return;
     }
     if (st.mode !== 'firebase') {

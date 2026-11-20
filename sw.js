@@ -1,12 +1,12 @@
 /* Offline support: network first, cached copy when offline. Only same-origin GET requests are cached. */
-const CACHE = 'psych-stats-lab-d5a9189e';
+const CACHE = 'psych-stats-lab-f9c039b6';
 const CORE = [
  "./",
  "icon-192.png",
  "icon-512.png",
  "manifest.webmanifest",
  "firebase-config.js?v=20261104a",
- "account.js?v=f16b3cd9",
+ "account.js?v=f62b0ce4",
  "vendor/anim/gsap.min.js",
  "vendor/anim/ScrollTrigger.min.js",
  "vendor/anim/SplitText.min.js",
